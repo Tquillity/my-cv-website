@@ -6,7 +6,6 @@ import Header from './components/Header';
 import Footer from './components/Footer';
 import CVResume from './pages/CVResume';
 import Portfolio from './pages/Portfolio';
-import LinkedInFeed from './pages/LinkedInFeed';
 import About from './pages/About';
 import { ThemeProvider } from './utils/theme';
 import { LanguageProvider } from './utils/i18n';
@@ -30,7 +29,6 @@ const App: React.FC = () => {
               <Routes>
                 <Route path="/" element={<CVResume />} />
                 <Route path="/portfolio" element={<Portfolio />} />
-                <Route path="/linkedin" element={<LinkedInFeed />} />
                 <Route path="/about" element={<About />} />
               </Routes>
             </main>
