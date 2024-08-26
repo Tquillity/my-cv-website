@@ -1,0 +1,47 @@
+// src/styles/layout/_footer.scss
+
+.footer {
+  background-color: var(--background-color);
+  color: var(--font-color);
+  padding: pxToRem(20);
+  border-top: 1px solid var(--border-color);
+
+  .footer-content {
+    display: flex;
+    flex-direction: column-reverse;
+    align-items: center;
+    max-width: $pageWidthDesk;
+    margin: 0 auto;
+
+    @media (min-width: $pageWidthTab) {
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+    }
+  }
+
+  .copyright {
+    margin-top: pxToRem(10);
+    text-align: center;
+
+    @media (min-width: $pageWidthTab) {
+      margin-top: 0;
+      text-align: left;
+    }
+  }
+
+  .social-links {
+    display: flex;
+    gap: pxToRem(20);
+
+    a {
+      color: var(--font-color);
+      font-size: pxToRem(24);
+      transition: color 0.3s ease;
+
+      &:hover {
+        color: var(--primary-color);
+      }
+    }
+  }
+}
