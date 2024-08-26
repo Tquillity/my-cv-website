@@ -1,0 +1,80 @@
+{
+  "personalInfo": {
+    "name": "Mikael Sundh",
+    "objective": "I mig hittar man en driven individ med hög arbetsmoral. Jag trivs med högt satta mål och gillar att känna att mitt utförda arbete gör skillnad för den verksamhet jag arbetar för."
+  },
+  "experiences": [
+    {
+      "id": 1,
+      "title": "Nationell kontaktperson Horisont 2020/Europa området Transport, Industri och Rymd",
+      "company": "Vinnova",
+      "date": "2018 - 2021",
+      "description": "Ansvar för att utbilda och hjälpa svenska aktörer att förstå och söka pengar från det europeiska forskningsfinansieringsprogrammet Horisont Europa. Även mindre ansvar som exempelvis sakkunnig i expertpanel för ESA's inkubationsprogram ESA-BIC.",
+      "area": "forskning",
+      "startYear": 2018,
+      "endYear": 2021
+    },
+    {
+      "id": 2,
+      "title": "Projektledare, produktägare, teknisk säljare samt allt-i-allo i Tech Startup",
+      "company": "Mindconnect AB",
+      "date": "2015 - 2018",
+      "description": "En i ett kärnteam om fem som skapade en egen 'Location-Based Services'-plattform med produktportfölj riktad till företag inom bud och transport. Bland annat ansvar för ett utvecklingsteam om ~10 utvecklare för framtagning av app och webbverktyg för paketleveranser.",
+      "area": "teknologi",
+      "startYear": 2015,
+      "endYear": 2018
+    },
+    {
+      "id": 3,
+      "title": "Seismisk Observatör/Seismiskt Tekniker på seismikfartyg",
+      "company": "Petroleum Geo-Services AS",
+      "date": "2008 - 2014",
+      "description": "Seismisk Observatör har som huvuduppgift att i realtid övervaka insamlat dataflöde, sensorutslag, driftrelaterad videoövervakning och i viss mån radiotrafik. Seismiska observatörer är också ansvariga för drift, reparation och underhåll av all seismisk sensorutrustning, elektriska system (inklusive batteri) och datornätverk.",
+      "area": "geofysik",
+      "startYear": 2008,
+      "endYear": 2014
+    }
+  ],
+  "education": [
+    {
+      "degree": "Blockchainutvecklare",
+      "institution": "Medieinstitutet, Yrkeshögskolan för digital kommunikation",
+      "date": "2023 - 2025 (Pågående)",
+      "description": "Yrkeshögskoleutbildning i blockchainutveckling, omfattande fullstack-programmering med JavaScript, React och Node.js för blockkedjebaserade system. Utbildningen inkluderar skapande av smarta kontrakt, blockchain-specifik front-end och back-end utveckling, samt teknologins affärsmässiga och juridiska aspekter.",
+      "startYear": 2023,
+      "endYear": 2025
+    },
+    {
+      "degree": "Teknologie Kandidatexamen med Rymdteknik som huvudämne",
+      "institution": "Luleå Universitet/Umeå Universitet, avdelningen för Rymdteknik Kiruna",
+      "date": "2003 - 2007",
+      "description": "Utbildningen står på en grund inom matematik och fysik som är standard för ingenjörsutbildningar, med påbyggnad inom data, programmering, elektronik, fysik och projektarbete med inriktning mot rymdapplikationer.",
+      "startYear": 2003,
+      "endYear": 2007
+    }
+  ],
+  "skills": [
+    "HTML",
+    "CSS",
+    "JavaScript",
+    "TypeScript",
+    "React",
+    "NodeJs",
+    "Solidity Smarta kontrakt",
+    "GitHub"
+  ],
+  "languages": [
+    {
+      "language": "Svenska",
+      "proficiency": "Modersmål"
+    },
+    {
+      "language": "Engelska",
+      "proficiency": "Flytande"
+    },
+    {
+      "language": "Tyska",
+      "proficiency": "Baskunskaper"
+    }
+  ]
+}

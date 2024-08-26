@@ -1,0 +1,101 @@
+// src/styles/_cvresume.scss
+
+.cv-resume {
+  @include themed() {
+    background-color: t('background');
+    color: t('text');
+    padding: 2rem;
+    font-family: Arial, sans-serif;
+  }
+
+  h1, h2, h3 {
+    @include themed() {
+      color: t('primary');
+    }
+  }
+
+  .personal-info {
+    margin-bottom: 2rem;
+  }
+
+  .filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-bottom: 2rem;
+
+    > div {
+      flex: 1;
+      min-width: 200px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 0.5rem;
+    }
+
+    input[type="checkbox"], select {
+      margin-right: 0.5rem;
+    }
+
+    input[type="range"] {
+      width: 100%;
+    }
+  }
+
+  .experiences, .education, .skills, .languages {
+    margin-bottom: 2rem;
+  }
+
+  .experience, .education-item {
+    @include themed() {
+      border-bottom: 1px solid t('border');
+    }
+    padding-bottom: 1rem;
+    margin-bottom: 1rem;
+
+    &:last-child {
+      border-bottom: none;
+    }
+  }
+
+  ul {
+    list-style-type: none;
+    padding-left: 0;
+  }
+
+  .skills ul, .languages ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+
+    li {
+      @include themed() {
+        background-color: t('secondary');
+        color: t('background');
+      }
+      padding: 0.5rem 1rem;
+      border-radius: 20px;
+    }
+  }
+}
+
+// Update src/styles/main.scss
+@import 'colorPalette';
+@import 'cvresume';
+
+body {
+  @include themed() {
+    background-color: t('background');
+    color: t('text');
+  }
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 1rem;
+}

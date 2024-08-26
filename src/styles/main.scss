@@ -1,0 +1,135 @@
+// src/styles/main.scss
+
+// Variables
+$primary-color: #3498db;
+$secondary-color: #2ecc71;
+$text-color: #333;
+$background-color: #f4f4f4;
+
+// Reset and base styles
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  line-height: 1.6;
+  color: $text-color;
+  background-color: $background-color;
+}
+
+// Layout
+.app {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+main {
+  flex: 1;
+  padding: 2rem;
+}
+
+// Header styles
+header {
+  background-color: $primary-color;
+  color: white;
+  padding: 1rem;
+
+  nav {
+    ul {
+      list-style-type: none;
+      display: flex;
+      justify-content: space-around;
+
+      li {
+        a {
+          color: white;
+          text-decoration: none;
+          &:hover {
+            text-decoration: underline;
+          }
+        }
+      }
+    }
+  }
+
+  .toggles {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 1rem;
+
+    button {
+      margin-left: 1rem;
+      padding: 0.5rem 1rem;
+      background-color: $secondary-color;
+      color: white;
+      border: none;
+      cursor: pointer;
+      &:hover {
+        opacity: 0.8;
+      }
+    }
+  }
+}
+
+// Footer styles
+.footer {
+  background-color: $primary-color;
+  color: white;
+  padding: 1rem;
+
+  .footer-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .social-links {
+    a {
+      color: white;
+      margin-left: 1rem;
+      font-size: 1.2rem;
+      &:hover {
+        opacity: 0.8;
+      }
+    }
+  }
+}
+
+// Responsive styles
+@media (max-width: 768px) {
+  header {
+    nav ul {
+      flex-direction: column;
+      align-items: center;
+
+      li {
+        margin-bottom: 0.5rem;
+      }
+    }
+  }
+
+  .footer {
+    .footer-content {
+      flex-direction: column;
+      text-align: center;
+
+      .social-links {
+        margin-top: 1rem;
+      }
+    }
+  }
+}
+
+// Dark mode styles
+.dark {
+  background-color: #333;
+  color: #f4f4f4;
+
+  header, .footer {
+    background-color: #222;
+  }
+}

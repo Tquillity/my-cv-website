@@ -1,26 +1,41 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+// src/App.tsx
 
-function App() {
+import React, { useState } from 'react';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import Header from './components/Header';
+import Footer from './components/Footer';
+import CVResume from './pages/CVResume';
+import Portfolio from './pages/Portfolio';
+import LinkedInFeed from './pages/LinkedInFeed';
+import About from './pages/About';
+import { ThemeProvider } from './utils/theme';
+import { LanguageProvider } from './utils/i18n';
+import './styles/main.scss';
+
+const App: React.FC = () => {
+  const [theme, setTheme] = useState<'light' | 'dark'>('dark');
+  const [language, setLanguage] = useState<'en' | 'sv'>('en');
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <ThemeProvider value={{ theme, setTheme }}>
+      <LanguageProvider value={{ language, setLanguage }}>
+        <Router>
+          <div className={`app ${theme}`}>
+            <Header />
+            <main>
+              <Routes>
+                <Route path="/" element={<CVResume />} />
+                <Route path="/portfolio" element={<Portfolio />} />
+                <Route path="/linkedin" element={<LinkedInFeed />} />
+                <Route path="/about" element={<About />} />
+              </Routes>
+            </main>
+            <Footer />
+          </div>
+        </Router>
+      </LanguageProvider>
+    </ThemeProvider>
   );
-}
+};
 
 export default App;

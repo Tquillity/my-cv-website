@@ -1,0 +1,80 @@
+{
+  "personalInfo": {
+    "name": "Mikael Sundh",
+    "objective": "I am a driven individual with a strong work ethic. I thrive on ambitious goals and enjoy feeling that my work makes a difference for the organization I work for."
+  },
+  "experiences": [
+    {
+      "id": 1,
+      "title": "National Contact Person for Horizon 2020/Europe in Transport, Industry, and Space",
+      "company": "Vinnova",
+      "date": "2018 - 2021",
+      "description": "Responsible for educating and assisting Swedish actors in understanding and applying for funding from the European research funding program Horizon Europe. Also had minor responsibilities such as being an expert in the panel for ESA's incubation program ESA-BIC.",
+      "area": "research",
+      "startYear": 2018,
+      "endYear": 2021
+    },
+    {
+      "id": 2,
+      "title": "Project Manager, Product Owner, Technical Sales, and Jack-of-all-trades in Tech Startup",
+      "company": "Mindconnect AB",
+      "date": "2015 - 2018",
+      "description": "One of a core team of five who created our own 'Location-Based Services' platform with a product portfolio aimed at companies in courier and transport. Responsibilities included managing a development team of ~10 developers for the creation of app and web tools for package deliveries.",
+      "area": "technology",
+      "startYear": 2015,
+      "endYear": 2018
+    },
+    {
+      "id": 3,
+      "title": "Seismic Observer/Seismic Technician on seismic vessels",
+      "company": "Petroleum Geo-Services AS",
+      "date": "2008 - 2014",
+      "description": "The main task of a Seismic Observer is to monitor in real-time the collected data flow, sensor readings, operation-related video surveillance, and to some extent radio traffic. Seismic observers are also responsible for the operation, repair, and maintenance of all seismic sensor equipment, electrical systems (including batteries), and computer networks.",
+      "area": "geophysics",
+      "startYear": 2008,
+      "endYear": 2014
+    }
+  ],
+  "education": [
+    {
+      "degree": "Blockchain Developer",
+      "institution": "Medieinstitutet, Vocational School for Digital Communication",
+      "date": "2023 - 2025 (Ongoing)",
+      "description": "Vocational higher education in blockchain development, including full-stack programming with JavaScript, React, and Node.js for blockchain-based systems. The education includes creating smart contracts, blockchain-specific front-end and back-end development, as well as the business and legal aspects of the technology.",
+      "startYear": 2023,
+      "endYear": 2025
+    },
+    {
+      "degree": "Bachelor of Science in Space Engineering",
+      "institution": "Luleå University/Umeå University, Department of Space Technology Kiruna",
+      "date": "2003 - 2007",
+      "description": "The education is based on mathematics and physics standard for engineering programs, with additional focus on data, programming, electronics, physics, and project work oriented towards space applications.",
+      "startYear": 2003,
+      "endYear": 2007
+    }
+  ],
+  "skills": [
+    "HTML",
+    "CSS",
+    "JavaScript",
+    "TypeScript",
+    "React",
+    "NodeJs",
+    "Solidity Smart Contracts",
+    "GitHub"
+  ],
+  "languages": [
+    {
+      "language": "Swedish",
+      "proficiency": "Native"
+    },
+    {
+      "language": "English",
+      "proficiency": "Fluent"
+    },
+    {
+      "language": "German",
+      "proficiency": "Basic"
+    }
+  ]
+}
