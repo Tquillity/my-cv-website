@@ -1,12 +1,13 @@
-// src/styles/_cvresume.scss
+// src/styles/pages/_CVResume.scss
 
 .cv-resume {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  grid-gap: pxToRem(20);
-  padding: pxToRem(20);
+  display: flex;
+  flex-direction: column;
   background-color: var(--background-color);
   color: var(--font-color);
+  padding: pxToRem(20);
+  max-width: $pageWidthDesk;
+  margin: 0 auto;
 }
 
 .cv-resume h1, .cv-resume h2, .cv-resume h3 {
@@ -31,51 +32,102 @@
   margin-bottom: pxToRem(10);
 }
 
-.cv-resume .filters {
+// Filters section
+.cv-resume-filters {
+  background-color: var(--card-color);
+  padding: pxToRem(20);
+  border-radius: pxToRem(10);
+  margin-bottom: pxToRem(30);
+  box-shadow: 0 pxToRem(4) pxToRem(6) rgba(0, 0, 0, 0.1);
+
+  h2 {
+    margin-bottom: pxToRem(15);
+  }
+
+  .filters-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(pxToRem(200), 1fr));
+    gap: pxToRem(20);
+  }
+
+  .filter-group {
+    display: flex;
+    flex-direction: column;
+  }
+
+  label {
+    margin-bottom: pxToRem(5);
+    font-weight: 600;
+  }
+
+  select, input[type="range"] {
+    width: 100%;
+    padding: pxToRem(8);
+    border: 1px solid var(--border-color);
+    border-radius: pxToRem(5);
+    background-color: var(--background-color);
+    color: var(--font-color);
+  }
+
+  input[type="checkbox"] {
+    margin-right: pxToRem(5);
+  }
+}
+
+// CV/Resume data section
+.cv-resume-data {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: pxToRem(30);
+
+  @media (min-width: $pageWidthTab) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.cv-resume-section {
+  background-color: var(--card-color);
+  padding: pxToRem(20);
+  border-radius: pxToRem(10);
+  box-shadow: 0 pxToRem(4) pxToRem(6) rgba(0, 0, 0, 0.1);
+
+  h2 {
+    margin-bottom: pxToRem(15);
+    border-bottom: 2px solid var(--primary-color);
+    padding-bottom: pxToRem(10);
+  }
+}
+
+.experience, .education-item {
+  margin-bottom: pxToRem(20);
+  padding: pxToRem(15);
+  border: 1px solid var(--border-color);
+  border-radius: pxToRem(5);
+  background-color: var(--background-color);
+
+  h3 {
+    font-weight: 600;
+    color: var(--primary-color);
+    margin-bottom: pxToRem(10);
+  }
+
+  p {
+    font-size: pxToRem(14);
+    line-height: 1.5;
+    color: var(--font-color);
+  }
+}
+
+.skills-list, .languages-list {
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-between;
-  margin-bottom: pxToRem(20);
-}
+  gap: pxToRem(10);
 
-.cv-resume .filters label {
-  margin-right: pxToRem(10);
-}
-
-.cv-resume .filters select {
-  width: 100%;
-  padding: pxToRem(10);
-  margin-bottom: pxToRem(10);
-  border: 1px solid var(--border-color);
-  border-radius: pxToRem(5);
-}
-
-.cv-resume .filters input[type="range"] {
-  width: 100%;
-  height: pxToRem(20);
-  margin-bottom: pxToRem(10);
-  border: 1px solid var(--border-color);
-  border-radius: pxToRem(5);
-}
-
-.cv-resume .experiences, .cv-resume .education {
-  margin-bottom: pxToRem(20);
-}
-
-.cv-resume .experience, .cv-resume .education-item {
-  margin-bottom: pxToRem(10);
-  padding: pxToRem(10);
-  border: 1px solid var(--border-color);
-  border-radius: pxToRem(5);
-}
-
-.cv-resume .experience h3, .cv-resume .education-item h3 {
-  font-weight: 600;
-  color: var(--primary-color);
-}
-
-.cv-resume .experience p, .cv-resume .education-item p {
-  font-size: pxToRem(16);
-  line-height: 1.5;
-  color: var(--font-color);
+  li {
+    background-color: var(--primary-color);
+    color: var(--background-color);
+    padding: pxToRem(5) pxToRem(10);
+    border-radius: pxToRem(20);
+    font-size: pxToRem(14);
+  }
 }

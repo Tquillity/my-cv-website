@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { useTranslation } from '../utils/i18n';
 import { useLanguage } from '../utils/i18n';
 import enData from '../data/cv-data-en.json';
-import svData from '../data/cv-data-en.json';
+import svData from '../data/cv-data-sv.json';
 
 interface Experience {
   id: number;
@@ -93,86 +93,92 @@ const CVResume: React.FC = () => {
   return (
     <div className="cv-resume">
       <h1>{t('cv_resume')}</h1>
-      <div className="personal-info">
-        <h2>{cvData.personalInfo.name}</h2>
-        <p>{cvData.personalInfo.objective}</p>
-      </div>
-      <div className="filters">
-        <div>
-          <h2>{t('filter_by_area')}</h2>
-          {Array.from(new Set(cvData.experiences.map(exp => exp.area))).map(area => (
-            <label key={area}>
-              <input
-                type="checkbox"
-                checked={selectedAreas.includes(area)}
-                onChange={() => {
-                  setSelectedAreas(prev => 
-                    prev.includes(area)
-                      ? prev.filter(a => a !== area)
-                      : [...prev, area]
-                  );
-                }}
-              />
-              {area}
-            </label>
-          ))}
-        </div>
-        <div>
-          <h2>{t('info_level')}</h2>
-          <select
-            value={infoLevel}
-            onChange={(e) => setInfoLevel(e.target.value as 'full' | 'medium' | 'small')}
-          >
-            <option value="full">{t('full_info')}</option>
-            <option value="medium">{t('medium_info')}</option>
-            <option value="small">{t('small_info')}</option>
-          </select>
-        </div>
-        <div>
-          <h2>{t('recency_filter')}</h2>
-          <input
-            type="range"
-            min="1"
-            max={maxYears}
-            value={yearsToShow}
-            onChange={(e) => setYearsToShow(Number(e.target.value))}
-          />
-          <span>{yearsToShow} {t('years')}</span>
-        </div>
-      </div>
-      <div className="experiences">
-        <h2>{t('work_experience')}</h2>
-        {filteredExperiences.map(exp => (
-          <div key={exp.id} className="experience">
-            {renderExperience(exp)}
+      
+      <div className="cv-resume-filters">
+        <h2>{t('filters')}</h2>
+        <div className="filters-grid">
+          <div className="filter-group">
+            <h3>{t('filter_by_area')}</h3>
+            {Array.from(new Set(cvData.experiences.map(exp => exp.area))).map(area => (
+              <label key={area}>
+                <input
+                  type="checkbox"
+                  checked={selectedAreas.includes(area)}
+                  onChange={() => {
+                    setSelectedAreas(prev => 
+                      prev.includes(area)
+                        ? prev.filter(a => a !== area)
+                        : [...prev, area]
+                    );
+                  }}
+                />
+                {area}
+              </label>
+            ))}
           </div>
-        ))}
-      </div>
-      <div className="education">
-        <h2>{t('education')}</h2>
-        {filteredEducation.map((edu, index) => (
-          <div key={index} className="education-item">
-            <h3>{edu.degree}</h3>
-            <p>{edu.institution} | {edu.date}</p>
-            {infoLevel === 'full' && <p>{edu.description}</p>}
+          <div className="filter-group">
+            <h3>{t('info_level')}</h3>
+            <select
+              value={infoLevel}
+              onChange={(e) => setInfoLevel(e.target.value as 'full' | 'medium' | 'small')}
+            >
+              <option value="full">{t('full_info')}</option>
+              <option value="medium">{t('medium_info')}</option>
+              <option value="small">{t('small_info')}</option>
+            </select>
           </div>
-        ))}
+          <div className="filter-group">
+            <h3>{t('recency_filter')}</h3>
+            <input
+              type="range"
+              min="1"
+              max={maxYears}
+              value={yearsToShow}
+              onChange={(e) => setYearsToShow(Number(e.target.value))}
+            />
+            <span>{yearsToShow} {t('years')}</span>
+          </div>
+        </div>
       </div>
-      <div className="skills">
-        <h2>{t('skills')}</h2>
-        <ul>
-          {cvData.skills.map((skill, index) => (
-            <li key={index}>{skill}</li>
+      
+      <div className="cv-resume-data">
+        <div className="cv-resume-section">
+          <h2>{t('work_experience')}</h2>
+          {filteredExperiences.map(exp => (
+            <div key={exp.id} className="experience">
+              {renderExperience(exp)}
+            </div>
           ))}
-        </ul>
-      </div>
-      <div className="languages">
-        <h2>{t('languages')}</h2>
-        <ul>
-          {cvData.languages.map((lang, index) => (
-            <li key={index}>{lang.language}: {lang.proficiency}</li>
+        </div>
+        
+        <div className="cv-resume-section">
+          <h2>{t('education')}</h2>
+          {filteredEducation.map((edu, index) => (
+            <div key={index} className="education-item">
+              <h3>{edu.degree}</h3>
+              <p>{edu.institution} | {edu.date}</p>
+              {infoLevel === 'full' && <p>{edu.description}</p>}
+            </div>
           ))}
-        </ul>
+        </div>
+        
+        <div className="cv-resume-section">
+          <h2>{t('skills')}</h2>
+          <ul className="skills-list">
+            {cvData.skills.map((skill, index) => (
+              <li key={index}>{skill}</li>
+            ))}
+          </ul>
+        </div>
+        
+        <div className="cv-resume-section">
+          <h2>{t('languages')}</h2>
+          <ul className="languages-list">
+            {cvData.languages.map((lang, index) => (
+              <li key={index}>{lang.language}: {lang.proficiency}</li>
+            ))}
+          </ul>
+        </div>
       </div>
     </div>
   );
