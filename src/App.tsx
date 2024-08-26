@@ -1,6 +1,6 @@
 // src/App.tsx
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Header from './components/Header';
 import Footer from './components/Footer';
@@ -10,11 +10,15 @@ import LinkedInFeed from './pages/LinkedInFeed';
 import About from './pages/About';
 import { ThemeProvider } from './utils/theme';
 import { LanguageProvider } from './utils/i18n';
-import './styles/main.scss';
+import './index.css';
 
 const App: React.FC = () => {
   const [theme, setTheme] = useState<'light' | 'dark'>('dark');
   const [language, setLanguage] = useState<'en' | 'sv'>('en');
+
+  useEffect(() => {
+    document.documentElement.setAttribute('data-theme', theme);
+  }, [theme]);
 
   return (
     <ThemeProvider value={{ theme, setTheme }}>

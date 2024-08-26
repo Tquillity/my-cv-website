@@ -1,0 +1,19 @@
+// src/_index.scss
+
+// Abstracts (variables, typography, colors, mixins, placeholders, etc.)
+@import './styles/abstract/colors.scss';
+@import './styles/abstract/typography.scss';
+@import './styles/abstract/variables.scss';
+
+
+// Reset and main styling
+@import './styles/reset.scss';
+@import './styles/main.scss';
+
+
+
+// Layouts & Components
+
+
+// Pages
+@import './styles/pages/CVResume.scss';

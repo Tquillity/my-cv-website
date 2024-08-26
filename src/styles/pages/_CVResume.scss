@@ -1,101 +1,81 @@
 // src/styles/_cvresume.scss
 
 .cv-resume {
-  @include themed() {
-    background-color: t('background');
-    color: t('text');
-    padding: 2rem;
-    font-family: Arial, sans-serif;
-  }
-
-  h1, h2, h3 {
-    @include themed() {
-      color: t('primary');
-    }
-  }
-
-  .personal-info {
-    margin-bottom: 2rem;
-  }
-
-  .filters {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 1rem;
-    margin-bottom: 2rem;
-
-    > div {
-      flex: 1;
-      min-width: 200px;
-    }
-
-    label {
-      display: block;
-      margin-bottom: 0.5rem;
-    }
-
-    input[type="checkbox"], select {
-      margin-right: 0.5rem;
-    }
-
-    input[type="range"] {
-      width: 100%;
-    }
-  }
-
-  .experiences, .education, .skills, .languages {
-    margin-bottom: 2rem;
-  }
-
-  .experience, .education-item {
-    @include themed() {
-      border-bottom: 1px solid t('border');
-    }
-    padding-bottom: 1rem;
-    margin-bottom: 1rem;
-
-    &:last-child {
-      border-bottom: none;
-    }
-  }
-
-  ul {
-    list-style-type: none;
-    padding-left: 0;
-  }
-
-  .skills ul, .languages ul {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 1rem;
-
-    li {
-      @include themed() {
-        background-color: t('secondary');
-        color: t('background');
-      }
-      padding: 0.5rem 1rem;
-      border-radius: 20px;
-    }
-  }
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-gap: pxToRem(20);
+  padding: pxToRem(20);
+  background-color: var(--background-color);
+  color: var(--font-color);
 }
 
-// Update src/styles/main.scss
-@import 'colorPalette';
-@import 'cvresume';
+.cv-resume h1, .cv-resume h2, .cv-resume h3 {
+  font-weight: 600;
+  color: var(--primary-color);
+}
 
-body {
-  @include themed() {
-    background-color: t('background');
-    color: t('text');
-  }
-  margin: 0;
+.cv-resume p {
+  font-size: pxToRem(16);
+  line-height: 1.5;
+  color: var(--font-color);
+  margin-bottom: pxToRem(16);
+}
+
+.cv-resume ul {
+  list-style: none;
   padding: 0;
-  font-family: Arial, sans-serif;
+  margin: 0;
 }
 
-.container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 1rem;
+.cv-resume li {
+  margin-bottom: pxToRem(10);
+}
+
+.cv-resume .filters {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  margin-bottom: pxToRem(20);
+}
+
+.cv-resume .filters label {
+  margin-right: pxToRem(10);
+}
+
+.cv-resume .filters select {
+  width: 100%;
+  padding: pxToRem(10);
+  margin-bottom: pxToRem(10);
+  border: 1px solid var(--border-color);
+  border-radius: pxToRem(5);
+}
+
+.cv-resume .filters input[type="range"] {
+  width: 100%;
+  height: pxToRem(20);
+  margin-bottom: pxToRem(10);
+  border: 1px solid var(--border-color);
+  border-radius: pxToRem(5);
+}
+
+.cv-resume .experiences, .cv-resume .education {
+  margin-bottom: pxToRem(20);
+}
+
+.cv-resume .experience, .cv-resume .education-item {
+  margin-bottom: pxToRem(10);
+  padding: pxToRem(10);
+  border: 1px solid var(--border-color);
+  border-radius: pxToRem(5);
+}
+
+.cv-resume .experience h3, .cv-resume .education-item h3 {
+  font-weight: 600;
+  color: var(--primary-color);
+}
+
+.cv-resume .experience p, .cv-resume .education-item p {
+  font-size: pxToRem(16);
+  line-height: 1.5;
+  color: var(--font-color);
 }
