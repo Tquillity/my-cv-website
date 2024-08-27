@@ -1,5 +1,18 @@
 [
   {
+    "id": 847607920,
+    "name": "my-cv-website",
+    "description": "In short a landing page for my carrer.",
+    "languages": [
+      "TypeScript",
+      "SCSS",
+      "HTML",
+      "CSS"
+    ],
+    "totalCommits": 8,
+    "manualCheck": true
+  },
+  {
     "id": 795418762,
     "name": "nodejs-handin-1",
     "description": "First handin project for nodejs course, nodejs application with blockchain functionality",
