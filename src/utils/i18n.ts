@@ -26,7 +26,6 @@ const translations = {
   en: {
     cv_resume: 'CV & Resume',
     portfolio: 'Portfolio',
-    linkedin_feed: 'LinkedIn Feed',
     about: 'About',
     dark_mode: 'Dark Mode',
     light_mode: 'Light Mode',
@@ -51,7 +50,6 @@ const translations = {
   sv: {
     cv_resume: 'CV & Meritförteckning',
     portfolio: 'Portfölj',
-    linkedin_feed: 'LinkedIn-flöde',
     about: 'Om mig',
     dark_mode: 'Mörkt läge',
     light_mode: 'Ljust läge',

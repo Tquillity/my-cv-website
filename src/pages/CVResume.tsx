@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { useTranslation } from '../utils/i18n';
 import { useLanguage } from '../utils/i18n';
+import Modal from '../components/Modal';
 import enData from '../data/cv-data-en.json';
 import svData from '../data/cv-data-sv.json';
 
@@ -39,6 +40,11 @@ interface CVData {
   }[];
 }
 
+interface ModalContent {
+  type: 'experience' | 'education' | 'skill' | 'language';
+  content: Experience | Education | string;
+}
+
 const CVResume: React.FC = () => {
   const { t } = useTranslation();
   const { language } = useLanguage();
@@ -46,6 +52,8 @@ const CVResume: React.FC = () => {
   const [infoLevel, setInfoLevel] = useState<'full' | 'medium' | 'small'>('full');
   const [cvData, setCvData] = useState<CVData>(language === 'en' ? enData : svData);
   const [yearsToShow, setYearsToShow] = useState<number>(20);
+  const [modalOpen, setModalOpen] = useState(false);
+  const [modalContent, setModalContent] = useState<ModalContent | null>(null);
 
   const currentYear = new Date().getFullYear();
   const earliestYear = Math.min(
@@ -67,6 +75,16 @@ const CVResume: React.FC = () => {
     edu.endYear >= currentYear - yearsToShow || edu.startYear >= currentYear - yearsToShow
   );
 
+  const openModal = (type: 'experience' | 'education' | 'skill' | 'language', content: Experience | Education | string) => {
+    setModalContent({ type, content });
+    setModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setModalOpen(false);
+    setModalContent(null);
+  };
+
   const renderExperience = (exp: Experience) => {
     switch (infoLevel) {
       case 'small':
@@ -85,6 +103,46 @@ const CVResume: React.FC = () => {
             <h3>{exp.title}</h3>
             <p>{exp.company} | {exp.date}</p>
             <p>{exp.description}</p>
+          </>
+        );
+    }
+  };
+
+  const renderModalContent = () => {
+    if (!modalContent) return null;
+
+    switch (modalContent.type) {
+      case 'experience':
+        const exp = modalContent.content as Experience;
+        return (
+          <>
+            <h2>{exp.title}</h2>
+            <p>{exp.company} | {exp.date}</p>
+            <p>{exp.description}</p>
+            <img src="/placeholder-image.jpg" alt="Related content" />
+          </>
+        );
+      case 'education':
+        const edu = modalContent.content as Education;
+        return (
+          <>
+            <h2>{edu.degree}</h2>
+            <p>{edu.institution} | {edu.date}</p>
+            <p>{edu.description}</p>
+            <img src="/placeholder-image.jpg" alt="Related content" />
+          </>
+        );
+      case 'skill':
+      case 'language':
+        const content = modalContent.content as string;
+        return (
+          <>
+            <h2>{content}</h2>
+            <ul>
+              <li><a href="#">Portfolio Example 1</a></li> // ! not yet implemented
+              <li><a href="#">Portfolio Example 2</a></li> // ! not yet implemented
+              <li><a href="#">Portfolio Example 3</a></li> // ! not yet implemented
+            </ul>
           </>
         );
     }
@@ -145,7 +203,11 @@ const CVResume: React.FC = () => {
         <div className="cv-resume-section">
           <h2>{t('work_experience')}</h2>
           {filteredExperiences.map(exp => (
-            <div key={exp.id} className="experience">
+            <div 
+              key={exp.id} 
+              className="experience clickable"
+              onClick={() => openModal('experience', exp)}
+            >
               {renderExperience(exp)}
             </div>
           ))}
@@ -154,7 +216,11 @@ const CVResume: React.FC = () => {
         <div className="cv-resume-section">
           <h2>{t('education')}</h2>
           {filteredEducation.map((edu, index) => (
-            <div key={index} className="education-item">
+            <div 
+              key={index} 
+              className="education-item clickable"
+              onClick={() => openModal('education', edu)}
+            >
               <h3>{edu.degree}</h3>
               <p>{edu.institution} | {edu.date}</p>
               {infoLevel === 'full' && <p>{edu.description}</p>}
@@ -166,7 +232,13 @@ const CVResume: React.FC = () => {
           <h2>{t('skills')}</h2>
           <ul className="skills-list">
             {cvData.skills.map((skill, index) => (
-              <li key={index}>{skill}</li>
+              <li 
+                key={index}
+                className="clickable"
+                onClick={() => openModal('skill', skill)}
+              >
+                {skill}
+              </li>
             ))}
           </ul>
         </div>
@@ -175,11 +247,21 @@ const CVResume: React.FC = () => {
           <h2>{t('languages')}</h2>
           <ul className="languages-list">
             {cvData.languages.map((lang, index) => (
-              <li key={index}>{lang.language}: {lang.proficiency}</li>
+              <li 
+                key={index}
+                className="clickable"
+                onClick={() => openModal('language', `${lang.language}: ${lang.proficiency}`)}
+              >
+                {lang.language}: {lang.proficiency}
+              </li>
             ))}
           </ul>
         </div>
       </div>
+
+      <Modal isOpen={modalOpen} onClose={closeModal}>
+        {renderModalContent()}
+      </Modal>
     </div>
   );
 };

@@ -22,7 +22,6 @@ const Header: React.FC = () => {
         <ul>
           <li><Link to="/" onClick={() => setIsMenuOpen(false)}>{t('cv_resume')}</Link></li>
           <li><Link to="/portfolio" onClick={() => setIsMenuOpen(false)}>{t('portfolio')}</Link></li>
-          <li><Link to="/linkedin" onClick={() => setIsMenuOpen(false)}>{t('linkedin_feed')}</Link></li>
           <li><Link to="/about" onClick={() => setIsMenuOpen(false)}>{t('about')}</Link></li>
         </ul>
       </nav>
