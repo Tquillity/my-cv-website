@@ -1,0 +1,14 @@
+[
+  {
+    "id": 795418762,
+    "name": "nodejs-handin-1",
+    "description": "First handin project for nodejs course, nodejs application with blockchain functionality",
+    "languages": [
+      "JavaScript",
+      "CSS",
+      "HTML"
+    ],
+    "totalCommits": 25,
+    "manualCheck": true
+  }
+]
