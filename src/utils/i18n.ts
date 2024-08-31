@@ -43,6 +43,14 @@ const translations = {
     skills: 'Skills',
     languages: 'Languages',
     all_rights_reserved: 'All rights reserved',
+    sort_by_start_date: 'Sort by Start Date',
+    sort_by_last_updated: 'Sort by Last Updated',
+    project_type: 'Project Type',
+    status: 'Status',
+    start_date: 'Start Date',
+    last_updated: 'Last Updated',
+    view_on_github: 'View on GitHub',
+    view_live_version: 'View Live Version',
     about_placeholder: 'This is a placeholder for the about page.', // remove when replaced
     linkedin_feed_placeholder: 'This is a placeholder for the LinkedIn feed.', // remove when replaced
     portfolio_placeholder: 'This is a placeholder for the portfolio page.' // remove when replaced
@@ -67,6 +75,14 @@ const translations = {
     skills: 'Färdigheter',
     languages: 'Språk',
     all_rights_reserved: 'Alla rättigheter förbehållna',
+    sort_by_start_date: 'Sortera efter startdatum',
+    sort_by_last_updated: 'Sortera efter senast uppdaterad',
+    project_type: 'Projekttyp',
+    status: 'Status',
+    start_date: 'Startdatum',
+    last_updated: 'Senast uppdaterad',
+    view_on_github: 'Visa på GitHub',
+    view_live_version: 'Visa live-version',
     about_placeholder: 'Detta är en platsmarkering för om-sidan.', // remove when replaced
     linkedin_feed_placeholder: 'Detta är en platsmarkering för LinkedIn-flödet.', // remove when replaced
     portfolio_placeholder: 'Detta är en platsmarkering för portföljsidan.' // remove when replaced

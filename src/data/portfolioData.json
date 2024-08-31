@@ -1,0 +1,60 @@
+{
+  "projects": [
+    {
+      "id": 1,
+      "name": "My CV Website",
+      "languages": ["HTML", "CSS", "SCSS", "JavaScript", "React"],
+      "stackType": "Frontend",
+      "description": "A responsive personal blog built with React, featuring a clean and modern design.",
+      "image": "/src/assets/images/my-cv-website.webp", 
+      "projectType": "Personal",
+      "status": "Closed Published",
+      "githubRepo": "https://github.com/Tquillity/my-cv-website",
+      "liveVersion": "https://github.com/Tquillity/my-cv-website",
+      "startDate": "2024-08-25",
+      "lastUpdated": "2024-08-31"
+    },
+    {
+      "id": 2,
+      "name": "OmniComment",
+      "languages": ["HTML", "SCSS", "JavaScript", "React", "NodeJS"],
+      "stackType": "Fullstack",
+      "description": "A fullstack simple BBS application utilising a private blockchain to store and retrieve data, as well as to pay for posting and commenting.", 
+      "image": "/images/ecommerce-platform.jpg",
+      "projectType": "School",
+      "status": "Closed Unpublished, Uncompleted functions, Highest grade",
+      "githubRepo": "https://github.com/Tquillity/OmniComment",
+      "liveVersion": null,
+      "startDate": "2024-06-12",
+      "lastUpdated": "2024-07-14"
+    },
+    {
+      "id": 3,
+      "name": "Smart Contract Wallet",
+      "languages": ["Solidity", "JavaScript", "React"],
+      "stackType": "Fullstack",
+      "description": "A decentralized wallet application built on Ethereum, allowing users to manage and interact with their crypto assets.",
+      "image": "/images/smart-contract-wallet.jpg",
+      "projectType": "Open Source",
+      "status": "Closed Published",
+      "githubRepo": "https://github.com/yourusername/smart-contract-wallet",
+      "liveVersion": "https://your-wallet-url.com",
+      "startDate": "2022-11-01",
+      "lastUpdated": "2023-05-20"
+    },
+    {
+      "id": 4,
+      "name": "Weather App",
+      "languages": ["HTML", "CSS", "JavaScript"],
+      "stackType": "Frontend",
+      "description": "A simple weather application that fetches and displays weather data from an API.",
+      "image": "/images/weather-app.jpg",
+      "projectType": "School",
+      "status": "Closed Unpublished",
+      "githubRepo": "https://github.com/yourusername/weather-app",
+      "liveVersion": null,
+      "startDate": "2022-09-01",
+      "lastUpdated": "2022-12-15"
+    }
+  ]
+}
