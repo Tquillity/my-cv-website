@@ -26,7 +26,7 @@ const ProjectCard: React.FC<{ project: Project; onClick: () => void }> = ({ proj
     image = require(`../assets/images/${project.image}`);
   } catch (error) {
     console.warn(`Failed to load image for project ${project.name}:`, error);
-    image = 'https://via.placeholder.com/300x200?text=Image+Not+Found';
+    image = 'https://via.placeholder.com/300x200?text=Image+Not+Found'; // ! consider not linking to address I do not have control over
   }
 
   return (
