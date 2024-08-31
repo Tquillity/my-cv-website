@@ -1,0 +1,258 @@
+// Mixin for language tags
+@mixin language-tag {
+  padding: pxToRem(5) pxToRem(10);
+  border-radius: pxToRem(15);
+  font-size: pxToRem(12);
+  font-weight: 600;
+  text-shadow: 0 0 pxToRem(2) rgba(0, 0, 0, 0.5);
+}
+
+.portfolio {
+  display: flex;
+  flex-direction: column;
+  background-color: var(--background-color);
+  color: var(--font-color);
+  padding: pxToRem(20);
+  max-width: $pageWidthDesk;
+  margin: 0 auto;
+
+  h1 {
+    font-weight: 600;
+    color: var(--primary-color);
+    margin-bottom: pxToRem(30);
+  }
+
+  .sort-toggle {
+    align-self: flex-end;
+    margin-bottom: pxToRem(20);
+    padding: pxToRem(10) pxToRem(20);
+    background-color: var(--button-primary-color);
+    color: var(--button-text-color);
+    border: none;
+    border-radius: pxToRem(5);
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+
+    &:hover {
+      background-color: var(--primary-color);
+    }
+  }
+
+  .timeline-container {
+    position: relative;
+    padding-left: pxToRem(160);
+  }
+
+  .timeline-bar, .timeline-focus {
+    position: absolute;
+    left: pxToRem(100);
+    width: pxToRem(4);
+    background-color: var(--border-color);
+  }
+
+  .timeline-bar {
+    top: 0;
+    bottom: 0;
+    opacity: 0.3;
+  }
+
+  .timeline-focus {
+    opacity: 1;
+    transition: top 0.3s ease, height 0.3s ease;
+  }
+
+  .timeline-item {
+    position: relative;
+    margin-bottom: pxToRem(30);
+
+    .timeline-date, .timeline-spot {
+      position: absolute;
+      opacity: 0.5;
+      transition: opacity 0.3s ease;
+      top: 50%;
+      transform: translateY(-50%);
+    }
+
+    .timeline-spot {
+      opacity: 0;
+    }
+
+
+    .timeline-date {
+      left: pxToRem(-160);
+      width: pxToRem(90);
+      text-align: right;
+      font-size: pxToRem(14);
+      color: var(--font-color);
+    }
+
+    .timeline-spot {
+      left: pxToRem(-65);
+      width: pxToRem(16);
+      height: pxToRem(16);
+      border-radius: 50%;
+      background-color: var(--border-color);
+
+      &::after {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 100%;
+        width: pxToRem(49);
+        height: pxToRem(4);
+        background-color: var(--border-color);
+        transform: translateY(-50%);
+      }
+    }
+
+    &.focused {
+      .timeline-date, .timeline-spot {
+        opacity: 1;
+      }
+    }
+  }
+
+  .portfolio-card {
+    position: relative;
+    background-color: var(--card-color);
+    border-radius: pxToRem(10);
+    overflow: hidden;
+    box-shadow: 0 pxToRem(4) pxToRem(6) rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    cursor: pointer;
+    height: pxToRem(400);
+    border: pxToRem(4) solid var(--background-color);
+
+    &.focused {
+      transform: translateY(pxToRem(-5));
+      box-shadow: 0 pxToRem(6) pxToRem(8) rgba(0, 0, 0, 0.15);
+      border-color: var(--border-color);
+    }
+  }
+
+  .portfolio-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: top;
+  }
+
+  .portfolio-content {
+    padding: pxToRem(20);
+    background-color: var(--card-color);
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+
+  h2 {
+    font-weight: 600;
+    color: var(--primary-color);
+    margin-bottom: pxToRem(10);
+  }
+
+  .stack-type, .project-type, .status {
+    font-size: pxToRem(14);
+    margin-bottom: pxToRem(5);
+  }
+
+  .languages {
+    display: flex;
+    flex-wrap: wrap;
+    gap: pxToRem(5);
+    margin-top: pxToRem(10);
+  }
+
+  .language-tag {
+    @include language-tag;
+    color: white;
+  }
+}
+
+.project-modal {
+  .modal-image {
+    width: 100%;
+    max-height: pxToRem(400);
+    object-fit: cover;
+    border-radius: pxToRem(5);
+    margin-bottom: pxToRem(20);
+  }
+
+  h2 {
+    font-size: pxToRem(24);
+    margin-bottom: pxToRem(15);
+  }
+
+  .description {
+    margin-bottom: pxToRem(20);
+  }
+
+  p {
+    margin-bottom: pxToRem(10);
+  }
+
+  .languages {
+    display: flex;
+    flex-wrap: wrap;
+    gap: pxToRem(5);
+    margin-top: pxToRem(10);
+    padding-bottom: pxToRem(10);
+  }
+
+  .language-tag {
+    @include language-tag;
+    color: black;
+  }
+
+  .links {
+    display: flex;
+    gap: pxToRem(10);
+
+    a {
+      display: inline-block;
+      padding: pxToRem(10) pxToRem(20);
+      background-color: var(--button-primary-color);
+      color: var(--button-text-color);
+      text-decoration: none;
+      border-radius: pxToRem(5);
+      transition: background-color 0.3s ease;
+
+      &:hover {
+        background-color: var(--primary-color);
+      }
+    }
+  }
+}
+
+@media (min-width: $pageWidthDesk) {
+  .portfolio {
+    .portfolio-card {
+      .portfolio-image {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+      }
+
+      .portfolio-content {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 50%;
+        max-height: 50%;
+        background-color: var(--background-color);
+        color: var(--font-color);
+        border-top-right-radius: pxToRem(5);
+      }
+
+      &.focused .portfolio-content {
+        background-color: var(--button-primary-color);
+        color: var(--background-color);
+        
+
+        h2, p, .language-tag {
+          color: var(--background-color);
+        }
+      }
+    }
+  }
+}
