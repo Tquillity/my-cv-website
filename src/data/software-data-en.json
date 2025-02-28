@@ -1,0 +1,24 @@
+{
+  "software": [
+    {
+      "name": "CodeBase v1.5",
+      "description": "CodeBase v1.5 is a Python GUI tool built with Tkinter for repository analysis. It scans text files (e.g., .py, .txt) in a selected folder, displaying contents in a Content Preview tab, a tree-based Folder Structure, and a customizable Base Prompt. Features include clipboard copying, token counting, hover tooltips, and file inclusion/exclusion settings. Users can save/load templates, prepend prompts, and toggle structure icons. With a dark theme, recent folder tracking, and clear-all options, it boosts productivity for developers. Set for MIT License release in 2025.",
+      "images": [
+        "content-select-preview.png",
+        "folder-structure.png",
+        "file-load-filter.png"
+      ],
+      "downloadLink": "/downloads/CodeBase.tar.gz"
+    },
+    {
+      "name": "Placeholder Software",
+      "description": "This software does something else.",
+      "images": [
+        "software-two-screenshot1.png",
+        "software-two-screenshot2.png",
+        "software-two-screenshot3.png"
+      ],
+      "downloadLink": "/downloads/software-two.tar"
+    }
+  ]
+}

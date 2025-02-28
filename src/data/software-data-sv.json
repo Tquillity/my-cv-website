@@ -1,0 +1,24 @@
+{
+  "software": [
+    {
+      "name": "CodeBase v1.5",
+      "description": "CodeBase v1.5 är ett Python-baserat GUI-verktyg byggt med Tkinter för analys av kodbaser. Det skannar textfiler (t.ex. .py, .txt) i en vald mapp och visar innehåll i flikarna Innehållsförhandsvisning, en trädstruktur i Mappstruktur och en anpassningsbar Basuppmaning. Funktioner inkluderar kopiering till urklipp, tokentäkning, verktygstips vid hovring och inställningar för filinkludering/exkludering. Användare kan spara/ladda mallar, lägga till uppmaningar och växla ikoner i strukturen. Med mörkt tema, spårning av senaste mappar och rensa-allt-alternativ ökar det produktiviteten för utvecklare. Planeras släppas under MIT-licens 2025.",
+      "images": [
+        "content-select-preview.png",
+        "folder-structure.png",
+        "file-load-filter.png"
+      ],
+      "downloadLink": "/downloads/CodeBase.tar.gz"
+    },
+    {
+      "name": "Platshållareprogramvara",
+      "description": "Denna programvara gör något annat.",
+      "images": [
+        "software-two-screenshot1.png",
+        "software-two-screenshot2.png",
+        "software-two-screenshot3.png"
+      ],
+      "downloadLink": "/downloads/software-two.tar"
+    }
+  ]
+}

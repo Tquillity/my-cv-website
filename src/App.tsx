@@ -10,6 +10,7 @@ import About from './pages/About';
 import { ThemeProvider } from './utils/theme';
 import { LanguageProvider } from './utils/i18n';
 import './index.css';
+import DevelopedSoftware from './pages/DevelopedSoftware';
 
 const App: React.FC = () => {
   const [theme, setTheme] = useState<'light' | 'dark'>('dark');
@@ -30,6 +31,7 @@ const App: React.FC = () => {
                 <Route path="/" element={<CVResume />} />
                 <Route path="/portfolio" element={<Portfolio />} />
                 <Route path="/about" element={<About />} />
+                <Route path="/developed-software" element={<DevelopedSoftware />} />
               </Routes>
             </main>
             <Footer />

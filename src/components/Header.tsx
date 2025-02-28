@@ -19,11 +19,12 @@ const Header: React.FC = () => {
     <header className="header">
       <div className="logo">Mikael Sundh</div>
       <nav className={`nav ${isMenuOpen ? 'open' : ''}`}>
-        <ul>
-          <li><Link to="/" onClick={() => setIsMenuOpen(false)}>{t('cv_resume')}</Link></li>
-          <li><Link to="/portfolio" onClick={() => setIsMenuOpen(false)}>{t('portfolio')}</Link></li>
-          <li><Link to="/about" onClick={() => setIsMenuOpen(false)}>{t('about')}</Link></li>
-        </ul>
+      <ul>
+        <li><Link to="/" onClick={() => setIsMenuOpen(false)}>{t('cv_resume')}</Link></li>
+        <li><Link to="/portfolio" onClick={() => setIsMenuOpen(false)}>{t('portfolio')}</Link></li>
+        <li><Link to="/about" onClick={() => setIsMenuOpen(false)}>{t('about')}</Link></li>
+        <li><Link to="/developed-software" onClick={() => setIsMenuOpen(false)}>{t('downloads')}</Link></li>
+      </ul>
       </nav>
       <div className="toggles">
         <ThemeToggle />

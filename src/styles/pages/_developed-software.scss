@@ -1,0 +1,65 @@
+.developed-software {
+  padding: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+
+  h1 {
+    font-weight: 600;
+    color: var(--primary-color);
+    margin-bottom: 20px;
+  }
+
+  .software-item {
+    background-color: var(--card-color);
+    padding: 15px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  
+    h2 {
+      color: var(--primary-color);
+      margin-bottom: 10px;
+    }
+  
+    p {
+      margin-bottom: 10px;
+    }
+  
+    a {
+      display: inline-block;
+      padding: 10px 20px;
+      background-color: var(--button-primary-color);
+      color: var(--button-text-color);
+      text-decoration: none;
+      border-radius: 5px;
+      margin-top: 10px;
+    }
+  }
+
+  .appreciation-section {
+    margin-top: 30px;
+
+    p {
+      margin-bottom: 15px;
+    }
+
+    .wallet-address {
+      display: flex;
+      align-items: center;
+      margin-bottom: 10px;
+
+      span {
+        margin-right: 10px;
+      }
+
+      button {
+        padding: 5px 10px;
+        background-color: var(--button-primary-color);
+        color: var(--button-text-color);
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+    }
+  }
+}

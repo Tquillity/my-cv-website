@@ -1,4 +1,4 @@
-// src/styles/components/_modal.scss
+// src/styles/layout/_modal.scss
 
 .modal-overlay {
   position: fixed;
@@ -33,4 +33,18 @@
   border: none;
   cursor: pointer;
   color: var(--font-color);
+}
+
+.modal-content.image-modal {
+  max-width: 90vw;
+  max-height: 90vh;
+  padding: 0;
+  background-color: transparent; // Remove background for images
+  border: none; // Remove border for image modal
+}
+
+.modal-content.image-modal img {
+  width: 100%;
+  height: auto;
+  object-fit: contain;
 }

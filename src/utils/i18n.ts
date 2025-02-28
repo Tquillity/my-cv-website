@@ -51,6 +51,11 @@ const translations = {
     last_updated: 'Last Updated',
     view_on_github: 'View on GitHub',
     view_live_version: 'View Live Version',
+    copy: 'Copy',
+    copied_to_clipboard: 'Copied to clipboard',
+    appreciation_message: 'If you appreciate the software, you are more than welcome to send a small appreciation to any of my wallets bellow:',
+    downloads: 'Downloads',
+    download: 'Download',
     about_placeholder: 'This is a placeholder for the about page.', // remove when replaced
     linkedin_feed_placeholder: 'This is a placeholder for the LinkedIn feed.', // remove when replaced
     portfolio_placeholder: 'This is a placeholder for the portfolio page.' // remove when replaced
@@ -83,6 +88,11 @@ const translations = {
     last_updated: 'Senast uppdaterad',
     view_on_github: 'Visa på GitHub',
     view_live_version: 'Visa live-version',
+    copy: 'Kopiera',
+    copied_to_clipboard: 'Kopierad till urklipp',
+    appreciation_message: 'Om du uppskattar programvaran får du mer än gärna skicka en liten summa till någon av dessa plånböcker:',
+    downloads: 'Nedladdningar',
+    download: 'Ladda ner',
     about_placeholder: 'Detta är en platsmarkering för om-sidan.', // remove when replaced
     linkedin_feed_placeholder: 'Detta är en platsmarkering för LinkedIn-flödet.', // remove when replaced
     portfolio_placeholder: 'Detta är en platsmarkering för portföljsidan.' // remove when replaced
