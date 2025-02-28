@@ -1,3 +1,4 @@
+// src/pages/Portfolio.tsx
 import React, { useState, useEffect, useRef } from 'react';
 import { useTranslation } from '../utils/i18n';
 import portfolioData from '../data/portfolioData.json';
@@ -24,13 +25,13 @@ const ProjectCard: React.FC<{
   onClick: () => void; 
   isFocused: boolean;
 }> = ({ project, onClick, isFocused }) => {
-  const { t } = useTranslation();
+  // Remove unused 't' since it's not needed in ProjectCard
   let image;
   try {
     image = require(`../assets/images/${project.image}`);
   } catch (error) {
     console.warn(`Failed to load image for project ${project.name}:`, error);
-    image = 'https://via.placeholder.com/300x200?text=Image+Not+Found'; // ! consider not linking to address I do not have control over
+    image = 'https://via.placeholder.com/300x200?text=Image+Not+Found';
   }
 
   return (
@@ -76,7 +77,7 @@ const Portfolio: React.FC = () => {
     });
     setProjects(sortedProjects);
     setFocusedIndex(0);
-  }, [sortBy]);
+  }, [sortBy, projects]); // Add 'projects' to dependency array
 
   useEffect(() => {
     const handleScroll = () => {

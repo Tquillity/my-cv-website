@@ -1,5 +1,5 @@
 // src/utils/theme.ts
-import React, { createContext, useContext } from 'react';
+import { createContext, useContext } from 'react';
 
 type Theme = 'light' | 'dark';
 
