@@ -67,7 +67,7 @@ const DevelopedSoftware: React.FC = () => {
           </button>
         </div>
         <div className="wallet-address">
-          <span>Crypto Wallet 2: [address2]</span>
+          <span>Crypto Wallet 2: [test]</span>
           <button onClick={() => copyToClipboard('[address2]')}>
             {t('copy')}
           </button>
