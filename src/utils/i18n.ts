@@ -5,7 +5,7 @@ type Language = 'en' | 'sv';
 
 interface LanguageContextType {
   language: Language;
-  setLanguage: (language: Language) => void; // ! What did I miss and where? "Warning on this line: 'setLanguage' is declared but its value is never read."
+  setLanguage: (language: Language) => void;
 }
 
 const LanguageContext = createContext<LanguageContextType | undefined>(undefined);
