@@ -61,14 +61,14 @@ const DevelopedSoftware: React.FC = () => {
       <div className="appreciation-section">
         <p>{t('appreciation_message')}</p>
         <div className="wallet-address">
-          <span>Crypto Wallet 1: [address1]</span>
-          <button onClick={() => copyToClipboard('[address1]')}>
+          <span>Solana: 3VAhM8uZjHr8bF8zpkTgt97VC4RjhbRYt1z6VFRMApy2</span>
+          <button onClick={() => copyToClipboard('3VAhM8uZjHr8bF8zpkTgt97VC4RjhbRYt1z6VFRMApy2')}>
             {t('copy')}
           </button>
         </div>
         <div className="wallet-address">
-          <span>Crypto Wallet 2: [test]</span>
-          <button onClick={() => copyToClipboard('[address2]')}>
+          <span>EVM-compatible Polygon/ETH/and so on: 0x3ff91726fe4f71ab3bfcbc62e410fd660eca1c4c</span>
+          <button onClick={() => copyToClipboard('0x3ff91726fe4f71ab3bfcbc62e410fd660eca1c4c')}>
             {t('copy')}
           </button>
         </div>
