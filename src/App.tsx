@@ -1,7 +1,6 @@
 // src/App.tsx
-
 import React, { useState, useEffect } from 'react';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes, useLocation } from 'react-router-dom';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import CVResume from './pages/CVResume';
@@ -11,6 +10,19 @@ import { ThemeProvider } from './utils/theme';
 import { LanguageProvider } from './utils/i18n';
 import './index.css';
 import DevelopedSoftware from './pages/DevelopedSoftware';
+
+const AnalyticsTracker = () => {
+  const location = useLocation();
+  useEffect(() => {
+    // Check if gtag is available before calling it
+    if (window.gtag) {
+      window.gtag('config', 'G-5YFQYYC021', {
+        page_path: location.pathname,
+      });
+    }
+  }, [location]);
+  return null;
+};
 
 const App: React.FC = () => {
   const [theme, setTheme] = useState<'light' | 'dark'>('dark');
@@ -24,6 +36,7 @@ const App: React.FC = () => {
     <ThemeProvider value={{ theme, setTheme }}>
       <LanguageProvider value={{ language, setLanguage }}>
         <Router>
+          <AnalyticsTracker />
           <div className={`app ${theme}`}>
             <Header />
             <main>
