@@ -148,3 +148,17 @@
 .languages-list li {
   @extend .clickable;
 }
+
+.link-button {
+  background: none;
+  border: none;
+  color: var(--secondary-color);
+  text-decoration: underline;
+  cursor: not-allowed; // Indicates disabled state
+  padding: 0;
+  font: inherit;
+
+  &:hover {
+    color: var(--primary-color);
+  }
+}

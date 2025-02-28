@@ -132,19 +132,29 @@ const CVResume: React.FC = () => {
             <img src="/placeholder-image.jpg" alt="Related content" />
           </>
         );
-      case 'skill':
-      case 'language':
-        const content = modalContent.content as string;
-        return (
-          <>
-            <h2>{content}</h2>
-            <ul>
-              <li><a href="#">Portfolio Example 1</a></li> // ! not yet implemented
-              <li><a href="#">Portfolio Example 2</a></li> // ! not yet implemented
-              <li><a href="#">Portfolio Example 3</a></li> // ! not yet implemented
-            </ul>
-          </>
-        );
+      // src/pages/CVResume.tsx
+case 'skill':
+  case 'language':
+    const content = modalContent.content as string;
+    return (
+      <>
+        <h2>{content}</h2>
+        <ul>
+          <li>
+            <button className="link-button" disabled>Portfolio Example 1</button>
+            {/* Not yet implemented */}
+          </li>
+          <li>
+            <button className="link-button" disabled>Portfolio Example 2</button>
+            {/* Not yet implemented */}
+          </li>
+          <li>
+            <button className="link-button" disabled>Portfolio Example 3</button>
+            {/* Not yet implemented */}
+          </li>
+        </ul>
+      </>
+    );
     }
   };
 
