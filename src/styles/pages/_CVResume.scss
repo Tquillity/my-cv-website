@@ -5,7 +5,7 @@
   flex-direction: column;
   background-color: var(--background-color);
   color: var(--font-color);
-  padding: pxToRem(20);
+  padding: pxToRem(40);
   max-width: $pageWidthDesk;
   margin: 0 auto;
 }
@@ -32,7 +32,6 @@
   margin-bottom: pxToRem(10);
 }
 
-// Filters section
 .cv-resume-filters {
   background-color: var(--card-color);
   padding: pxToRem(20);
@@ -74,11 +73,10 @@
   }
 }
 
-// CV/Resume data section
 .cv-resume-data {
   display: grid;
   grid-template-columns: 1fr;
-  gap: pxToRem(30);
+  gap: pxToRem(40);
 
   @media (min-width: $pageWidthTab) {
     grid-template-columns: repeat(2, 1fr);
@@ -87,7 +85,7 @@
 
 .cv-resume-section {
   background-color: var(--card-color);
-  padding: pxToRem(20);
+  padding: pxToRem(30);
   border-radius: pxToRem(10);
   box-shadow: 0 pxToRem(4) pxToRem(6) rgba(0, 0, 0, 0.1);
 
@@ -154,11 +152,12 @@
   border: none;
   color: var(--secondary-color);
   text-decoration: underline;
-  cursor: not-allowed; // Indicates disabled state
+  cursor: pointer;
   padding: 0;
   font: inherit;
 
   &:hover {
     color: var(--primary-color);
+    text-decoration: underline;
   }
 }

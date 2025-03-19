@@ -1,11 +1,10 @@
-//src/styles/abstracts/_colors.scss
+// src/styles/abstract/_colors.scss
 
-// Light theme colors - Default theme
 $light-background-color: white;
-$light-primary-color: #3498db;
-$light-secondary-color: green;
-$light-button-primary-color: #262626;
-$light-button-text-color: #d87946;
+$light-primary-color: #2c3e50;
+$light-secondary-color: #ecf0f1;
+$light-button-primary-color: #34495e;
+$light-button-text-color: white;
 $light-border-color: brown;
 $light-card-color: grey;
 $light-font-color: black;
@@ -13,7 +12,6 @@ $light-error-color: #ff6b6b;
 $light-success-color: #51cf66;
 $light-accentuate-color: #f39c12;
 
-// Dark theme colors
 $dark-background-color: black;
 $dark-primary-color: white;
 $dark-secondary-color: green;
@@ -26,7 +24,6 @@ $dark-error-color: #ff8787;
 $dark-success-color: #69db7c;
 $dark-accentuate-color: #f39c12;
 
-// CSS variables defined 
 :root {
   --background-color: #{$light-background-color};
   --primary-color: #{$light-primary-color};

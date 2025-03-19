@@ -1,64 +1,78 @@
+// src/styles/pages/_developed-software.scss
+
 .developed-software {
-  padding: 20px;
-  max-width: 1200px;
+  padding: pxToRem(40);
+  max-width: $pageWidthDesk;
   margin: 0 auto;
 
   h1 {
     font-weight: 600;
     color: var(--primary-color);
-    margin-bottom: 20px;
+    margin-bottom: pxToRem(20);
   }
 
   .software-item {
     background-color: var(--card-color);
-    padding: 15px;
-    border-radius: 10px;
-    margin-bottom: 20px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  
+    padding: pxToRem(15);
+    border-radius: pxToRem(10);
+    margin-bottom: pxToRem(20);
+    box-shadow: 0 pxToRem(4) pxToRem(6) rgba(0, 0, 0, 0.1);
+
     h2 {
       color: var(--primary-color);
-      margin-bottom: 10px;
+      margin-bottom: pxToRem(10);
     }
-  
+
     p {
-      margin-bottom: 10px;
+      margin-bottom: pxToRem(10);
     }
-  
+
     a {
       display: inline-block;
-      padding: 10px 20px;
+      padding: pxToRem(12) pxToRem(24);
       background-color: var(--button-primary-color);
-      color: var(--button-text-color);
+      color: white;
       text-decoration: none;
-      border-radius: 5px;
-      margin-top: 10px;
+      border-radius: pxToRem(8);
+      margin-top: pxToRem(10);
+      transition: background-color 0.3s ease, box-shadow 0.3s ease;
+
+      &:hover {
+        background-color: var(--primary-color);
+        box-shadow: 0 pxToRem(2) pxToRem(4) rgba(0, 0, 0, 0.2);
+      }
     }
   }
 
   .appreciation-section {
-    margin-top: 30px;
+    margin-top: pxToRem(30);
 
     p {
-      margin-bottom: 15px;
+      margin-bottom: pxToRem(15);
     }
 
     .wallet-address {
       display: flex;
       align-items: center;
-      margin-bottom: 10px;
+      margin-bottom: pxToRem(10);
 
       span {
-        margin-right: 10px;
+        margin-right: pxToRem(10);
       }
 
       button {
-        padding: 5px 10px;
+        padding: pxToRem(5) pxToRem(10);
         background-color: var(--button-primary-color);
-        color: var(--button-text-color);
+        color: white;
         border: none;
-        border-radius: 5px;
+        border-radius: pxToRem(5);
         cursor: pointer;
+        transition: background-color 0.3s ease, box-shadow 0.3s ease;
+
+        &:hover {
+          background-color: var(--primary-color);
+          box-shadow: 0 pxToRem(2) pxToRem(4) rgba(0, 0, 0, 0.2);
+        }
       }
     }
   }

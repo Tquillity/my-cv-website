@@ -15,7 +15,7 @@
 
 .modal-content {
   background-color: var(--background-color);
-  padding: pxToRem(20);
+  padding: pxToRem(40);
   border-radius: pxToRem(5);
   border: 2px solid var(--border-color);
   max-width: 80%;
@@ -39,8 +39,8 @@
   max-width: 90vw;
   max-height: 90vh;
   padding: 0;
-  background-color: transparent; // Remove background for images
-  border: none; // Remove border for image modal
+  background-color: transparent;
+  border: none;
 }
 
 .modal-content.image-modal img {

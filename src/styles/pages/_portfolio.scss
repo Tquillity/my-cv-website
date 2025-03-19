@@ -1,4 +1,5 @@
-// Mixin for language tags
+// src/styles/pages/_portfolio.scss
+
 @mixin language-tag {
   padding: pxToRem(5) pxToRem(10);
   border-radius: pxToRem(15);
@@ -12,7 +13,7 @@
   flex-direction: column;
   background-color: var(--background-color);
   color: var(--font-color);
-  padding: pxToRem(20);
+  padding: pxToRem(40);
   max-width: $pageWidthDesk;
   margin: 0 auto;
 
@@ -25,16 +26,17 @@
   .sort-toggle {
     align-self: flex-end;
     margin-bottom: pxToRem(20);
-    padding: pxToRem(10) pxToRem(20);
+    padding: pxToRem(12) pxToRem(24);
     background-color: var(--button-primary-color);
-    color: var(--button-text-color);
+    color: white;
     border: none;
-    border-radius: pxToRem(5);
+    border-radius: pxToRem(8);
     cursor: pointer;
-    transition: background-color 0.3s ease;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
 
     &:hover {
       background-color: var(--primary-color);
+      box-shadow: 0 pxToRem(2) pxToRem(4) rgba(0, 0, 0, 0.2);
     }
   }
 
@@ -76,7 +78,6 @@
     .timeline-spot {
       opacity: 0;
     }
-
 
     .timeline-date {
       left: pxToRem(-160);
@@ -125,8 +126,8 @@
 
     &.focused {
       transform: translateY(pxToRem(-5));
-      box-shadow: 0 pxToRem(6) pxToRem(8) rgba(0, 0, 0, 0.15);
-      border-color: var(--border-color);
+      box-shadow: 0 0 pxToRem(10) var(--primary-color);
+      border-color: var(--primary-color);
     }
   }
 
@@ -167,61 +168,6 @@
   }
 }
 
-.project-modal {
-  .modal-image {
-    width: 100%;
-    max-height: pxToRem(400);
-    object-fit: cover;
-    border-radius: pxToRem(5);
-    margin-bottom: pxToRem(20);
-  }
-
-  h2 {
-    font-size: pxToRem(24);
-    margin-bottom: pxToRem(15);
-  }
-
-  .description {
-    margin-bottom: pxToRem(20);
-  }
-
-  p {
-    margin-bottom: pxToRem(10);
-  }
-
-  .languages {
-    display: flex;
-    flex-wrap: wrap;
-    gap: pxToRem(5);
-    margin-top: pxToRem(10);
-    padding-bottom: pxToRem(10);
-  }
-
-  .language-tag {
-    @include language-tag;
-    color: black;
-  }
-
-  .links {
-    display: flex;
-    gap: pxToRem(10);
-
-    a {
-      display: inline-block;
-      padding: pxToRem(10) pxToRem(20);
-      background-color: var(--button-primary-color);
-      color: var(--button-text-color);
-      text-decoration: none;
-      border-radius: pxToRem(5);
-      transition: background-color 0.3s ease;
-
-      &:hover {
-        background-color: var(--primary-color);
-      }
-    }
-  }
-}
-
 @media (min-width: $pageWidthDesk) {
   .portfolio {
     .portfolio-card {
@@ -239,19 +185,32 @@
         left: 0;
         width: 50%;
         max-height: 50%;
-        background-color: var(--background-color);
+        background-color: rgba(255, 255, 255, 0.9);
         color: var(--font-color);
         border-top-right-radius: pxToRem(5);
       }
 
       &.focused .portfolio-content {
-        background-color: var(--button-primary-color);
-        color: var(--background-color);
-        
+        background-color: rgba(52, 73, 94, 0.9);
+        color: white;
 
         h2, p, .language-tag {
-          color: var(--background-color);
+          color: white;
         }
+      }
+    }
+  }
+}
+
+[data-theme='dark'] {
+  .portfolio {
+    .portfolio-card {
+      .portfolio-content {
+        background-color: rgba(38, 38, 38, 0.9);
+      }
+
+      &.focused .portfolio-content {
+        background-color: rgba(255, 140, 0, 0.9);
       }
     }
   }
