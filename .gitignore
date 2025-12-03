@@ -30,3 +30,6 @@ ts-debug.log*
 # Typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Instructions
+AI_INSTRUCTIONS.md
