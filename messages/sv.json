@@ -1,6 +1,14 @@
 {
   "HomePage": {
-    "title": "Portfölj"
+    "title": "Portfölj",
+    "hero_role": "Fullstack & Blockchain Ingenjör",
+    "hero_description": "Bygger skalbara decentraliserade applikationer och moderna webbupplevelser.",
+    "view_work": "Se Mitt Arbete",
+    "contact_me": "Kontakta Mig"
+  },
+  "AboutPage": {
+    "title": "Om Mig",
+    "intro": "Jag är en passionerad Fullstack & Blockchain Ingenjör dedikerad till att bygga skalbara, användarcentrerade applikationer. Med en stark grund i moderna webbteknologier och decentraliserade system strävar jag efter att skapa digitala upplevelser som gör skillnad.",
+    "experience_section": "Erfarenhet"
   }
 }
-

@@ -6,7 +6,7 @@ export const Hero: React.FC = () => {
   const t = useTranslations("HomePage");
 
   return (
-    <section className="relative h-screen flex flex-col items-center justify-center px-4 overflow-hidden">
+    <section className="relative h-screen flex flex-col items-center justify-center px-4 overflow-hidden text-white">
       <div className="container mx-auto flex flex-col items-center text-center z-10">
         <MotionDiv
           initial={{ opacity: 0, y: 20 }}
@@ -15,7 +15,7 @@ export const Hero: React.FC = () => {
           className="space-y-4"
         >
           <MotionH1
-            className="text-4xl md:text-6xl lg:text-8xl font-bold tracking-tight text-foreground"
+            className="text-4xl md:text-6xl lg:text-8xl font-bold tracking-tight text-white"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2, duration: 0.5 }}
@@ -28,21 +28,18 @@ export const Hero: React.FC = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.3, duration: 0.5 }}
           >
-            <h2 className="text-xl md:text-2xl lg:text-3xl font-medium text-muted-foreground">
-              Fullstack & Blockchain Engineer
+            <h2 className="text-xl md:text-2xl lg:text-3xl font-medium text-slate-300">
+              {t("hero_role")}
             </h2>
           </MotionDiv>
 
           <MotionP
-            className="max-w-[600px] mx-auto text-lg text-muted-foreground mt-6"
+            className="max-w-[600px] mx-auto text-lg text-slate-400 mt-6"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.4, duration: 0.5 }}
           >
-            {/* Using a fallback for now until we add the key to messages */}
-            {t.has("hero_description") 
-              ? t("hero_description") 
-              : "Building scalable decentralized applications and modern web experiences."}
+            {t("hero_description")}
           </MotionP>
 
           <MotionDiv
@@ -56,14 +53,14 @@ export const Hero: React.FC = () => {
               "bg-primary text-primary-foreground hover:bg-primary/90",
               "h-11 px-8"
             )}>
-              View Work
+              {t("view_work")}
             </button>
             <button className={cn(
               "inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50",
               "border border-input bg-background hover:bg-accent hover:text-accent-foreground",
               "h-11 px-8"
             )}>
-              Contact Me
+              {t("contact_me")}
             </button>
           </MotionDiv>
         </MotionDiv>
@@ -71,4 +68,3 @@ export const Hero: React.FC = () => {
     </section>
   );
 };
-

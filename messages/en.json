@@ -1,6 +1,14 @@
 {
   "HomePage": {
-    "title": "Portfolio"
+    "title": "Portfolio",
+    "hero_role": "Fullstack & Blockchain Engineer",
+    "hero_description": "Building scalable decentralized applications and modern web experiences.",
+    "view_work": "View Work",
+    "contact_me": "Contact Me"
+  },
+  "AboutPage": {
+    "title": "About Me",
+    "intro": "I am a passionate Fullstack & Blockchain Engineer dedicated to building scalable, user-centric applications. With a strong foundation in modern web technologies and decentralized systems, I strive to create digital experiences that make a difference.",
+    "experience_section": "Experience"
   }
 }
-
