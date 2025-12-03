@@ -1,12 +1,16 @@
 import { Scene } from "@/components/3d/scene";
 import { Hero } from "@/components/sections/hero";
 import { TerminalToggle } from "@/components/ui/terminal-toggle";
+import { Guestbook } from "@/components/features/guestbook";
+import { AIChat } from "@/components/features/ai-chat";
 
 export default function Home({ params: { locale } }: { params: { locale: string } }) {
   return (
     <main className="relative z-0 min-h-screen flex-col items-center justify-between">
       <Scene />
       <Hero />
+      <Guestbook />
+      <AIChat />
       <TerminalToggle />
     </main>
   );
