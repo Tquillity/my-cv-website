@@ -1,7 +1,5 @@
 import { createClient } from "next-sanity";
-
-// Use require to bypass strict ESM export checks that are failing the build
-const imageUrlBuilder = require('@sanity/image-url');
+import createImageUrlBuilder from "@sanity/image-url";
 
 export const client = createClient({
   projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID || "mock",
@@ -10,10 +8,7 @@ export const client = createClient({
   useCdn: false, // Turn off for dev to see draft changes immediately
 });
 
-// Handle both default export and named export patterns
-const builder = imageUrlBuilder.default 
-  ? imageUrlBuilder.default(client) 
-  : imageUrlBuilder(client);
+const builder = createImageUrlBuilder(client);
 
 export function urlFor(source: any) {
   // Defensive check: return a dummy builder-like object or null if source is missing
