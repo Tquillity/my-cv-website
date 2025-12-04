@@ -31,13 +31,13 @@ const EducationCard = ({ edu, t }: { edu: Education; t: any }) => {
       exit={{ opacity: 0, x: -10 }}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
-      className={`p-4 rounded-xl border border-white/10 transition-all duration-300 cursor-default ${
+      className={`p-4 rounded-xl border border-white/10 transition-colors duration-300 cursor-default relative overflow-hidden ${
         isHovered 
-          ? "absolute left-0 right-0 -my-2 bg-[#0B1120] border-primary/30 shadow-2xl ring-1 ring-primary/20" 
-          : "relative bg-white/5 hover:border-white/20"
+          ? "bg-[#0B1120] border-primary/30 shadow-2xl ring-1 ring-primary/20 z-10" 
+          : "bg-white/5 hover:border-white/20 z-0"
       }`}
     >
-      <div className="flex justify-between items-start relative z-10">
+      <motion.div layout="position" className="flex justify-between items-start">
         <div>
           <h3 className={`font-bold transition-colors ${isHovered ? "text-primary" : "text-slate-200"}`}>
             {edu.institution}
@@ -47,7 +47,7 @@ const EducationCard = ({ edu, t }: { edu: Education; t: any }) => {
         <span className="text-xs text-slate-500 font-mono whitespace-nowrap bg-black/20 px-2 py-1 rounded">
           {edu.startDate?.split("-")[0]} — {edu.endDate ? edu.endDate.split("-")[0] : t('present')}
         </span>
-      </div>
+      </motion.div>
       
       <motion.div
         initial={{ height: 0, opacity: 0 }}
