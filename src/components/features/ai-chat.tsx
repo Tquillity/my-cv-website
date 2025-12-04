@@ -112,6 +112,7 @@ export const AIChat: React.FC = () => {
                         src="/AI-MikaelP.jpg"
                         alt="AI Avatar"
                         fill
+                        sizes="32px"
                         className="object-cover"
                       />
                     )}
