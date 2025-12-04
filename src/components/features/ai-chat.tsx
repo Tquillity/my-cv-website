@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef } from "react";
 import { MessageCircle, X, Send, Bot, User, Loader2 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import Image from "next/image";
 import { cn } from "@/lib/utils";
 import { useTranslations } from "next-intl";
 
@@ -103,8 +104,17 @@ export const AIChat: React.FC = () => {
               
               {messages.map((m, i) => (
                 <div key={i} className={cn("flex gap-3 max-w-[85%]", m.role === "user" ? "ml-auto flex-row-reverse" : "mr-auto")}>
-                  <div className={cn("w-8 h-8 rounded-full flex items-center justify-center shrink-0", m.role === "user" ? "bg-primary text-primary-foreground" : "bg-secondary text-secondary-foreground")}>
-                    {m.role === "user" ? <User className="w-4 h-4" /> : <Bot className="w-4 h-4" />}
+                  <div className={cn("w-8 h-8 rounded-full flex items-center justify-center shrink-0", m.role === "user" ? "bg-primary text-primary-foreground" : "bg-secondary text-secondary-foreground p-0 overflow-hidden relative")}>
+                    {m.role === "user" ? (
+                      <User className="w-4 h-4" />
+                    ) : (
+                      <Image
+                        src="/AI-MikaelP.jpg"
+                        alt="AI Avatar"
+                        fill
+                        className="object-cover"
+                      />
+                    )}
                   </div>
                   <div className={cn("p-3 rounded-lg text-sm", m.role === "user" ? "bg-primary text-primary-foreground rounded-tr-none" : "bg-secondary text-secondary-foreground rounded-tl-none")}>
                     {m.content}
