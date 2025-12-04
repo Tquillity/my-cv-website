@@ -5,6 +5,8 @@ import { Providers } from "@/components/providers";
 import { AIChat } from "@/components/features/ai-chat";
 import { TerminalToggle } from "@/components/ui/terminal-toggle";
 import { FloatingNavbar } from "@/components/ui/floating-navbar";
+import { TerminalModal } from "@/components/features/terminal-modal";
+import { TerminalProvider } from "@/lib/terminal-context";
 import dynamic from "next/dynamic";
 import "@/styles/globals.css";
 
@@ -32,11 +34,14 @@ export default async function RootLayout({
     <html lang={locale} suppressHydrationWarning>
       <body className={inter.className}>
         <Providers locale={locale} messages={messages}>
-          <Scene />
-          <FloatingNavbar locale={locale} />
-          {children}
-          <AIChat />
-          <TerminalToggle />
+          <TerminalProvider>
+            <Scene />
+            <FloatingNavbar locale={locale} />
+            {children}
+            <AIChat />
+            <TerminalModal locale={locale} />
+            <TerminalToggle />
+          </TerminalProvider>
         </Providers>
       </body>
     </html>
