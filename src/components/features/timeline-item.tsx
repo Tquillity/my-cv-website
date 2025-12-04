@@ -28,7 +28,7 @@ export const TimelineItem: React.FC<TimelineItemProps> = ({ experience, index })
       <div className="flex flex-col sm:flex-row sm:items-baseline sm:justify-between mb-2">
         <h3 className="text-xl font-bold">{experience.title}</h3>
         <span className="text-sm text-muted-foreground font-mono">
-          {experience.startDate} — {experience.endDate ? experience.endDate : t('present')}
+          {experience.startDate} — {experience.isCurrent ? t('present') : experience.endDate}
         </span>
       </div>
       

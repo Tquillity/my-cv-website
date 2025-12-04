@@ -23,7 +23,8 @@ PERSONAL FACTS & TRAITS:
 - Remote Setup: Professional home office with high-speed internet, ergonomic workstation, and quiet environment.
 - Married: Yes, married to a Swedish woman with no children, no pets and no plans to aquire any.
 - Hoping to do more community work in the future.
-- Age: born 1982-02-11.
+- Age: born 1982-02-11 43 years old.
+- Lives in Stockholm Sweden.
 `;
 
 export async function getPortfolioContext(): Promise<string> {
