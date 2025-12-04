@@ -7,7 +7,7 @@ export default function Home({ params: { locale } }: { params: { locale: string 
   return (
     <main className="relative z-0 min-h-screen flex-col items-center justify-between">
       <Scene />
-      <Hero />
+      <Hero locale={locale} />
       <AIChat />
       <TerminalToggle />
     </main>

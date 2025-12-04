@@ -1,8 +1,13 @@
+import Link from "next/link";
 import { useTranslations } from "next-intl";
 import { MotionDiv, MotionH1, MotionP } from "@/components/ui/motion-wrapper";
 import { cn } from "@/lib/utils";
 
-export const Hero: React.FC = () => {
+interface HeroProps {
+  locale: string;
+}
+
+export const Hero: React.FC<HeroProps> = ({ locale }) => {
   const t = useTranslations("HomePage");
 
   return (
@@ -48,20 +53,29 @@ export const Hero: React.FC = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.5, duration: 0.5 }}
           >
-            <button className={cn(
-              "inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50",
-              "bg-primary text-primary-foreground hover:bg-primary/90",
-              "h-11 px-8"
-            )}>
+            {/* Primary Button: View Work */}
+            <Link 
+              href={`/${locale}/portfolio`}
+              className={cn(
+                "inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
+                "bg-white text-black hover:bg-slate-200", // High contrast for space theme
+                "h-11 px-8"
+              )}
+            >
               {t("view_work")}
-            </button>
-            <button className={cn(
-              "inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50",
-              "border border-input bg-background hover:bg-accent hover:text-accent-foreground",
-              "h-11 px-8"
-            )}>
+            </Link>
+
+            {/* Secondary Button: Contact Me */}
+            <Link 
+              href={`/${locale}/about`}
+              className={cn(
+                "inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
+                "bg-transparent border border-white text-white hover:bg-white hover:text-black", // Ghost button style
+                "h-11 px-8"
+              )}
+            >
               {t("contact_me")}
-            </button>
+            </Link>
           </MotionDiv>
         </MotionDiv>
       </div>
