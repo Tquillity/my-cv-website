@@ -9,6 +9,9 @@ interface TimelineItemProps {
 }
 
 export const TimelineItem: React.FC<TimelineItemProps> = ({ experience, index }) => {
+  // Defensive check for skills array
+  const skills = experience.skills || [];
+
   return (
     <motion.div
       initial={{ opacity: 0, x: -20 }}
@@ -35,7 +38,7 @@ export const TimelineItem: React.FC<TimelineItemProps> = ({ experience, index })
       </p>
       
       <div className="flex flex-wrap gap-2">
-        {experience.skills.map((skill) => (
+        {skills.length > 0 && skills.map((skill) => (
           <span
             key={skill}
             className="inline-flex items-center rounded-md bg-secondary px-2 py-1 text-xs font-medium text-secondary-foreground"
@@ -47,4 +50,3 @@ export const TimelineItem: React.FC<TimelineItemProps> = ({ experience, index })
     </motion.div>
   );
 };
-
