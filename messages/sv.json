@@ -8,6 +8,7 @@
   },
   "AboutPage": {
     "title": "Om Mig",
+    "subtitle": "Min resa, kunskaper och erfarenhet.",
     "intro": "Jag är en passionerad Fullstack & Blockchain Ingenjör dedikerad till att bygga skalbara, användarcentrerade applikationer. Med en stark grund i moderna webbteknologier och decentraliserade system strävar jag efter att skapa digitala upplevelser som gör skillnad.",
     "experience_section": "Erfarenhet",
     "tech_stack": "Teknikstack",

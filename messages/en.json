@@ -8,6 +8,7 @@
   },
   "AboutPage": {
     "title": "About Me",
+    "subtitle": "My journey, skills, and experience.",
     "intro": "I am a passionate Fullstack & Blockchain Engineer dedicated to building scalable, user-centric applications. With a strong foundation in modern web technologies and decentralized systems, I strive to create digital experiences that make a difference.",
     "experience_section": "Work Experience",
     "tech_stack": "Tech Stack",
