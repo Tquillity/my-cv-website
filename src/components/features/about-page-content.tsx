@@ -81,7 +81,12 @@ export const AboutPageContent: React.FC<AboutPageProps> = ({ education, experien
                   <div className="h-2 w-full bg-secondary rounded-full overflow-hidden">
                     <motion.div
                       initial={{ width: 0 }}
-                      whileInView={{ width: lang.proficiency === "Native" || lang.proficiency === "Modersmål" ? "100%" : "90%" }}
+                      whileInView={{ 
+                        width: 
+                          lang.proficiency === "Native" || lang.proficiency === "Modersmål" ? "100%" : 
+                          lang.proficiency === "Poor" || lang.proficiency === "Dålig" ? "15%" : 
+                          "90%" 
+                      }}
                       transition={{ duration: 1, delay: 0.5 }}
                       className="h-full bg-gradient-to-r from-purple-500 to-blue-500"
                     />
