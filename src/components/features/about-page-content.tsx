@@ -115,7 +115,7 @@ export const AboutPageContent: React.FC<AboutPageProps> = ({ education, experien
                     <p className="text-sm text-blue-300 font-mono mt-1">{edu.degree}</p>
                   </div>
                   <span className="px-3 py-1 rounded-full bg-white/5 text-xs font-mono border border-white/10">
-                    {edu.startDate.split("-")[0]} — {edu.endDate.split("-")[0]}
+                    {edu.startDate?.split("-")[0]} — {edu.endDate?.split("-")[0]}
                   </span>
                 </div>
                 <p className="text-slate-400 text-sm leading-relaxed">
