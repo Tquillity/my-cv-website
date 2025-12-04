@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import { Education, Experience, SkillSet } from "@/types";
 import { TimelineItem } from "@/components/features/timeline-item";
 import { GraduationCap, Code, Languages, Terminal } from "lucide-react";
+import { useTranslations } from "next-intl";
 
 interface AboutPageProps {
   education: Education[];
@@ -12,6 +13,8 @@ interface AboutPageProps {
 }
 
 export const AboutPageContent: React.FC<AboutPageProps> = ({ education, experience, profile }) => {
+  const t = useTranslations("AboutPage");
+
   return (
     <main className="min-h-screen bg-background text-foreground overflow-hidden">
       
@@ -44,7 +47,7 @@ export const AboutPageContent: React.FC<AboutPageProps> = ({ education, experien
           <div className="lg:col-span-2 p-8 rounded-2xl border border-white/5 bg-card/50 backdrop-blur-sm">
             <div className="flex items-center gap-3 mb-6">
               <Terminal className="w-6 h-6 text-primary" />
-              <h2 className="text-2xl font-semibold">Tech Stack</h2>
+              <h2 className="text-2xl font-semibold">{t('tech_stack')}</h2>
             </div>
             <div className="flex flex-wrap gap-3">
               {profile?.skills?.map((skill, index) => (
@@ -54,7 +57,7 @@ export const AboutPageContent: React.FC<AboutPageProps> = ({ education, experien
                   whileInView={{ opacity: 1, scale: 1 }}
                   viewport={{ once: true }}
                   transition={{ delay: index * 0.05 }}
-                  className="px-4 py-2 rounded-lg bg-primary/10 border border-primary/20 text-primary-foreground text-sm font-medium hover:bg-primary/20 transition-colors cursor-default"
+                  className="px-4 py-2 rounded-lg bg-primary/10 border border-primary/20 text-primary text-sm font-medium hover:bg-primary/20 transition-colors cursor-default"
                 >
                   {skill}
                 </motion.span>
@@ -66,7 +69,7 @@ export const AboutPageContent: React.FC<AboutPageProps> = ({ education, experien
           <div className="p-8 rounded-2xl border border-white/5 bg-card/50 backdrop-blur-sm">
             <div className="flex items-center gap-3 mb-6">
               <Languages className="w-6 h-6 text-purple-400" />
-              <h2 className="text-2xl font-semibold">Languages</h2>
+              <h2 className="text-2xl font-semibold">{t('languages')}</h2>
             </div>
             <div className="space-y-6">
               {profile?.languages?.map((lang, index) => (
@@ -95,7 +98,7 @@ export const AboutPageContent: React.FC<AboutPageProps> = ({ education, experien
         <div className="container mx-auto max-w-6xl">
           <div className="flex items-center gap-3 mb-8">
             <GraduationCap className="w-8 h-8 text-blue-400" />
-            <h2 className="text-3xl font-bold">Education</h2>
+            <h2 className="text-3xl font-bold">{t('education')}</h2>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {education.map((edu, index) => (
@@ -114,7 +117,7 @@ export const AboutPageContent: React.FC<AboutPageProps> = ({ education, experien
                     </h3>
                     <p className="text-sm text-blue-300 font-mono mt-1">{edu.degree}</p>
                   </div>
-                  <span className="px-3 py-1 rounded-full bg-white/5 text-xs font-mono border border-white/10">
+                  <span className="px-3 py-1 rounded-full bg-white/5 text-xs font-mono border border-white/10 whitespace-nowrap">
                     {edu.startDate?.split("-")[0]} — {edu.endDate?.split("-")[0]}
                   </span>
                 </div>
@@ -132,7 +135,7 @@ export const AboutPageContent: React.FC<AboutPageProps> = ({ education, experien
         <div className="container mx-auto max-w-4xl">
           <div className="flex items-center gap-3 mb-12">
             <Code className="w-8 h-8 text-green-400" />
-            <h2 className="text-3xl font-bold">Experience</h2>
+            <h2 className="text-3xl font-bold">{t('work_experience')}</h2>
           </div>
           <div className="space-y-0">
             {experience.map((exp, index) => (

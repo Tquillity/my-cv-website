@@ -9,7 +9,12 @@
   "AboutPage": {
     "title": "About Me",
     "intro": "I am a passionate Fullstack & Blockchain Engineer dedicated to building scalable, user-centric applications. With a strong foundation in modern web technologies and decentralized systems, I strive to create digital experiences that make a difference.",
-    "experience_section": "Experience"
+    "experience_section": "Work Experience",
+    "tech_stack": "Tech Stack",
+    "languages": "Languages",
+    "education": "Education",
+    "work_experience": "Work Experience",
+    "present": "Present"
   },
   "AIChat": {
     "toggle_label": "Toggle AI Chat",

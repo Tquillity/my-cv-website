@@ -8,10 +8,12 @@
       "id": 1,
       "title": "Fullstack Developer with Blockchain Integration (Internship)",
       "company": "Action Port AB",
-      "date": "2024 - 2025",
+      "date": "Jan 2025 - Mar 2025",
+      "startDate": "2025-01-01",
+      "endDate": "2025-03-31",
       "description": "Internship (LIA) spanning 15 weeks, developing a scalable video course platform. Built the platform using Node.js, Express.js, MongoDB, React, and Tailwind CSS. Implemented user management for three tiers (Admin, Client, Employee) and payment integration via Stripe. Integrated the Polygon blockchain for secure diploma and course verification, ensuring scalability and GDPR compliance.",
       "area": "development",
-      "startYear": 2024,
+      "startYear": 2025,
       "endYear": 2025,
       "isCurrent": false,
       "skills": ["React", "Node.js", "MongoDB", "Tailwind CSS", "Stripe", "Polygon Blockchain"]
@@ -20,7 +22,9 @@
       "id": 2,
       "title": "Fullstack Developer with Blockchain Integration (Internship)",
       "company": "Neuro – Trust Anchor Group AB",
-      "date": "2024",
+      "date": "Sep 2024 - Nov 2024",
+      "startDate": "2024-09-01",
+      "endDate": "2024-11-30",
       "description": "Internship (LIA) spanning 10 weeks where I, together with two classmates, developed a website for microlending. Contributed to frontend and backend development using React, SASS, JavaScript, and Node.js. Integrated Neuro - Trust Anchor Group's blockchain via their API, gaining hands-on experience with an XLM-based blockchain.",
       "area": "development",
       "startYear": 2024,
@@ -32,7 +36,9 @@
       "id": 3,
       "title": "National Contact Point Horizon 2020 & Horizon Europe",
       "company": "Vinnova",
-      "date": "2018 - 2021",
+      "date": "Nov 2018 - Jul 2021",
+      "startDate": "2018-11-05",
+      "endDate": "2021-07-31",
       "description": "Responsible for educating and supporting Swedish stakeholders in applying for funding from the EU's research and innovation programs Horizon 2020 and Horizon Europe, focusing on Transport and Space. Served as an expert in the panel for ESA's incubation program ESA-BIC.",
       "area": "research",
       "startYear": 2018,
@@ -43,7 +49,9 @@
       "id": 4,
       "title": "Project Manager, Product Owner & Technical Sales",
       "company": "MindConnect AB",
-      "date": "2015 - 2018",
+      "date": "Feb 2015 - Aug 2018",
+      "startDate": "2015-02-01",
+      "endDate": "2018-08-01",
       "description": "Part of a core team of five developing a platform for Location-Based Services (LBS) targeting courier and transport companies. Led the project to create an app and web tool for package deliveries, managing requirements, coordinating the development team, and testing functionality.",
       "area": "management",
       "startYear": 2015,
@@ -56,6 +64,8 @@
       "degree": "Fullstack Developer with Blockchain Competence",
       "institution": "Medieinstitutet",
       "date": "2023 - 2025",
+      "startDate": "2023-01-01",
+      "endDate": "2025-06-01",
       "description": "Vocational higher education in blockchain development, including full-stack programming with JavaScript, React, and Node.js for blockchain-based systems. Includes Smart Contracts (Solidity), frontend/backend development, and business aspects of the technology.",
       "startYear": 2023,
       "endYear": 2025
@@ -64,6 +74,8 @@
       "degree": "Bachelor of Science in Engineering (Major in Space Technology)",
       "institution": "Umeå University, Department of Space Technology Kiruna",
       "date": "2003 - 2007",
+      "startDate": "2003-08-01",
+      "endDate": "2007-06-01",
       "description": "Engineering degree based on mathematics and physics, with a focus on data, programming, electronics, and space applications.",
       "startYear": 2003,
       "endYear": 2007
@@ -88,6 +100,10 @@
     {
       "language": "English",
       "proficiency": "Fluent"
+    },
+    {
+      "language": "German",
+      "proficiency": "Poor"
     }
   ]
 }

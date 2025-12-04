@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import { Experience } from "@/types";
+import { useTranslations } from "next-intl";
 
 interface TimelineItemProps {
   experience: Experience;
@@ -9,6 +10,8 @@ interface TimelineItemProps {
 }
 
 export const TimelineItem: React.FC<TimelineItemProps> = ({ experience, index }) => {
+  const t = useTranslations("AboutPage");
+  
   // Defensive check for skills array
   const skills = experience.skills || [];
 
@@ -25,11 +28,11 @@ export const TimelineItem: React.FC<TimelineItemProps> = ({ experience, index })
       <div className="flex flex-col sm:flex-row sm:items-baseline sm:justify-between mb-2">
         <h3 className="text-xl font-bold">{experience.title}</h3>
         <span className="text-sm text-muted-foreground font-mono">
-          {experience.startDate} — {experience.isCurrent ? "Present" : experience.endDate}
+          {experience.startDate} — {experience.isCurrent ? t('present') : experience.endDate}
         </span>
       </div>
       
-      <div className="text-lg font-medium text-muted-foreground mb-4">
+      <div className="text-lg font-medium text-orange-400 mb-4">
         {experience.company}
       </div>
       

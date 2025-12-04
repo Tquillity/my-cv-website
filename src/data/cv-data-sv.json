@@ -8,10 +8,12 @@
       "id": 1,
       "title": "Fullstackutvecklare med Blockchain integrering (LIA)",
       "company": "Action Port AB",
-      "date": "2024 - 2025",
+      "date": "Jan 2025 - Mar 2025",
+      "startDate": "2025-01-01",
+      "endDate": "2025-03-31",
       "description": "Lärande i Arbete (15 veckor) med utvecklande av en skalbar videokursplattform. Jag byggde plattformen med Node.js, Express.js, MongoDB, React och Tailwind CSS. Implementerade användarhantering för tre lager (Admin, Klient, Anställd) och betalningsintegration via Stripe. Integrerade Polygon-blockkedjan för säker diplom- och kursverifiering.",
       "area": "development",
-      "startYear": 2024,
+      "startYear": 2025,
       "endYear": 2025,
       "isCurrent": false,
       "skills": ["React", "Node.js", "MongoDB", "Tailwind CSS", "Stripe", "Polygon Blockchain"]
@@ -20,7 +22,9 @@
       "id": 2,
       "title": "Fullstack utvecklare med viss Blockchain integrering (LIA)",
       "company": "Neuro – Trust Anchor Group AB",
-      "date": "2024",
+      "date": "Sep 2024 - Nov 2024",
+      "startDate": "2024-09-01",
+      "endDate": "2024-11-30",
       "description": "Lärande i Arbete (10 veckor) där jag tillsammans med två studiekollegor utvecklade en webbplats för mikrolån. Jag bidrog med både frontend- och backend-utveckling med hjälp av React, SASS, JavaScript och Node.js. Integrerade Neuro - Trust Anchor Groups blockchain via deras API (XLM-baserad).",
       "area": "development",
       "startYear": 2024,
@@ -32,8 +36,10 @@
       "id": 3,
       "title": "Nationell kontaktperson Horisont 2020 & Horisont Europa",
       "company": "Vinnova",
-      "date": "2018 - 2021",
-      "description": "Ansvarade för att utbilda och stödja svenska aktörer i att ansöka om finansiering från EU:s forsknings- och innovationsprogram Horisont 2020 och Horizon Europe, med fokus på Transport och Rymd. Inkluderade även uppdrag som sakkunnig i expertpanel för ESA:s inkubationsprogram ESA-BIC.",
+      "date": "Nov 2018 - Jul 2021",
+      "startDate": "2018-11-05",
+      "endDate": "2021-07-31",
+      "description": "Ansvarade för att utbilda och stödja svenska aktörer i att ansöka om finansiering från EU's forsknings- och innovationsprogram Horisont 2020 och Horizon Europe, med fokus på Transport och Rymd. Inkluderade även uppdrag som sakkunnig i expertpanel för ESA:s inkubationsprogram ESA-BIC.",
       "area": "research",
       "startYear": 2018,
       "endYear": 2021,
@@ -43,7 +49,9 @@
       "id": 4,
       "title": "Projektledare, Produktägare & Teknisk säljare",
       "company": "MindConnect AB",
-      "date": "2015 - 2018",
+      "date": "Feb 2015 - Aug 2018",
+      "startDate": "2015-02-01",
+      "endDate": "2018-08-01",
       "description": "Del av ett kärnteam som utvecklade en plattform för 'Location-Based Services' (LBS) riktad mot bud- och transportföretag. Jag ledde projektet för att ta fram en app och ett webbverktyg för paketleveranser, ansvarade för kravställning, koordinering av utvecklingsteamet och testning.",
       "area": "management",
       "startYear": 2015,
@@ -56,6 +64,8 @@
       "degree": "Fullstack Utvecklare med Blockchainkompetens",
       "institution": "Medieinstitutet",
       "date": "2023 - 2025",
+      "startDate": "2023-01-01",
+      "endDate": "2025-06-01",
       "description": "Yrkeshögskoleutbildning i blockchainutveckling, omfattande fullstack-programmering med JavaScript, React och Node.js. Utbildningen inkluderar smarta kontrakt (Solidity), frontend/backend-utveckling samt affärsmässiga aspekter av teknologin.",
       "startYear": 2023,
       "endYear": 2025
@@ -64,8 +74,9 @@
       "degree": "Teknologie Kandidatexamen (Huvudämne Rymdteknik)",
       "institution": "Umeå Universitet, avdelningen för Rymdteknik Kiruna",
       "date": "2003 - 2007",
+      "startDate": "2003-08-01",
+      "endDate": "2007-06-01",
       "description": "Ingenjörsutbildning baserad på matematik och fysik, med fokus på data, programmering, elektronik och rymdapplikationer.",
-
       "startYear": 2003,
       "endYear": 2007
     }
@@ -89,6 +100,10 @@
     {
       "language": "Engelska",
       "proficiency": "Flytande"
+    },
+    {
+      "language": "Tyska",
+      "proficiency": "Dålig"
     }
   ]
 }

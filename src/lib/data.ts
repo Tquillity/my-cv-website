@@ -1,7 +1,8 @@
 import { client } from "./sanity";
 import { Project, Experience, Education, SkillSet } from "@/types";
+import cvData from "../data/cv-data-en.json";
 
-// Mock Data Fallback
+// Mock Data / Local Data Fallback
 const MOCK_PROJECTS: Project[] = [
   {
     _id: "mock-1",
@@ -14,17 +15,32 @@ const MOCK_PROJECTS: Project[] = [
   }
 ];
 
-const MOCK_EXPERIENCE: Experience[] = [
-  {
-    _id: "mock-1",
-    company: "MOCK Company",
-    title: "MOCK Developer",
-    startDate: "2022-01-01",
-    isCurrent: true,
-    description: "This is MOCK data.",
-    skills: ["Mocking"],
-  }
-];
+const MOCK_EXPERIENCE: Experience[] = cvData.experiences.map((exp: any) => ({
+  _id: String(exp.id),
+  company: exp.company,
+  title: exp.title,
+  startDate: exp.startDate || String(exp.startYear),
+  endDate: exp.endDate || String(exp.endYear),
+  isCurrent: exp.isCurrent,
+  description: exp.description,
+  skills: exp.skills,
+}));
+
+const MOCK_EDUCATION: Education[] = cvData.education.map((edu: any, index: number) => ({
+  _id: `edu-${index}`,
+  institution: edu.institution,
+  degree: edu.degree,
+  startDate: edu.startDate || String(edu.startYear),
+  endDate: edu.endDate || String(edu.endYear),
+  description: edu.description,
+}));
+
+const MOCK_PROFILE: SkillSet = {
+  _id: "profile-1",
+  bio: cvData.personalInfo.objective,
+  skills: cvData.skills,
+  languages: cvData.languages,
+};
 
 export async function getProjects(): Promise<Project[]> {
   if (!process.env.NEXT_PUBLIC_SANITY_PROJECT_ID) {
@@ -43,15 +59,14 @@ export async function getProjects(): Promise<Project[]> {
 }
 
 export async function getExperiences(): Promise<Experience[]> {
-  if (!process.env.NEXT_PUBLIC_SANITY_PROJECT_ID) {
-    console.log("⚠️ [DATA] No Project ID. Using MOCK data.");
-    return MOCK_EXPERIENCE;
-  }
-
   try {
     const data = await client.fetch(`*[_type == "experience"] | order(startDate desc)`);
-    console.log(`✅ [DATA] Successfully fetched ${data.length} Experiences from Sanity.`);
-    return data;
+    if (data && data.length > 0) {
+      console.log(`✅ [DATA] Successfully fetched ${data.length} Experiences from Sanity.`);
+      return data;
+    }
+    console.log("⚠️ [DATA] Sanity Experience empty. Using local data.");
+    return MOCK_EXPERIENCE;
   } catch (error) {
     console.error("❌ [DATA] Sanity Fetch Failed. Using MOCK data.", error);
     return MOCK_EXPERIENCE;
@@ -61,21 +76,29 @@ export async function getExperiences(): Promise<Experience[]> {
 export async function getEducation(): Promise<Education[]> {
   try {
     const data = await client.fetch(`*[_type == "education"] | order(startDate desc)`);
-    console.log(`✅ [DATA] Fetched ${data.length} Education entries.`);
-    return data;
+    if (data && data.length > 0) {
+      console.log(`✅ [DATA] Fetched ${data.length} Education entries from Sanity.`);
+      return data;
+    }
+    console.log("⚠️ [DATA] Sanity Education empty. Using local data.");
+    return MOCK_EDUCATION;
   } catch (error) {
     console.error("❌ [DATA] Failed to fetch Education:", error);
-    return [];
+    return MOCK_EDUCATION;
   }
 }
 
 export async function getProfile(): Promise<SkillSet | null> {
   try {
     const data = await client.fetch(`*[_type == "skillSet"][0]`);
+    if (!data) {
+        console.log("⚠️ [DATA] Sanity Profile empty. Using local data.");
+        return MOCK_PROFILE;
+    }
     console.log(`✅ [DATA] Fetched Profile/Skills.`);
     return data;
   } catch (error) {
     console.error("❌ [DATA] Failed to fetch Profile:", error);
-    return null;
+    return MOCK_PROFILE;
   }
 }
