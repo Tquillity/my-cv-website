@@ -46,14 +46,18 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ project, onClick }) =>
       <div className="p-4">
         <h3 className="font-semibold text-lg mb-2">{project.title}</h3>
         <div className="flex flex-wrap gap-2">
-          {project.tags?.map((tag) => (
-            <span
-              key={tag}
-              className="inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors text-foreground"
-            >
-              {tag}
-            </span>
-          )) || <span className="text-xs text-muted-foreground">No tags</span>}
+          {project.tags?.length > 0 ? (
+            project.tags.map((tag) => (
+              <span
+                key={tag}
+                className="inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors text-foreground"
+              >
+                {tag}
+              </span>
+            ))
+          ) : (
+            <span className="text-xs text-muted-foreground">No tags</span>
+          )}
         </div>
       </div>
     </motion.div>
