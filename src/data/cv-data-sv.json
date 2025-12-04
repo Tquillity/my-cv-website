@@ -1,67 +1,85 @@
 {
   "personalInfo": {
     "name": "Mikael Sundh",
-    "objective": "I mig hittar man en driven individ med hög arbetsmoral. Jag trivs med högt satta mål och gillar att känna att mitt utförda arbete gör skillnad för den verksamhet jag arbetar för."
+    "objective": "Fullstackutvecklare, Rymdingenjör och Blockkedjespecialist. Jag är en driven individ med hög arbetsmoral som trivs med högt satta mål. Jag brinner för att skapa digitala upplevelser och tekniska lösningar som gör skillnad."
   },
   "experiences": [
     {
       "id": 1,
-      "title": "Nationell kontaktperson Horisont 2020/Europa området Transport, Industri och Rymd",
-      "company": "Vinnova",
-      "date": "2018 - 2021",
-      "description": "Ansvar för att utbilda och hjälpa svenska aktörer att förstå och söka pengar från det europeiska forskningsfinansieringsprogrammet Horisont Europa. Även mindre ansvar som exempelvis sakkunnig i expertpanel för ESA's inkubationsprogram ESA-BIC.",
-      "area": "forskning",
-      "startYear": 2018,
-      "endYear": 2021
+      "title": "Fullstackutvecklare med Blockchain integrering (LIA)",
+      "company": "Action Port AB",
+      "date": "2024 - 2025",
+      "description": "Lärande i Arbete (15 veckor) med utvecklande av en skalbar videokursplattform. Jag byggde plattformen med Node.js, Express.js, MongoDB, React och Tailwind CSS. Implementerade användarhantering för tre lager (Admin, Klient, Anställd) och betalningsintegration via Stripe. Integrerade Polygon-blockkedjan för säker diplom- och kursverifiering.",
+      "area": "development",
+      "startYear": 2024,
+      "endYear": 2025,
+      "isCurrent": false,
+      "skills": ["React", "Node.js", "MongoDB", "Tailwind CSS", "Stripe", "Polygon Blockchain"]
     },
     {
       "id": 2,
-      "title": "Projektledare, produktägare, teknisk säljare samt allt-i-allo i Tech Startup",
-      "company": "Mindconnect AB",
-      "date": "2015 - 2018",
-      "description": "En i ett kärnteam om fem som skapade en egen 'Location-Based Services'-plattform med produktportfölj riktad till företag inom bud och transport. Bland annat ansvar för ett utvecklingsteam om ~10 utvecklare för framtagning av app och webbverktyg för paketleveranser.",
-      "area": "teknologi",
-      "startYear": 2015,
-      "endYear": 2018
+      "title": "Fullstack utvecklare med viss Blockchain integrering (LIA)",
+      "company": "Neuro – Trust Anchor Group AB",
+      "date": "2024",
+      "description": "Lärande i Arbete (10 veckor) där jag tillsammans med två studiekollegor utvecklade en webbplats för mikrolån. Jag bidrog med både frontend- och backend-utveckling med hjälp av React, SASS, JavaScript och Node.js. Integrerade Neuro - Trust Anchor Groups blockchain via deras API (XLM-baserad).",
+      "area": "development",
+      "startYear": 2024,
+      "endYear": 2024,
+      "isCurrent": false,
+      "skills": ["React", "SASS", "Node.js", "XLM Blockchain", "API Integration"]
     },
     {
       "id": 3,
-      "title": "Seismisk Observatör/Seismiskt Tekniker på seismikfartyg",
-      "company": "Petroleum Geo-Services AS",
-      "date": "2008 - 2014",
-      "description": "Seismisk Observatör har som huvuduppgift att i realtid övervaka insamlat dataflöde, sensorutslag, driftrelaterad videoövervakning och i viss mån radiotrafik. Seismiska observatörer är också ansvariga för drift, reparation och underhåll av all seismisk sensorutrustning, elektriska system (inklusive batteri) och datornätverk.",
-      "area": "geofysik",
-      "startYear": 2008,
-      "endYear": 2014
+      "title": "Nationell kontaktperson Horisont 2020 & Horisont Europa",
+      "company": "Vinnova",
+      "date": "2018 - 2021",
+      "description": "Ansvarade för att utbilda och stödja svenska aktörer i att ansöka om finansiering från EU:s forsknings- och innovationsprogram Horisont 2020 och Horizon Europe, med fokus på Transport och Rymd. Inkluderade även uppdrag som sakkunnig i expertpanel för ESA:s inkubationsprogram ESA-BIC.",
+      "area": "research",
+      "startYear": 2018,
+      "endYear": 2021,
+      "skills": ["EU-finansiering", "Rymdteknik", "Rådgivning", "ESA-BIC"]
+    },
+    {
+      "id": 4,
+      "title": "Projektledare, Produktägare & Teknisk säljare",
+      "company": "MindConnect AB",
+      "date": "2015 - 2018",
+      "description": "Del av ett kärnteam som utvecklade en plattform för 'Location-Based Services' (LBS) riktad mot bud- och transportföretag. Jag ledde projektet för att ta fram en app och ett webbverktyg för paketleveranser, ansvarade för kravställning, koordinering av utvecklingsteamet och testning.",
+      "area": "management",
+      "startYear": 2015,
+      "endYear": 2018,
+      "skills": ["Projektledning", "Produktägarskap", "LBS", "Teknisk försäljning"]
     }
   ],
   "education": [
     {
-      "degree": "Blockchainutvecklare",
-      "institution": "Medieinstitutet, Yrkeshögskolan för digital kommunikation",
-      "date": "2023 - 2025 (Pågående)",
-      "description": "Yrkeshögskoleutbildning i blockchainutveckling, omfattande fullstack-programmering med JavaScript, React och Node.js för blockkedjebaserade system. Utbildningen inkluderar skapande av smarta kontrakt, blockchain-specifik front-end och back-end utveckling, samt teknologins affärsmässiga och juridiska aspekter.",
+      "degree": "Fullstack Utvecklare med Blockchainkompetens",
+      "institution": "Medieinstitutet",
+      "date": "2023 - 2025",
+      "description": "Yrkeshögskoleutbildning i blockchainutveckling, omfattande fullstack-programmering med JavaScript, React och Node.js. Utbildningen inkluderar smarta kontrakt (Solidity), frontend/backend-utveckling samt affärsmässiga aspekter av teknologin.",
       "startYear": 2023,
       "endYear": 2025
     },
     {
-      "degree": "Teknologie Kandidatexamen med Rymdteknik som huvudämne",
-      "institution": "Luleå Universitet/Umeå Universitet, avdelningen för Rymdteknik Kiruna",
+      "degree": "Teknologie Kandidatexamen (Huvudämne Rymdteknik)",
+      "institution": "Umeå Universitet, avdelningen för Rymdteknik Kiruna",
       "date": "2003 - 2007",
-      "description": "Utbildningen står på en grund inom matematik och fysik som är standard för ingenjörsutbildningar, med påbyggnad inom data, programmering, elektronik, fysik och projektarbete med inriktning mot rymdapplikationer.",
+      "description": "Ingenjörsutbildning baserad på matematik och fysik, med fokus på data, programmering, elektronik och rymdapplikationer.",
+
       "startYear": 2003,
       "endYear": 2007
     }
   ],
   "skills": [
-    "HTML",
-    "CSS",
-    "JavaScript",
-    "TypeScript",
-    "React",
-    "NodeJs",
-    "Solidity Smarta kontrakt",
-    "GitHub"
+    "HTML/XML",
+    "CSS/SASS/Tailwind",
+    "JavaScript/TypeScript",
+    "React/Next.js",
+    "Node.js/MongoDB/Redis",
+    "Python",
+    "Solidity/Smarta kontrakt",
+    "Git/GitHub",
+    "Cloud (Render, AWS)"
   ],
   "languages": [
     {
@@ -71,10 +89,6 @@
     {
       "language": "Engelska",
       "proficiency": "Flytande"
-    },
-    {
-      "language": "Tyska",
-      "proficiency": "Baskunskaper"
     }
   ]
 }
