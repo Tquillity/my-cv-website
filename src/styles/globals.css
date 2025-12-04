@@ -66,3 +66,18 @@
   }
 }
 
+@layer utilities {
+  .scrollbar-hide::-webkit-scrollbar {
+      display: none;
+  }
+  .scrollbar-hide {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+  }
+}
+
+/* Optional text-shadow for that retro glow */
+input, .terminal-text {
+  text-shadow: 0 0 5px rgba(34, 197, 94, 0.5);
+}
+
