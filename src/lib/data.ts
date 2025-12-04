@@ -21,7 +21,7 @@ const MOCK_EXPERIENCE: Experience[] = cvData.experiences.map((exp: any) => ({
   title: exp.title,
   startDate: exp.startDate || String(exp.startYear),
   endDate: exp.endDate || String(exp.endYear),
-  isCurrent: exp.isCurrent,
+  isCurrent: exp.isCurrent || false,
   description: exp.description,
   skills: exp.skills,
 }));
@@ -60,12 +60,13 @@ export async function getProjects(): Promise<Project[]> {
 
 export async function getExperiences(): Promise<Experience[]> {
   try {
-    const data = await client.fetch(`*[_type == "experience"] | order(startDate desc)`);
-    if (data && data.length > 0) {
-      console.log(`✅ [DATA] Successfully fetched ${data.length} Experiences from Sanity.`);
-      return data;
-    }
-    console.log("⚠️ [DATA] Sanity Experience empty. Using local data.");
+    // Force local data to ensure dates are correct until Sanity is updated
+    // const data = await client.fetch(`*[_type == "experience"] | order(startDate desc)`);
+    // if (data && data.length > 0) {
+    //   console.log(`✅ [DATA] Successfully fetched ${data.length} Experiences from Sanity.`);
+    //   return data;
+    // }
+    console.log("⚠️ [DATA] Forcing local experience data to ensure correct dates.");
     return MOCK_EXPERIENCE;
   } catch (error) {
     console.error("❌ [DATA] Sanity Fetch Failed. Using MOCK data.", error);
