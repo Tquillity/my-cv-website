@@ -11,7 +11,8 @@ export default async function AboutPage({
   const t = await getTranslations("AboutPage");
 
   return (
-    <main className="container mx-auto px-4 py-24 min-h-screen max-w-4xl">
+    <main className="min-h-screen bg-background">
+      <div className="container mx-auto px-4 py-24 max-w-4xl">
       <section className="mb-20">
         <h1 className="text-4xl font-bold mb-12">{t('title')}</h1>
         <p className="text-lg text-muted-foreground leading-relaxed mb-8">
@@ -31,6 +32,7 @@ export default async function AboutPage({
           ))}
         </div>
       </section>
+      </div>
     </main>
   );
 }

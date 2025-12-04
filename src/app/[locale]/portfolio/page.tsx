@@ -10,9 +10,11 @@ export default async function PortfolioPage({
   const projects = await getProjects();
 
   return (
-    <main className="container mx-auto px-4 py-24 min-h-screen">
+    <main className="min-h-screen bg-background">
+      <div className="container mx-auto px-4 py-24">
       <h1 className="text-4xl font-bold mb-12 text-center">Portfolio</h1>
       <PortfolioGrid projects={projects} />
+      </div>
     </main>
   );
 }
