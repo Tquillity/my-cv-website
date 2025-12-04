@@ -4,6 +4,7 @@ import { getMessages } from "next-intl/server";
 import { Providers } from "@/components/providers";
 import { AIChat } from "@/components/features/ai-chat";
 import { TerminalToggle } from "@/components/ui/terminal-toggle";
+import { FloatingNavbar } from "@/components/ui/floating-navbar";
 import dynamic from "next/dynamic";
 import "@/styles/globals.css";
 
@@ -32,6 +33,7 @@ export default async function RootLayout({
       <body className={inter.className}>
         <Providers locale={locale} messages={messages}>
           <Scene />
+          <FloatingNavbar locale={locale} />
           {children}
           <AIChat />
           <TerminalToggle />

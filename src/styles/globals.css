@@ -34,3 +34,35 @@
   }
 }
 
+@layer components {
+  /* Markdown Styles for AI Chat */
+  .markdown-prose p {
+    @apply mb-2 leading-relaxed;
+  }
+
+  .markdown-prose p:last-child {
+    @apply mb-0;
+  }
+
+  .markdown-prose strong {
+    @apply font-bold text-primary;
+  }
+
+  .markdown-prose ul {
+    @apply list-disc list-inside mb-2 ml-1;
+  }
+
+  .markdown-prose ol {
+    @apply list-decimal list-inside mb-2 ml-1;
+  }
+
+  .markdown-prose li {
+    @apply mb-1;
+  }
+
+  /* Links inside AI chat */
+  .markdown-prose a {
+    @apply text-blue-400 hover:text-blue-300 underline underline-offset-4 transition-colors font-medium;
+  }
+}
+
