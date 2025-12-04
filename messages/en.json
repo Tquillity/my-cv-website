@@ -10,5 +10,15 @@
     "title": "About Me",
     "intro": "I am a passionate Fullstack & Blockchain Engineer dedicated to building scalable, user-centric applications. With a strong foundation in modern web technologies and decentralized systems, I strive to create digital experiences that make a difference.",
     "experience_section": "Experience"
+  },
+  "AIChat": {
+    "toggle_label": "Toggle AI Chat",
+    "header": "Ask AI about Mikael",
+    "placeholder": "Type your question...",
+    "send_button": "Send",
+    "empty_state_1": "Hi! I'm Mikael's AI assistant.",
+    "empty_state_2": "Ask me about his projects, skills, or experience!",
+    "error_message": "Sorry, I'm having trouble connecting right now.",
+    "loading": "Thinking..."
   }
 }

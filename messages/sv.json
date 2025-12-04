@@ -10,5 +10,15 @@
     "title": "Om Mig",
     "intro": "Jag är en passionerad Fullstack & Blockchain Ingenjör dedikerad till att bygga skalbara, användarcentrerade applikationer. Med en stark grund i moderna webbteknologier och decentraliserade system strävar jag efter att skapa digitala upplevelser som gör skillnad.",
     "experience_section": "Erfarenhet"
+  },
+  "AIChat": {
+    "toggle_label": "Öppna AI-chatt",
+    "header": "Fråga AI om Mikael",
+    "placeholder": "Skriv din fråga...",
+    "send_button": "Skicka",
+    "empty_state_1": "Hej! Jag är Mikaels AI-assistent.",
+    "empty_state_2": "Fråga mig om hans projekt, kunskaper eller erfarenhet!",
+    "error_message": "Tyvärr, jag har problem med anslutningen just nu.",
+    "loading": "Tänker..."
   }
 }

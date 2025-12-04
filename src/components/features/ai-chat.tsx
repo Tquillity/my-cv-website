@@ -4,6 +4,7 @@ import { useState } from "react";
 import { MessageCircle, X, Send, Bot, User, Loader2 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
+import { useTranslations } from "next-intl";
 
 interface Message {
   role: 'user' | 'assistant' | 'system';
@@ -11,6 +12,7 @@ interface Message {
 }
 
 export const AIChat: React.FC = () => {
+  const t = useTranslations("AIChat");
   const [isOpen, setIsOpen] = useState(false);
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -38,7 +40,7 @@ export const AIChat: React.FC = () => {
       setMessages(prev => [...prev, { role: 'assistant', content: data.content }]);
     } catch (error) {
       console.error(error);
-      setMessages(prev => [...prev, { role: 'assistant', content: "Sorry, I'm having trouble connecting right now." }]);
+      setMessages(prev => [...prev, { role: 'assistant', content: t('error_message') }]);
     } finally {
       setIsLoading(false);
     }
@@ -49,7 +51,7 @@ export const AIChat: React.FC = () => {
       <button
         onClick={() => setIsOpen(!isOpen)}
         className="fixed bottom-6 right-20 z-50 p-3 rounded-full bg-primary text-primary-foreground hover:bg-primary/90 transition-colors shadow-lg"
-        aria-label="Toggle AI Chat"
+        aria-label={t('toggle_label')}
       >
         {isOpen ? <X className="w-6 h-6" /> : <MessageCircle className="w-6 h-6" />}
       </button>
@@ -64,14 +66,14 @@ export const AIChat: React.FC = () => {
           >
             <div className="p-4 border-b bg-primary/5 flex items-center gap-2">
               <Bot className="w-5 h-5 text-primary" />
-              <h3 className="font-semibold">Ask AI about Mikael</h3>
+              <h3 className="font-semibold">{t('header')}</h3>
             </div>
 
             <div className="flex-1 overflow-y-auto p-4 space-y-4">
               {messages.length === 0 && (
                 <div className="text-center text-muted-foreground text-sm mt-8">
-                  <p>Hi! I&apos;m Mikael&apos;s AI assistant.</p>
-                  <p>Ask me about his projects, skills, or experience!</p>
+                  <p>{t('empty_state_1')}</p>
+                  <p>{t('empty_state_2')}</p>
                 </div>
               )}
               
@@ -98,10 +100,10 @@ export const AIChat: React.FC = () => {
                 <input
                   value={input}
                   onChange={(e) => setInput(e.target.value)}
-                  placeholder="Type your question..."
+                  placeholder={t('placeholder')}
                   className="flex-1 bg-secondary/50 border-0 rounded-md px-3 py-2 focus:ring-2 focus:ring-primary focus:outline-none"
                 />
-                <button type="submit" disabled={isLoading || !input.trim()} className="p-2 bg-primary text-primary-foreground rounded-md hover:bg-primary/90 disabled:opacity-50">
+                <button type="submit" disabled={isLoading || !input.trim()} aria-label={t('send_button')} className="p-2 bg-primary text-primary-foreground rounded-md hover:bg-primary/90 disabled:opacity-50">
                   <Send className="w-4 h-4" />
                 </button>
               </div>
