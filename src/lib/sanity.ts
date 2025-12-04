@@ -1,8 +1,7 @@
 import { createClient } from "next-sanity";
-import imageUrlBuilder from "@sanity/image-url";
 
-// Using inference for now to avoid unstable deep imports
-// import { SanityImageSource } from "@sanity/image-url/lib/types/types";
+// Use require to bypass strict ESM export checks that are failing the build
+const imageUrlBuilder = require('@sanity/image-url');
 
 export const client = createClient({
   projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID || "mock",
@@ -11,7 +10,10 @@ export const client = createClient({
   useCdn: false,
 });
 
-const builder = imageUrlBuilder(client);
+// Handle both default export and named export patterns
+const builder = imageUrlBuilder.default 
+  ? imageUrlBuilder.default(client) 
+  : imageUrlBuilder(client);
 
 export function urlFor(source: any) {
   return builder.image(source);

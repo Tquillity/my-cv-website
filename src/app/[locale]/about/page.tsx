@@ -1,6 +1,6 @@
 import { getExperiences } from "@/lib/data";
 import { TimelineItem } from "@/components/features/timeline-item";
-import { useTranslations } from "next-intl";
+import { getTranslations } from "next-intl/server";
 
 export default async function AboutPage({
   params: { locale },
@@ -8,7 +8,7 @@ export default async function AboutPage({
   params: { locale: string };
 }) {
   const experiences = await getExperiences();
-  const t = useTranslations("AboutPage");
+  const t = await getTranslations("AboutPage");
 
   return (
     <main className="container mx-auto px-4 py-24 min-h-screen max-w-4xl">
