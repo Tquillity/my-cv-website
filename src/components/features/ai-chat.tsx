@@ -4,6 +4,8 @@ import { useState, useEffect, useRef } from "react";
 import { MessageCircle, X, Send, Bot, User, Loader2 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
+import Link from "next/link";
+import ReactMarkdown from "react-markdown";
 import { cn } from "@/lib/utils";
 import { useTranslations } from "next-intl";
 
@@ -126,8 +128,21 @@ export const AIChat: React.FC = () => {
                       />
                     )}
                   </div>
-                  <div className={cn("p-3 rounded-lg text-sm", m.role === "user" ? "bg-primary text-primary-foreground rounded-tr-none" : "bg-secondary text-secondary-foreground rounded-tl-none")}>
-                    {m.content}
+                  <div className={cn("p-3 rounded-lg text-sm markdown-prose", m.role === "user" ? "bg-primary text-primary-foreground rounded-tr-none" : "bg-secondary text-secondary-foreground rounded-tl-none")}>
+                    <ReactMarkdown
+                      components={{
+                        a: ({ node, ...props }) => {
+                          const isInternal = props.href && (props.href.startsWith("/") || props.href.startsWith("#"));
+                          if (isInternal) {
+                            return <Link href={props.href as string} className="underline font-bold text-orange-400 hover:text-orange-300" {...props} />;
+                          }
+                          return <a target="_blank" rel="noopener noreferrer" className="underline font-bold text-orange-400 hover:text-orange-300" {...props} />;
+                        },
+                        p: ({node, ...props}) => <p className="mb-2 last:mb-0" {...props} />
+                      }}
+                    >
+                      {m.content}
+                    </ReactMarkdown>
                   </div>
                 </div>
               ))}

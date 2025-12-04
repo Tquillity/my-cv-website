@@ -17,7 +17,7 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({ selectedProject, onC
   const imageUrl =
     typeof selectedProject.mainImage === "string"
       ? selectedProject.mainImage
-      : urlFor(selectedProject.mainImage).width(800).height(600).url();
+      : urlFor(selectedProject.mainImage)?.width(800).height(600).url() || "/placeholder.webp";
 
   return (
     <AnimatePresence>

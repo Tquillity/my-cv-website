@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import { getMessages } from "next-intl/server";
 import { Providers } from "@/components/providers";
+import { AIChat } from "@/components/features/ai-chat";
+import { TerminalToggle } from "@/components/ui/terminal-toggle";
 import dynamic from "next/dynamic";
 import "@/styles/globals.css";
 
@@ -31,6 +33,8 @@ export default async function RootLayout({
         <Providers locale={locale} messages={messages}>
           <Scene />
           {children}
+          <AIChat />
+          <TerminalToggle />
         </Providers>
       </body>
     </html>

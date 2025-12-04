@@ -1,4 +1,4 @@
-import { getExperiences, getProjects } from "@/lib/data";
+import { getExperiences, getProjects, getEducation } from "@/lib/data";
 
 const PERSONAL_FACTS = `
 PERSONAL FACTS & TRAITS:
@@ -30,6 +30,7 @@ PERSONAL FACTS & TRAITS:
 export async function getPortfolioContext(): Promise<string> {
   const experiences = await getExperiences();
   const projects = await getProjects();
+  const education = await getEducation();
 
   // Defensive mapping to handle missing fields
   const experienceText = experiences
@@ -47,12 +48,22 @@ export async function getPortfolioContext(): Promise<string> {
     })
     .join("\n");
 
+  const educationText = education
+    .map((edu) => {
+      const endDate = edu.endDate || "Present";
+      return `- ${edu.degree} at ${edu.institution} (${edu.startDate} to ${endDate}). Description: ${edu.description || "No description"}.`;
+    })
+    .join("\n");
+
   return `
     Experiences:
     ${experienceText}
 
     Projects:
     ${projectText}
+
+    Education:
+    ${educationText}
 
     ${PERSONAL_FACTS}
   `;
