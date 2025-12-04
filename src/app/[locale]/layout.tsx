@@ -2,10 +2,14 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import { getMessages } from "next-intl/server";
 import { Providers } from "@/components/providers";
-import { Scene } from "@/components/3d/scene";
+import dynamic from "next/dynamic";
 import "@/styles/globals.css";
 
 const inter = Inter({ subsets: ["latin"] });
+
+const Scene = dynamic(() => import("@/components/3d/scene").then((mod) => mod.Scene), {
+  ssr: false,
+});
 
 export const metadata: Metadata = {
   title: "Portfolio 2025",
