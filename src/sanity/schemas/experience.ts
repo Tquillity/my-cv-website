@@ -31,6 +31,13 @@ export default defineType({
       type: "boolean",
     }),
     defineField({
+      name: "isProminent",
+      title: "Prominent / Highlight",
+      type: "boolean",
+      initialValue: true,
+      description: "If true, shows in the main dashboard. If false, hidden behind 'Full History' toggle.",
+    }),
+    defineField({
       name: "description",
       title: "Description",
       type: "text",

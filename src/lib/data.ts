@@ -61,11 +61,14 @@ export async function getProjects(): Promise<Project[]> {
 export async function getExperiences(): Promise<Experience[]> {
   try {
     // Force local data to ensure dates are correct until Sanity is updated
-    // const data = await client.fetch(`*[_type == "experience"] | order(startDate desc)`);
-    // if (data && data.length > 0) {
-    //   console.log(`✅ [DATA] Successfully fetched ${data.length} Experiences from Sanity.`);
-    //   return data;
-    // }
+    const data = await client.fetch(`*[_type == "experience"] | order(startDate desc) {
+      ...,
+      "isProminent": coalesce(isProminent, true)
+    }`);
+    if (data && data.length > 0) {
+      console.log(`✅ [DATA] Successfully fetched ${data.length} Experiences from Sanity.`);
+      return data;
+    }
     console.log("⚠️ [DATA] Forcing local experience data to ensure correct dates.");
     return MOCK_EXPERIENCE;
   } catch (error) {
@@ -76,7 +79,10 @@ export async function getExperiences(): Promise<Experience[]> {
 
 export async function getEducation(): Promise<Education[]> {
   try {
-    const data = await client.fetch(`*[_type == "education"] | order(startDate desc)`);
+    const data = await client.fetch(`*[_type == "education"] | order(startDate desc) {
+      ...,
+      "isProminent": coalesce(isProminent, true)
+    }`);
     if (data && data.length > 0) {
       console.log(`✅ [DATA] Fetched ${data.length} Education entries from Sanity.`);
       return data;

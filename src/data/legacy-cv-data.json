@@ -1,0 +1,64 @@
+{
+  "legacyExperience": [
+    {
+      "id": "legacy-1",
+      "company": "Petroleum Geo-Services AS",
+      "title": "Seismic Observer / Technician",
+      "startDate": "2008-01-01",
+      "endDate": "2014-12-31",
+      "description": "Monitor real-time data flow and sensor readings onboard seismic vessels. Responsible for operation, repair, and maintenance of seismic sensor equipment, electrical systems, and computer networks.",
+      "isProminent": false,
+      "skills": ["Linux", "Electronics Repair", "Network Admin", "Offshore Operations"]
+    },
+    {
+      "id": "legacy-2",
+      "company": "Reservoir Exploration Technology ASA",
+      "title": "Seismic Observer / Technician",
+      "startDate": "2007-01-01",
+      "endDate": "2008-01-01",
+      "description": "Seismic Observer and Technician onboard seismic vessel. Similar responsibilities to PGS regarding data monitoring and equipment maintenance.",
+      "isProminent": false,
+      "skills": ["Data Analysis", "Electronics"]
+    },
+    {
+      "id": "legacy-3",
+      "company": "Securitas / Pengar i Sverige AB",
+      "title": "Currency Inventory Manager",
+      "startDate": "2001-01-01",
+      "endDate": "2004-12-31",
+      "description": "Responsible for reception and registration of value transport packages. Managed daily cash counting and registration from retail. Responsible for maintenance of coin counting machines.",
+      "isProminent": false,
+      "skills": ["Logistics", "Security", "Machine Maintenance"]
+    },
+    {
+      "id": "legacy-4",
+      "company": "Livgardet K1 (Military Service)",
+      "title": "Military Police / Sergeant",
+      "startDate": "2001-01-01",
+      "endDate": "2002-01-01",
+      "description": "10 months military service. MP license received after field and law education. Included 3 weeks of live service in Poland policing an international exercise. Rank: Sergeant.",
+      "isProminent": false,
+      "skills": ["Leadership", "Law Enforcement", "Crisis Management"]
+    },
+    {
+      "id": "legacy-5",
+      "company": "Swedish Post Office / SDR",
+      "title": "Distribution & Logistics",
+      "startDate": "1995-01-01",
+      "endDate": "2000-12-31",
+      "description": "Various roles including Post and Newspaper delivery (Posten) and Advertisement delivery (Svensk Direkt Reklam). Main responsibility for sorting and distribution in assigned districts.",
+      "isProminent": false,
+      "skills": ["Logistics", "Time Management"]
+    }
+  ],
+  "legacyEducation": [
+    {
+      "institution": "Saltsjöbadens Gymnasium",
+      "degree": "Science Programme (Astronomy)",
+      "startDate": "1998-08-01",
+      "endDate": "2001-06-01",
+      "description": "High school education with a specialization in Science and Astronomy.",
+      "isProminent": false
+    }
+  ]
+}

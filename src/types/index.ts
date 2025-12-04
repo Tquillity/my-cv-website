@@ -27,6 +27,7 @@ export interface Experience {
   startDate: string;
   endDate?: string;
   isCurrent: boolean;
+  isProminent?: boolean;
   description: string;
   skills: string[];
 }
@@ -37,6 +38,7 @@ export interface Education {
   degree: string;
   startDate: string;
   endDate?: string;
+  isProminent?: boolean;
   description: string;
 }
 

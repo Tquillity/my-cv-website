@@ -65,7 +65,7 @@ export const Hero: React.FC<HeroProps> = ({ locale }) => {
               {t("view_work")}
             </Link>
 
-            {/* Secondary Button: Contact Me */}
+            {/* Secondary Button: Full Resume */}
             <Link 
               href={`/${locale}/about`}
               className={cn(
@@ -74,7 +74,7 @@ export const Hero: React.FC<HeroProps> = ({ locale }) => {
                 "h-11 px-8"
               )}
             >
-              {t("contact_me")}
+              {t("full_resume")}
             </Link>
           </MotionDiv>
         </MotionDiv>

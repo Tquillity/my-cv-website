@@ -18,6 +18,12 @@ export default defineType({
       validation: (Rule) => Rule.required(),
     }),
     defineField({
+      name: "isProminent",
+      title: "Prominent / Highlight",
+      type: "boolean",
+      initialValue: true,
+    }),
+    defineField({
       name: "startDate",
       title: "Start Date",
       type: "date",
