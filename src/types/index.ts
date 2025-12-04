@@ -31,3 +31,19 @@ export interface Experience {
   skills: string[];
 }
 
+export interface Education {
+  _id: string;
+  institution: string;
+  degree: string;
+  startDate: string;
+  endDate: string;
+  description: string;
+}
+
+export interface SkillSet {
+  _id: string;
+  bio: string;
+  skills: string[];
+  languages: { language: string; proficiency: string }[];
+}
+

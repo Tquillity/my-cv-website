@@ -1,5 +1,5 @@
 import { client } from "./sanity";
-import { Project, Experience } from "@/types";
+import { Project, Experience, Education, SkillSet } from "@/types";
 
 // Mock Data Fallback
 const MOCK_PROJECTS: Project[] = [
@@ -55,5 +55,27 @@ export async function getExperiences(): Promise<Experience[]> {
   } catch (error) {
     console.error("❌ [DATA] Sanity Fetch Failed. Using MOCK data.", error);
     return MOCK_EXPERIENCE;
+  }
+}
+
+export async function getEducation(): Promise<Education[]> {
+  try {
+    const data = await client.fetch(`*[_type == "education"] | order(startDate desc)`);
+    console.log(`✅ [DATA] Fetched ${data.length} Education entries.`);
+    return data;
+  } catch (error) {
+    console.error("❌ [DATA] Failed to fetch Education:", error);
+    return [];
+  }
+}
+
+export async function getProfile(): Promise<SkillSet | null> {
+  try {
+    const data = await client.fetch(`*[_type == "skillSet"][0]`);
+    console.log(`✅ [DATA] Fetched Profile/Skills.`);
+    return data;
+  } catch (error) {
+    console.error("❌ [DATA] Failed to fetch Profile:", error);
+    return null;
   }
 }
