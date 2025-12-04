@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import { getMessages } from "next-intl/server";
 import { Providers } from "@/components/providers";
+import { Scene } from "@/components/3d/scene";
 import "@/styles/globals.css";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -24,6 +25,7 @@ export default async function RootLayout({
     <html lang={locale} suppressHydrationWarning>
       <body className={inter.className}>
         <Providers locale={locale} messages={messages}>
+          <Scene />
           {children}
         </Providers>
       </body>

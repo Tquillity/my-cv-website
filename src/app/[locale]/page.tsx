@@ -1,4 +1,4 @@
-import { Scene } from "@/components/3d/scene";
+// import { Scene } from "@/components/3d/scene";
 import { Hero } from "@/components/sections/hero";
 import { TerminalToggle } from "@/components/ui/terminal-toggle";
 import { AIChat } from "@/components/features/ai-chat";
@@ -6,7 +6,7 @@ import { AIChat } from "@/components/features/ai-chat";
 export default function Home({ params: { locale } }: { params: { locale: string } }) {
   return (
     <main className="relative z-0 min-h-screen flex-col items-center justify-between">
-      <Scene />
+      {/* <Scene /> */}
       <Hero locale={locale} />
       <AIChat />
       <TerminalToggle />
