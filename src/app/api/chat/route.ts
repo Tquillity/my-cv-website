@@ -3,40 +3,61 @@ import { getPortfolioContext } from "@/lib/ai-context";
 export const maxDuration = 30;
 
 export async function POST(req: Request) {
+  // 1. Validate Environment
+  if (!process.env.GROQ_API_KEY) {
+    console.error("❌ Missing GROQ_API_KEY");
+    return new Response(JSON.stringify({ error: "Server misconfiguration: Missing API Key" }), { status: 500 });
+  }
+
   try {
     const { messages } = await req.json();
     const context = await getPortfolioContext();
 
-    // Get the last user message
-    const userMessage = messages[messages.length - 1]?.content || "";
-
+    // 2. Construct System Prompt
     const systemPrompt = `
       You are an AI assistant for Mikael Sundh's portfolio.
-      Context: ${context}
       
-      Answer the user's question based strictly on the context above.
-      Be concise and professional.
+      CONTEXT DATABASE:
+      ${context}
+      
+      INSTRUCTIONS:
+      - Answer the user's question based strictly on the CONTEXT DATABASE above.
+      - If the answer is not in the context, politely say you don't know.
+      - Be concise, professional, and friendly.
     `;
 
-    // Direct call to Groq API
+    // 3. Prepare Payload
+    // Ensure we don't send duplicate system messages if the client sends them
+    const userMessages = messages.filter((m: any) => m.role !== 'system');
+    
+    const payload = {
+      model: "llama3-8b-8192",
+      messages: [
+        { role: "system", content: systemPrompt },
+        ...userMessages
+      ],
+      temperature: 0.7,
+      max_tokens: 1024,
+      stream: false 
+    };
+
+    console.log("🚀 Sending Payload to Groq:", JSON.stringify(payload, null, 2));
+
+    // 4. Call API
     const response = await fetch("https://api.groq.com/openai/v1/chat/completions", {
       method: "POST",
       headers: {
         "Authorization": `Bearer ${process.env.GROQ_API_KEY}`,
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({
-        model: "llama3-8b-8192",
-        messages: [
-          { role: "system", content: systemPrompt },
-          ...messages // Pass previous history
-        ],
-        stream: false // Simplifying to non-streaming for maximum stability
-      }),
+      body: JSON.stringify(payload),
     });
 
+    // 5. Handle Errors (The Critical Fix)
     if (!response.ok) {
-      throw new Error(`Groq API error: ${response.statusText}`);
+      const errorBody = await response.text();
+      console.error(`❌ Groq API Error (${response.status}):`, errorBody);
+      throw new Error(`Groq API error: ${response.status} - ${errorBody}`);
     }
 
     const data = await response.json();
@@ -46,8 +67,8 @@ export async function POST(req: Request) {
       headers: { 'Content-Type': 'application/json' }
     });
 
-  } catch (error) {
-    console.error("AI Error:", error);
-    return new Response(JSON.stringify({ error: "Error processing AI request" }), { status: 500 });
+  } catch (error: any) {
+    console.error("❌ AI Route Error:", error);
+    return new Response(JSON.stringify({ error: error.message || "Error processing AI request" }), { status: 500 });
   }
 }

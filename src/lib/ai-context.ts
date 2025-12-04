@@ -4,22 +4,20 @@ export async function getPortfolioContext(): Promise<string> {
   const experiences = await getExperiences();
   const projects = await getProjects();
 
+  // Defensive mapping to handle missing fields
   const experienceText = experiences
-    .map(
-      (e) =>
-        `- ${e.title} at ${e.company} (${e.startDate} to ${
-          e.isCurrent ? "Present" : e.endDate
-        }). Description: ${e.description}. Skills: ${e.skills.join(", ")}.`
-    )
+    .map((e) => {
+      const skills = e.skills && Array.isArray(e.skills) ? e.skills.join(", ") : "General";
+      const endDate = e.isCurrent ? "Present" : e.endDate || "Unknown";
+      return `- ${e.title} at ${e.company} (${e.startDate} to ${endDate}). Description: ${e.description || "No description"}. Skills: ${skills}.`;
+    })
     .join("\n");
 
   const projectText = projects
-    .map(
-      (p) =>
-        `- Project: ${p.title}. Description: ${p.description}. Tags: ${p.tags.join(
-          ", "
-        )}.`
-    )
+    .map((p) => {
+      const tags = p.tags && Array.isArray(p.tags) ? p.tags.join(", ") : "General";
+      return `- Project: ${p.title}. Description: ${p.description || "No description"}. Tags: ${tags}.`;
+    })
     .join("\n");
 
   return `
@@ -30,4 +28,3 @@ export async function getPortfolioContext(): Promise<string> {
     ${projectText}
   `;
 }
-
