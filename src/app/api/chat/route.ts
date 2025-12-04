@@ -30,8 +30,9 @@ export async function POST(req: Request) {
     // Ensure we don't send duplicate system messages if the client sends them
     const userMessages = messages.filter((m: any) => m.role !== 'system');
     
+    // UPDATED: Switched to Llama 3.3 (70b) for better reasoning and current support
     const payload = {
-      model: "llama3-8b-8192",
+      model: "llama-3.3-70b-versatile",
       messages: [
         { role: "system", content: systemPrompt },
         ...userMessages
@@ -41,7 +42,7 @@ export async function POST(req: Request) {
       stream: false 
     };
 
-    console.log("🚀 Sending Payload to Groq:", JSON.stringify(payload, null, 2));
+    console.log(`🚀 Sending Chat Request to Groq (Model: ${payload.model})`);
 
     // 4. Call API
     const response = await fetch("https://api.groq.com/openai/v1/chat/completions", {
