@@ -60,6 +60,8 @@
     "game_asteroids": "Type 'asteroids' to play Space Defense",
     "game_runner": "Type 'runner' to play Cyber Run",
     "game_snake": "Type 'snake' to play Cyber Snake",
+    "game_nuke": "Type 'nuke' to play Duke Nukem Forever",
+    "game_hl3": "Type 'hl3' to play Half-Life 3",
     "coming_soon": "Coming soon",
     "warning_title": "⚠️ Welcome to the 80's",
     "warning_line1": "Clicking the desktop has never worked — not even back in X11 R5 days.",

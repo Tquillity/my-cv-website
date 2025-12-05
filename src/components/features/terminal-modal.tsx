@@ -47,6 +47,8 @@ export const TerminalModal = ({ locale }: { locale: string }) => {
   const [isFullScreen, setIsFullScreen] = useState(false);
   const [showWarning, setShowWarning] = useState(false);
   const [showFinalModal, setShowFinalModal] = useState(false);
+  const [showJokeModal, setShowJokeModal] = useState(false);
+  const [jokeContent, setJokeContent] = useState({ title: "", body: "" });
   const [clickCount, setClickCount] = useState(0);
 
   const inputRef = useRef<HTMLInputElement>(null);
@@ -58,6 +60,7 @@ export const TerminalModal = ({ locale }: { locale: string }) => {
       scrollToBottom();
       setShowWarning(false);
       setShowFinalModal(false);
+      setShowJokeModal(false);
       setClickCount(0);
     }
   }, [isOpen, history, gameState]);
@@ -74,7 +77,7 @@ export const TerminalModal = ({ locale }: { locale: string }) => {
 
       if (terminalContainer && terminalContainer.contains(target)) return;
 
-      if (showWarning || showFinalModal) return;
+      if (showWarning || showFinalModal || showJokeModal) return;
 
       setClickCount(prev => {
         const newCount = prev + 1;
@@ -102,7 +105,7 @@ export const TerminalModal = ({ locale }: { locale: string }) => {
       document.removeEventListener("mousedown", handleOutsideClick);
       if (clickTimer) clearTimeout(clickTimer);
     };
-  }, [isOpen, showWarning, showFinalModal, close]);
+  }, [isOpen, showWarning, showFinalModal, showJokeModal, close]);
 
   const scrollToBottom = () => scrollRef.current?.scrollIntoView({ behavior: "smooth" });
 
@@ -196,8 +199,8 @@ Type 'cat [project_name]' for details.
                     <li>{t('game_asteroids')}</li>
                     <li>{t('game_runner')}</li>
                     <li>{t('game_snake')}</li>
-                    <li>Duke Nukem Forever ({t('coming_soon')})</li>
-                    <li>Half-Life 3 ({t('coming_soon')})</li>
+                    <li>{t('game_nuke')}</li>
+                    <li>{t('game_hl3')}</li>
                 </ul>
             </div>
         );
@@ -216,6 +219,18 @@ Type 'cat [project_name]' for details.
         setGameState("SNAKE");
         setInput("");
         return;
+      case cmd === "nuke":
+        setJokeContent({ title: "Duke Nukem Forever", body: "😂 😂 😂" });
+        setShowJokeModal(true);
+        setTimeout(() => setShowJokeModal(false), 3000);
+        setInput("");
+        return;
+      case cmd === "hl3":
+        setJokeContent({ title: "Half-Life 3", body: "😂 😂 😂" });
+        setShowJokeModal(true);
+        setTimeout(() => setShowJokeModal(false), 3000);
+        setInput("");
+        return;
 
       // 6. SUDO / EASTER EGGS
       case cmd.startsWith("sudo"):
@@ -229,6 +244,15 @@ Type 'cat [project_name]' for details.
         } else if (cmd.includes("make me a sandwich")) {
             output = "sudo: User is not in the sudoers file. Go make it yourself.";
             style = "warning";
+        } else if (cmd === "sudo coin") {
+            // Coin Egg
+            const result = Math.random() > 0.5 ? "HEADS" : "TAILS";
+            output = `Flipping coin... ${result}`;
+            style = "success";
+        } else if (cmd === "sudo system_override") {
+            // System Override Egg
+            output = "ROOT ACCESS GRANTED. Welcome, Administrator.";
+            style = "success";
         } else if (cmd.includes("godmode")) {
             output = "God Mode Unlocked: Just kidding, you are still a guest.";
             style = "success";
@@ -303,6 +327,26 @@ Type 'cat [project_name]' for details.
                     <div className="text-sm">
                       <p>{t('final_line1')}</p>
                       <p className="text-xs opacity-70 mt-4">{t('final_line2')}</p>
+                    </div>
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
+
+            {/* JOKE MODAL */}
+            <AnimatePresence>
+              {showJokeModal && (
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.8 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.8 }}
+                  className="absolute inset-0 z-[110] flex items-center justify-center p-4"
+                >
+                  <div className="bg-black/90 border-2 border-green-500 rounded-lg p-6 max-w-md mx-4 text-center text-green-400 font-mono">
+                    <div className="text-lg font-bold mb-4">{jokeContent.title}</div>
+                    <div className="text-sm">
+                      <div className="text-4xl mb-4">{jokeContent.body}</div>
+                      <p className="text-green-300 font-bold">{t('coming_soon')}!</p>
                     </div>
                   </div>
                 </motion.div>

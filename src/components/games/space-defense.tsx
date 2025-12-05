@@ -6,6 +6,13 @@ export const SpaceDefense = ({ onExit }: { onExit: () => void }) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [score, setScore] = useState(0);
   const [gameOver, setGameOver] = useState(false);
+  const [gameId, setGameId] = useState(0);
+
+  const restartGame = () => {
+      setGameOver(false);
+      setScore(0);
+      setGameId(prev => prev + 1);
+  };
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -21,19 +28,24 @@ export const SpaceDefense = ({ onExit }: { onExit: () => void }) => {
     let keys: { [key: string]: boolean } = {};
     let isRunning = true;
     let localScore = 0;
+    let frame = 0;
+    let spawnRate = 180; // Start spawning every ~3s
 
     // Resize
     canvas.width = canvas.clientWidth;
     canvas.height = canvas.clientHeight;
 
     // Spawn Asteroid
-    const spawnAsteroid = () => {
-      const x = Math.random() < 0.5 ? 0 : canvas.width;
-      const y = Math.random() * canvas.height;
+    const spawnAsteroid = (x?: number, y?: number, r?: number) => {
+      const spawnX = x ?? (Math.random() < 0.5 ? 0 : canvas.width);
+      const spawnY = y ?? Math.random() * canvas.height;
+      const radius = r ?? (20 + Math.random() * 20);
+      
       asteroids.push({
-        x, y,
-        v: { x: (Math.random() - 0.5) * 2, y: (Math.random() - 0.5) * 2 },
-        r: 20 + Math.random() * 20,
+        x: spawnX, 
+        y: spawnY,
+        v: { x: (Math.random() - 0.5) * (50 / radius), y: (Math.random() - 0.5) * (50 / radius) }, // Smaller = faster
+        r: radius,
         verts: Math.floor(Math.random() * 5) + 5 // Polygon vertices
       });
     };
@@ -66,6 +78,18 @@ export const SpaceDefense = ({ onExit }: { onExit: () => void }) => {
     // Game Loop
     const loop = () => {
       if (!isRunning) return;
+      
+      frame++;
+
+      // Difficulty Scaling: Increase spawn rate every 10 seconds (600 frames)
+      if (frame % 600 === 0) {
+          spawnRate = Math.max(30, spawnRate - 10); // Cap at 0.5s
+      }
+
+      // Time-based Spawning
+      if (frame % spawnRate === 0) {
+          spawnAsteroid();
+      }
 
       ctx.fillStyle = "rgba(0,0,0,0.3)"; // Trail effect
       ctx.fillRect(0, 0, canvas.width, canvas.height);
@@ -142,13 +166,26 @@ export const SpaceDefense = ({ onExit }: { onExit: () => void }) => {
             const dist = Math.sqrt(dx*dx + dy*dy);
 
             if (dist < a.r) {
-                asteroids.splice(i, 1);
+                // Remove bullet
                 bullets.splice(j, 1);
-                localScore += 100;
+                
+                // Remove current asteroid
+                const hitAsteroid = asteroids.splice(i, 1)[0];
+                
+                localScore += Math.floor(1000 / hitAsteroid.r);
                 setScore(localScore);
-                spawnAsteroid();
-                // Spawn extra if cleared too fast
-                if (Math.random() > 0.5) spawnAsteroid();
+
+                // Split Logic
+                if (hitAsteroid.r > 15) {
+                    // Split into 2 smaller chunks
+                    spawnAsteroid(hitAsteroid.x, hitAsteroid.y, hitAsteroid.r / 2);
+                    spawnAsteroid(hitAsteroid.x, hitAsteroid.y, hitAsteroid.r / 2);
+                }
+
+                // Always ensure map isn't empty
+                if (asteroids.length < 3) {
+                    if (Math.random() > 0.5) spawnAsteroid();
+                }
                 break;
             }
         }
@@ -172,7 +209,7 @@ export const SpaceDefense = ({ onExit }: { onExit: () => void }) => {
       window.removeEventListener("keyup", handleKeyUp);
       cancelAnimationFrame(animationId);
     };
-  }, [onExit]);
+  }, [onExit, gameId]);
 
   return (
     <div className="absolute inset-0 z-50 bg-black flex flex-col items-center justify-center font-mono">
@@ -183,12 +220,20 @@ export const SpaceDefense = ({ onExit }: { onExit: () => void }) => {
         <div className="absolute z-50 text-center bg-black/90 p-8 border border-green-500">
           <h2 className="text-3xl text-green-500 mb-4 animate-pulse">GAME OVER</h2>
           <p className="text-green-300 mb-6">Final Score: {score}</p>
-          <button 
-            onClick={onExit}
-            className="px-4 py-2 bg-green-900/50 text-green-400 hover:bg-green-500 hover:text-black transition-colors border border-green-500"
-          >
-            RETURN TO TERMINAL
-          </button>
+          <div className="flex flex-col gap-3">
+            <button 
+                onClick={restartGame}
+                className="px-4 py-2 bg-green-700 text-black font-bold hover:bg-green-500 transition-colors border border-green-500"
+            >
+                PLAY AGAIN
+            </button>
+            <button 
+                onClick={onExit}
+                className="px-4 py-2 bg-green-900/50 text-green-400 hover:bg-green-500 hover:text-black transition-colors border border-green-500"
+            >
+                RETURN TO TERMINAL
+            </button>
+          </div>
         </div>
       )}
       
