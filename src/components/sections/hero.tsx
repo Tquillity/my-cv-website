@@ -11,7 +11,7 @@ export const Hero: React.FC<HeroProps> = ({ locale }) => {
   const t = useTranslations("HomePage");
 
   return (
-    <section className="relative h-screen flex flex-col items-center justify-center px-4 overflow-hidden text-white">
+    <section className="relative h-screen flex flex-col items-center justify-center px-4 overflow-hidden">
       <div className="container mx-auto flex flex-col items-center text-center z-10">
         <MotionDiv
           initial={{ opacity: 0, y: 20 }}
@@ -20,7 +20,7 @@ export const Hero: React.FC<HeroProps> = ({ locale }) => {
           className="space-y-4"
         >
           <MotionH1
-            className="text-4xl md:text-6xl lg:text-8xl font-bold tracking-tight text-white"
+            className="text-4xl md:text-6xl lg:text-8xl font-bold tracking-tight text-foreground"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2, duration: 0.5 }}
@@ -33,13 +33,13 @@ export const Hero: React.FC<HeroProps> = ({ locale }) => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.3, duration: 0.5 }}
           >
-            <h2 className="text-xl md:text-2xl lg:text-3xl font-medium text-slate-300">
+            <h2 className="text-xl md:text-2xl lg:text-3xl font-medium text-muted-foreground">
               {t("hero_role")}
             </h2>
           </MotionDiv>
 
           <MotionP
-            className="max-w-[600px] mx-auto text-lg text-slate-400 mt-6"
+            className="max-w-[600px] mx-auto text-lg text-muted-foreground mt-6"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.4, duration: 0.5 }}
@@ -58,7 +58,7 @@ export const Hero: React.FC<HeroProps> = ({ locale }) => {
               href={`/${locale}/portfolio`}
               className={cn(
                 "inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
-                "bg-white text-black hover:bg-slate-200", // High contrast for space theme
+                "bg-primary text-primary-foreground hover:bg-primary/90", // Filled button
                 "h-11 px-8"
               )}
             >
@@ -70,7 +70,7 @@ export const Hero: React.FC<HeroProps> = ({ locale }) => {
               href={`/${locale}/about`}
               className={cn(
                 "inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
-                "bg-transparent border border-white text-white hover:bg-white hover:text-black", // Ghost button style
+                "border border-input hover:bg-accent text-accent-foreground", // Outline button
                 "h-11 px-8"
               )}
             >

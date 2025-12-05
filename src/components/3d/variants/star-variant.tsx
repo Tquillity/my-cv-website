@@ -2,10 +2,10 @@
 
 import { useRef } from "react";
 import { useFrame } from "@react-three/fiber";
-import { Stars } from "@react-three/drei";
+import { Sparkles } from "@react-three/drei";
 import { Group } from "three";
 
-export const StarVariant: React.FC = () => {
+export const StarVariant: React.FC<{ color?: string; opacity?: number }> = ({ color = "#FFF", opacity = 1 }) => {
   const ref = useRef<Group>(null);
 
   useFrame((state, delta) => {
@@ -17,7 +17,8 @@ export const StarVariant: React.FC = () => {
 
   return (
     <group ref={ref}>
-      <Stars radius={100} depth={50} count={5000} factor={4} saturation={0} fade speed={1} />
+      {/* High count small sparkles simulate stars but are colorable */}
+      <Sparkles count={3000} scale={[100, 100, 100]} size={2} speed={0} opacity={opacity} color={color} />
     </group>
   );
 };

@@ -13,24 +13,24 @@ export const ThemeToggle = () => {
   if (!mounted) return null;
 
   return (
-    <div className="flex gap-1 bg-white/10 rounded-full p-1 border border-white/10">
+    <div className="flex gap-1 bg-popover/80 rounded-full p-1 border border-border">
       <button 
         onClick={() => setTheme("light")} 
-        className={`p-1.5 rounded-full transition-colors ${theme === 'light' ? 'bg-white text-black' : 'text-slate-400 hover:text-white'}`}
+        className={`p-1.5 rounded-full transition-colors ${theme === 'light' ? 'bg-primary text-primary-foreground' : 'text-popover-foreground hover:text-foreground'}`}
         aria-label="Light Mode"
       >
         <Sun className="w-4 h-4" />
       </button>
       <button 
         onClick={() => setTheme("middle")} 
-        className={`p-1.5 rounded-full transition-colors ${theme === 'middle' ? 'bg-slate-500 text-white' : 'text-slate-400 hover:text-white'}`}
+        className={`p-1.5 rounded-full transition-colors ${theme === 'middle' ? 'bg-primary text-primary-foreground' : 'text-popover-foreground hover:text-foreground'}`}
         aria-label="Middle Mode"
       >
         <Sunset className="w-4 h-4" />
       </button>
       <button 
         onClick={() => setTheme("dark")} 
-        className={`p-1.5 rounded-full transition-colors ${theme === 'dark' ? 'bg-slate-900 text-white' : 'text-slate-400 hover:text-white'}`}
+        className={`p-1.5 rounded-full transition-colors ${theme === 'dark' ? 'bg-primary text-primary-foreground' : 'text-popover-foreground hover:text-foreground'}`}
         aria-label="Dark Mode"
       >
         <Moon className="w-4 h-4" />

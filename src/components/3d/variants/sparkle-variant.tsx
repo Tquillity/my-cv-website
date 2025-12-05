@@ -5,7 +5,7 @@ import { useFrame } from "@react-three/fiber";
 import { Sparkles } from "@react-three/drei";
 import { Group } from "three";
 
-export const SparkleVariant: React.FC<{ color?: string }> = ({ color = "white" }) => {
+export const SparkleVariant: React.FC<{ color?: string; opacity?: number }> = ({ color = "white", opacity = 1 }) => {
   const ref = useRef<Group>(null);
 
   useFrame((state) => {
@@ -23,7 +23,7 @@ export const SparkleVariant: React.FC<{ color?: string }> = ({ color = "white" }
         scale={[20, 20, 10]} 
         size={2} 
         speed={0.4} 
-        opacity={0.5} 
+        opacity={opacity} 
         color={color} // ✅ Pass color here
       />
     </group>

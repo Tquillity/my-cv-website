@@ -41,10 +41,10 @@ export const FloatingNavbar = ({ locale }: { locale: string }) => {
           initial={{ y: -100, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           className={cn(
-            "flex items-center gap-1 p-2 rounded-full border border-white/10 transition-all duration-300",
+            "flex items-center gap-1 p-2 rounded-full border border-border/50 transition-all duration-300",
             scrolled
-              ? "bg-black/80 backdrop-blur-md shadow-lg py-2"
-              : "bg-white/5 backdrop-blur-sm shadow-sm py-3"
+              ? "bg-popover/80 backdrop-blur-md shadow-lg py-2"
+              : "bg-popover/50 backdrop-blur-sm shadow-sm py-3"
           )}
         >
           {navItems.map((item) => {
@@ -57,14 +57,14 @@ export const FloatingNavbar = ({ locale }: { locale: string }) => {
                 key={item.link}
                 href={item.link}
                 className={cn(
-                  "relative px-4 py-2 rounded-full text-sm font-medium transition-colors hover:text-white",
-                  isActive ? "text-white" : "text-slate-400"
+                  "relative px-4 py-2 rounded-full text-sm font-medium transition-colors hover:text-foreground",
+                  isActive ? "text-foreground" : "text-muted-foreground"
                 )}
               >
                 {isActive && (
                   <motion.div
                     layoutId="nav-pill"
-                    className="absolute inset-0 bg-white/10 rounded-full"
+                    className="absolute inset-0 bg-primary/10 rounded-full"
                     transition={{ type: "spring", stiffness: 300, damping: 30 }}
                   />
                 )}
@@ -76,11 +76,11 @@ export const FloatingNavbar = ({ locale }: { locale: string }) => {
             );
           })}
 
-          <div className="w-px h-6 bg-white/10 mx-2" />
+          <div className="w-px h-6 bg-border mx-2" />
 
           <ThemeToggle />
 
-          <div className="w-px h-6 bg-white/10 mx-2" />
+          <div className="w-px h-6 bg-border mx-2" />
 
           <BackgroundSwitcher />
 
