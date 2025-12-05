@@ -9,7 +9,8 @@
   "Navigation": {
     "home": "Hem",
     "portfolio": "Portfölj",
-    "about": "Om Mig"
+    "about": "Om Mig",
+    "schematics": "Schematics"
   },
   "PortfolioPage": {
     "title": "Portfölj",
@@ -33,6 +34,14 @@
     "toggle_full": "Hela Historiken",
     "toggle_relevant": "Relevant Endast",
     "show_previous_btn": "Visa tidigare roller (Logistik, Militär, Seismik)"
+  },
+  "SchematicsPage": {
+    "title": "Tekniska Ritningar",
+    "subtitle": "Interaktiva 3D-ritningar",
+    "instruction": "Välj en komponent att inspektera",
+    "raptor": "Raptor Engine V3",
+    "piston": "Piston Assembly",
+    "wheel": "Tech Wheel"
   },
   "AIChat": {
     "toggle_label": "Öppna AI-chatt",

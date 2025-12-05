@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { usePathname, useRouter, Link } from "@/i18n/navigation"; // Use custom hooks
-import { Home, User, Briefcase, Globe } from "lucide-react";
+import { Home, User, Briefcase, Globe, Cpu } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useTranslations } from "next-intl";
 
@@ -16,6 +16,7 @@ export const FloatingNavbar = ({ locale }: { locale: string }) => {
   const navItems = [
     { name: t('home'), link: "/", icon: <Home className="w-4 h-4" /> },
     { name: t('portfolio'), link: "/portfolio", icon: <Briefcase className="w-4 h-4" /> },
+    { name: t('schematics'), link: "/schematics", icon: <Cpu className="w-4 h-4" /> },
     { name: t('about'), link: "/about", icon: <User className="w-4 h-4" /> },
   ];
 
@@ -78,6 +79,7 @@ export const FloatingNavbar = ({ locale }: { locale: string }) => {
           <button
             onClick={toggleLanguage}
             className="px-3 py-2 rounded-full text-xs font-mono font-bold text-primary bg-primary/10 hover:bg-primary/20 transition-colors flex items-center gap-2"
+            title="Toggle Language"
           >
             <Globe className="w-3 h-3" />
             {locale.toUpperCase()}

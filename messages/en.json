@@ -9,7 +9,8 @@
   "Navigation": {
     "home": "Home",
     "portfolio": "Portfolio",
-    "about": "About"
+    "about": "About",
+    "schematics": "Schematics"
   },
   "PortfolioPage": {
     "title": "Portfolio",
@@ -33,6 +34,14 @@
     "toggle_full": "Full History",
     "toggle_relevant": "Relevant Only",
     "show_previous_btn": "Show previous roles (Logistics, Military, Seismic)"
+  },
+  "SchematicsPage": {
+    "title": "Technical Schematics",
+    "subtitle": "Interactive 3D Blueprints",
+    "instruction": "Select a component to inspect",
+    "raptor": "Raptor Engine V3",
+    "piston": "Piston Assembly",
+    "wheel": "Tech Wheel"
   },
   "AIChat": {
     "toggle_label": "Toggle AI Chat",
