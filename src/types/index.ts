@@ -34,6 +34,7 @@ export interface Project {
     current: string;
   };
   mainImage: SanityImage | string; // String for mock data URLs
+  additionalImages?: (SanityImage | string)[]; // Array of additional images for carousel
   description: string;
   tags: string[];
   githubUrl?: string;

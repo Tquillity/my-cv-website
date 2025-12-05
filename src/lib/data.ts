@@ -8,11 +8,13 @@ const MOCK_PROJECTS: Project[] = portfolioData.projects.map((p: any) => ({
   _id: String(p.id),
   title: p.name,
   slug: { current: p.name.toLowerCase().replace(/\s+/g, '-') },
-  mainImage: p.image || "",
+  mainImage: p.image ? (p.image.startsWith('/') ? p.image : `/${p.image}`) : "",
+  additionalImages: (p.additionalImages || []).map((img: string) => 
+    img.startsWith('/') ? img : `/${img}`
+  ),
   description: p.description,
   tags: p.languages || [], // Map languages to tags
   githubUrl: p.githubRepo,
-  liveUrl: p.liveVersion,
   publishedAt: p.startDate,
   // NEW: Map the caseStudy object directly
   caseStudy: p.caseStudy ? {

@@ -3,9 +3,9 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
-import { Project } from "@/types";
+import { Project, SanityImage } from "@/types";
 import { urlFor } from "@/lib/sanity";
-import { X, Github, ExternalLink, Code2, Network, BookOpen } from "lucide-react";
+import { X, Github, Code2, Network, BookOpen, ChevronLeft, ChevronRight } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { OmniCommentArchitecture } from "./architecture-diagram";
 
@@ -17,22 +17,48 @@ interface ProjectModalProps {
 export const ProjectModal: React.FC<ProjectModalProps> = ({ selectedProject, onClose }) => {
   const t = useTranslations("PortfolioPage");
   const [activeTab, setActiveTab] = useState<"overview" | "architecture" | "code">("overview");
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
   // Reset tab to overview when opening a new project
   useEffect(() => {
     if (selectedProject) {
       setActiveTab("overview");
+      setCurrentImageIndex(0);
     }
   }, [selectedProject]);
 
   if (!selectedProject) return null;
 
-  const builder = selectedProject?.mainImage ? urlFor(selectedProject.mainImage) : undefined;
+  // Build array of all images (mainImage + additionalImages)
+  const getAllImages = (): (SanityImage | string)[] => {
+    const images: (SanityImage | string)[] = [];
+    if (selectedProject.mainImage) {
+      images.push(selectedProject.mainImage);
+    }
+    if (selectedProject.additionalImages) {
+      images.push(...selectedProject.additionalImages);
+    }
+    return images.length > 0 ? images : ["/placeholder.webp"];
+  };
+
+  const allImages = getAllImages();
+  const currentImage = allImages[currentImageIndex];
+
+  const builder = currentImage && typeof currentImage !== "string" ? urlFor(currentImage) : undefined;
   const imageUrl = builder
     ? builder.width(800).height(600).url()
-    : (typeof selectedProject?.mainImage === "string" ? selectedProject.mainImage : "/placeholder.webp");
+    : (typeof currentImage === "string" ? currentImage : "/placeholder.webp");
 
   const hasCaseStudy = !!selectedProject.caseStudy;
+  const hasMultipleImages = allImages.length > 1;
+
+  const nextImage = () => {
+    setCurrentImageIndex((prev) => (prev + 1) % allImages.length);
+  };
+
+  const prevImage = () => {
+    setCurrentImageIndex((prev) => (prev - 1 + allImages.length) % allImages.length);
+  };
 
   return (
     <AnimatePresence>
@@ -50,15 +76,72 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({ selectedProject, onC
               layoutId={selectedProject._id}
               className="w-full max-w-4xl bg-background rounded-2xl overflow-hidden shadow-2xl pointer-events-auto max-h-[90vh] flex flex-col border border-border"
             >
-              {/* Header Image Area */}
-              <div className="relative h-48 sm:h-64 w-full shrink-0">
-                <Image
-                  src={imageUrl}
-                  alt={selectedProject.title}
-                  fill
-                  className="object-cover"
-                />
+              {/* Header Image Area with Carousel */}
+              <div className="relative h-48 sm:h-64 w-full shrink-0 group">
+                <AnimatePresence mode="wait">
+                  <motion.div
+                    key={currentImageIndex}
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.3 }}
+                    className="relative w-full h-full"
+                  >
+                    <Image
+                      src={imageUrl}
+                      alt={`${selectedProject.title} - Image ${currentImageIndex + 1}`}
+                      fill
+                      className="object-cover"
+                    />
+                  </motion.div>
+                </AnimatePresence>
                 <div className="absolute inset-0 bg-gradient-to-t from-background to-transparent" />
+                
+                {/* Navigation Arrows (only show if multiple images) */}
+                {hasMultipleImages && (
+                  <>
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        prevImage();
+                      }}
+                      className="absolute left-4 top-1/2 -translate-y-1/2 p-2 rounded-full bg-black/50 text-white backdrop-blur-sm hover:bg-black/70 transition-colors z-20 opacity-0 group-hover:opacity-100"
+                      aria-label="Previous image"
+                    >
+                      <ChevronLeft className="w-5 h-5" />
+                    </button>
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        nextImage();
+                      }}
+                      className="absolute right-4 top-1/2 -translate-y-1/2 p-2 rounded-full bg-black/50 text-white backdrop-blur-sm hover:bg-black/70 transition-colors z-20 opacity-0 group-hover:opacity-100"
+                      aria-label="Next image"
+                    >
+                      <ChevronRight className="w-5 h-5" />
+                    </button>
+                    
+                    {/* Image Indicator Dots */}
+                    <div className="absolute bottom-16 left-1/2 -translate-x-1/2 flex gap-2 z-20">
+                      {allImages.map((_, idx) => (
+                        <button
+                          key={idx}
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            setCurrentImageIndex(idx);
+                          }}
+                          className={`w-2 h-2 rounded-full transition-all ${
+                            idx === currentImageIndex
+                              ? "bg-white w-6"
+                              : "bg-white/50 hover:bg-white/75"
+                          }`}
+                          aria-label={`Go to image ${idx + 1}`}
+                        />
+                      ))}
+                    </div>
+                  </>
+                )}
+
                 <button
                   onClick={onClose}
                   className="absolute top-4 right-4 p-2 rounded-full bg-black/50 text-white backdrop-blur-sm hover:bg-black/70 transition-colors z-10"
@@ -131,12 +214,6 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({ selectedProject, onC
                         <a href={selectedProject.githubUrl} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 px-4 py-2 rounded-md bg-primary text-primary-foreground hover:bg-primary/90 transition-colors text-sm font-medium">
                           <Github className="w-4 h-4" />
                           {t('github')}
-                        </a>
-                      )}
-                      {selectedProject.liveUrl && (
-                        <a href={selectedProject.liveUrl} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 px-4 py-2 rounded-md border hover:bg-accent hover:text-accent-foreground transition-colors text-sm font-medium">
-                          <ExternalLink className="w-4 h-4" />
-                          {t('live_demo')}
                         </a>
                       )}
                     </div>

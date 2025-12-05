@@ -39,15 +39,13 @@ async function migrate() {
 
       // Prepare Image Upload
       let imageAssetId = null;
-      if (project.image && project.image.startsWith('/')) {
-        const imagePath = path.join(__dirname, '../public', project.image);
+      if (project.image) {
+        // Clean the path: remove leading slash if present
+        const cleanPath = project.image.startsWith('/') ? project.image.slice(1) : project.image;
+        const imagePath = path.join(__dirname, '../public', cleanPath);
+        
         if (fs.existsSync(imagePath)) {
-          // Check if we need to upload (skip if mainImage already exists to avoid duplicate uploads on every run)
-          // Actually, let's upload if existing doesn't have an image OR if we want to ensure it matches local
-          // For now, we'll upload if existing image is missing OR if we are forcing an update.
-          // To be safe and efficient: upload only if we are patching or creating.
-          // Since we want to update the image:
-          console.log(`   -> Uploading image: ${project.image}...`);
+          console.log(`   -> Uploading image: ${cleanPath}...`);
           try {
             const asset = await client.assets.upload('image', fs.createReadStream(imagePath), {
               filename: path.basename(imagePath)
@@ -66,10 +64,10 @@ async function migrate() {
       const caseStudyData = project.caseStudy ? {
         problem: project.caseStudy.problem,
         solution: project.caseStudy.solution,
-        architecture: {
+        architecture: project.caseStudy.architecture ? {
           description: project.caseStudy.architecture.description,
           diagramType: project.caseStudy.architecture.diagramType
-        },
+        } : undefined,
         technicalChallenges: project.caseStudy.technicalChallenges.map(c => ({
           _key: c.title.substring(0, 10).replace(/\s/g, ''),
           title: c.title,
@@ -93,7 +91,6 @@ async function migrate() {
           .set({
             ...(caseStudyData && { caseStudy: caseStudyData }), // Only set if exists
             githubUrl: project.githubRepo,
-            liveUrl: project.liveVersion,
             tags: project.languages, // Updating tags as requested
             publishedAt: project.startDate, // Updating sort order
             ...(imageAssetId && { mainImage: { _type: 'image', asset: { _type: 'reference', _ref: imageAssetId } } })
@@ -111,7 +108,6 @@ async function migrate() {
           description: project.description,
           tags: project.languages,
           githubUrl: project.githubRepo,
-          liveUrl: project.liveVersion,
           publishedAt: project.startDate,
           ...(caseStudyData && { caseStudy: caseStudyData }),
           ...(imageAssetId && { mainImage: { _type: 'image', asset: { _type: 'reference', _ref: imageAssetId } } })
