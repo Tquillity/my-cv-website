@@ -16,7 +16,15 @@
     "no_image": "No Image",
     "no_tags": "No tags",
     "github": "GitHub",
-    "live_demo": "Live Demo"
+    "live_demo": "Live Demo",
+    "tab_overview": "Overview",
+    "tab_architecture": "Architecture",
+    "tab_code": "Code & Engineering",
+    "architecture_title": "System Architecture",
+    "challenges_title": "Key Technical Challenges",
+    "problem": "The Problem",
+    "solution": "The Solution",
+    "source_code_warning": "⚠️ Source code is proprietary. These snippets demonstrate specific technical implementations without revealing business logic."
   },
   "AboutPage": {
     "title": "About Me",

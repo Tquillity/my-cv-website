@@ -3,30 +3,94 @@
     {
       "id": 1,
       "name": "My CV Website",
-      "languages": ["HTML", "CSS", "SCSS", "TypeScript", "React"],
+      "languages": ["Next.js 16", "TypeScript", "Tailwind CSS", "Three.js", "Sanity CMS"],
       "stackType": "Frontend",
-      "description": "A responsive personal blog built with React, featuring a clean and modern design.",
-      "image": "my-cv-website.webp", 
+      "description": "A futuristic, interactive portfolio featuring a 3D space environment, AI chat assistant, and a hidden retro terminal OS.",
+      "image": "/images/my-cv/home.webp",
       "projectType": "Personal",
-      "status": "Closed Published",
+      "status": "Live",
       "githubRepo": "https://github.com/Tquillity/my-cv-website",
-      "liveVersion": "https://github.com/Tquillity/my-cv-website",
-      "startDate": "2024-08-25",
-      "lastUpdated": "2024-08-31"
+      "liveVersion": "https://mikaelsundh.com",
+      "startDate": "2025-12-01",
+      "lastUpdated": "2025-12-05",
+      "caseStudy": {
+        "problem": "Standard static portfolios fail to demonstrate complex engineering skills or personality. I needed a platform that could serve as both a resume and a live demonstration of modern frontend capabilities.",
+        "solution": "I built a 'living' application using the Next.js 16 App Router. It features a persistent 3D background (R3F), a context-aware AI agent (Groq Llama 3.3), and a fully functional CLI terminal Easter egg that mimics a retro OS.",
+        "architecture": {
+          "diagramType": "none",
+          "description": "Built on Next.js 16 (React 19) for server-side rendering and SEO. Content is managed via Sanity CMS for real-time updates without redeployment. The 3D scene runs in a separate React Context to persist across page navigation."
+        },
+        "technicalChallenges": [
+          {
+            "title": "Persistent 3D Scene Navigation",
+            "description": "Preventing the heavy Three.js canvas from reloading on route changes required lifting the Canvas into a global Context provider and using Next.js template files to handle page transitions smoothly over it."
+          },
+          {
+            "title": "AI Context Injection",
+            "description": "The AI chat needs to know about my resume without hallucinating. I implemented a RAG-lite system that injects structured JSON data from the Sanity backend into the LLM's system prompt at runtime."
+          }
+        ],
+        "codeSnippets": [
+          {
+            "title": "AI Route Handler (RAG)",
+            "language": "TypeScript",
+            "description": "Server-side route handler that constructs a context-aware prompt for the AI using live portfolio data.",
+            "code": "export async function POST(req: Request) {\n  const { messages } = await req.json();\n  const context = await getPortfolioContext(); // Fetches from Sanity\n\n  const systemPrompt = `\n    You are an AI assistant for Mikael.\n    Here is his live data:\n    ${context}\n  `;\n\n  const payload = {\n    model: \"llama-3.3-70b-versatile\",\n    messages: [{ role: \"system\", content: systemPrompt }, ...messages],\n  };\n  // ... fetch Groq API\n}"
+          },
+          {
+            "title": "Retro Terminal Command Parser",
+            "language": "TypeScript / React",
+            "description": "A custom hook-based CLI engine that handles command history, 'sudo' easter eggs, and localized output.",
+            "code": "const handleCommand = (e: React.FormEvent) => {\n  e.preventDefault();\n  const cmd = input.trim().toLowerCase();\n\n  switch (true) {\n    case cmd === \"help\":\n      output = t('help_desc');\n      break;\n    case cmd.startsWith(\"sudo\"):\n      if (isRoot) {\n         output = t('root_exists');\n      } else {\n         // ... handle easter eggs\n      }\n      break;\n    // ... other commands\n  }\n};"
+          }
+        ]
+      }
     },
     {
       "id": 2,
       "name": "OmniComment",
-      "languages": ["HTML", "SCSS", "JavaScript", "React", "NodeJS"],
+      "languages": ["TypeScript", "NodeJS", "React", "MongoDB", "Redis", "Docker"],
       "stackType": "Fullstack",
-      "description": "A fullstack simple BBS-application utilising a private blockchain to store and retrieve data, as well as to pay for posting and commenting.", 
+      "description": "A decentralized commenting system allowing users to comment on any webpage via a Chrome Extension.",
       "image": "OmniComment.webp",
-      "projectType": "School",
-      "status": "Closed Unpublished, Uncompleted functions, Highest grade",
-      "githubRepo": "https://github.com/Tquillity/OmniComment",
+      "projectType": "Commercial Startup",
+      "status": "Beta",
+      "githubRepo": null,
       "liveVersion": null,
       "startDate": "2024-06-12",
-      "lastUpdated": "2024-07-14"
+      "lastUpdated": "2025-02-14",
+      "caseStudy": {
+        "problem": "Traditional comment systems are siloed to specific websites. Users cannot discuss content on static pages or sites that have disabled comments.",
+        "solution": "A browser-agnostic overlay system that injects a discussion layer over any URL, synchronized via WebSockets for real-time interaction.",
+        "architecture": {
+          "diagramType": "omnicomment-flow",
+          "description": "The system utilizes a Monorepo architecture separating the Server, WebApp, and Chrome Extension packages. Real-time updates are handled via Socket.IO adapted with Redis for horizontal scaling."
+        },
+        "technicalChallenges": [
+          {
+            "title": "Chrome Extension Context Isolation",
+            "description": "Managing authentication state between the background service worker, content scripts, and the injected IFrame required a robust message-passing interface to ensure secure token handling without exposing them to the host page."
+          },
+          {
+            "title": "Recursive Comment Threads",
+            "description": "Storing and retrieving arbitrarily deep comment threads efficiently in MongoDB required complex aggregation pipelines using $graphLookup to avoid the N+1 query problem."
+          }
+        ],
+        "codeSnippets": [
+          {
+            "title": "MongoDB Recursive Aggregation",
+            "language": "TypeScript / MongoDB",
+            "description": "An aggregation pipeline used to fetch top-level comments and efficiently graph-lookup all nested replies in a single database query.",
+            "code": "const commentsPipeline = [\n  { $match: matchQuery },\n  {\n    $graphLookup: {\n      from: 'comments',\n      startWith: '$_id',\n      connectFromField: '_id',\n      connectToField: 'parentId',\n      as: 'allReplies'\n    },\n  },\n  // ... (Sorting and Pagination stages)\n  {\n    $addFields: {\n      replies: {\n        $map: {\n          // Complex logic to restructure flat graphLookup results\n          // into a nested tree structure for the frontend\n        }\n      }\n    }\n  }\n];"
+          },
+          {
+            "title": "CI/CD Pipeline (GitHub Actions)",
+            "language": "YAML",
+            "description": "Automated quality gates ensuring strict linting (Biome) and build verification across the Monorepo workspaces before any production deployment.",
+            "code": "name: Continuous Integration\n\njobs:\n  quality-checks:\n    name: Lint, Format & Build\n    runs-on: ubuntu-latest\n    steps:\n      - name: Checkout Code\n        uses: actions/checkout@v4\n\n      - name: Install Dependencies\n        run: npm ci\n\n      - name: Run Biome Checks\n        run: npx biome check .\n\n      - name: Build All Workspaces\n        run: npm run build --workspaces --if-present"
+          }
+        ]
+      }
     },
     {
       "id": 3,

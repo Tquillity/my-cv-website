@@ -53,6 +53,91 @@ export default defineType({
       title: "Published at",
       type: "datetime",
     }),
+
+    // --- NEW: Technical Case Study Section ---
+    defineField({
+      name: "caseStudy",
+      title: "Technical Case Study",
+      type: "object",
+      options: {
+        collapsible: true,
+        collapsed: true,
+      },
+      fields: [
+        defineField({
+          name: "problem",
+          title: "The Problem",
+          type: "text",
+          rows: 3,
+        }),
+        defineField({
+          name: "solution",
+          title: "The Solution",
+          type: "text",
+          rows: 3,
+        }),
+        defineField({
+          name: "architecture",
+          title: "Architecture",
+          type: "object",
+          fields: [
+            defineField({
+              name: "description",
+              title: "Description",
+              type: "text",
+            }),
+            defineField({
+              name: "diagramType",
+              title: "Diagram Type",
+              type: "string",
+              options: {
+                list: [
+                  { title: "None", value: "none" },
+                  { title: "OmniComment Flow", value: "omnicomment-flow" },
+                ],
+              },
+            }),
+          ],
+        }),
+        defineField({
+          name: "technicalChallenges",
+          title: "Technical Challenges",
+          type: "array",
+          of: [
+            {
+              type: "object",
+              title: "Challenge",
+              fields: [
+                defineField({ name: "title", title: "Title", type: "string" }),
+                defineField({ name: "description", title: "Description", type: "text" }),
+              ],
+            },
+          ],
+        }),
+        defineField({
+          name: "codeSnippets",
+          title: "Code Snippets",
+          type: "array",
+          of: [
+            {
+              type: "object",
+              title: "Snippet",
+              fields: [
+                defineField({ name: "title", title: "Title", type: "string" }),
+                defineField({ name: "language", title: "Language", type: "string" }),
+                defineField({ name: "description", title: "Description", type: "string" }),
+                defineField({
+                  name: "code",
+                  title: "Code",
+                  type: "text",
+                  rows: 10
+                }),
+              ],
+            },
+          ],
+        }),
+      ],
+    }),
   ],
 });
 

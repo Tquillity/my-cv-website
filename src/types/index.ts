@@ -6,6 +6,27 @@ export interface SanityImage {
   };
 }
 
+export interface CodeSnippet {
+  title: string;
+  language: string;
+  code: string;
+  description: string;
+}
+
+export interface CaseStudy {
+  problem: string;
+  solution: string;
+  architecture?: {
+    diagramType: "omnicomment-flow";
+    description: string;
+  };
+  technicalChallenges: {
+    title: string;
+    description: string;
+  }[];
+  codeSnippets: CodeSnippet[];
+}
+
 export interface Project {
   _id: string;
   title: string;
@@ -18,6 +39,8 @@ export interface Project {
   githubUrl?: string;
   liveUrl?: string;
   publishedAt: string;
+  // NEW FIELD
+  caseStudy?: CaseStudy;
 }
 
 export interface Experience {

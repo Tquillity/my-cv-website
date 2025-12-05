@@ -16,7 +16,15 @@
     "no_image": "Ingen Bild",
     "no_tags": "Inga taggar",
     "github": "GitHub",
-    "live_demo": "Live Demo"
+    "live_demo": "Live Demo",
+    "tab_overview": "Översikt",
+    "tab_architecture": "Arkitektur",
+    "tab_code": "Kod & Teknik",
+    "architecture_title": "Systemarkitektur",
+    "challenges_title": "Tekniska Utmaningar",
+    "problem": "Problemet",
+    "solution": "Lösningen",
+    "source_code_warning": "⚠️ Källkoden är proprietär. Dessa kodavsnitt demonstrerar specifika tekniska lösningar utan att avslöja affärslogik."
   },
   "AboutPage": {
     "title": "Om Mig",
