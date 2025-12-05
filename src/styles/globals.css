@@ -74,6 +74,10 @@
       -ms-overflow-style: none;
       scrollbar-width: none;
   }
+  
+  .caret-block {
+    caret-shape: block;
+  }
 }
 
 /* Optional text-shadow for that retro glow */

@@ -11,15 +11,17 @@ import { useTranslations } from "next-intl";
 import { SpaceDefense } from "@/components/games/space-defense";
 import { CyberRun } from "@/components/games/cyber-run";
 import { CyberSnake } from "@/components/games/cyber-snake";
+import { VectorRacer } from "@/components/games/vector-racer";
 
 interface Command {
   input: string;
   output: React.ReactNode;
   style?: "normal" | "error" | "success" | "warning";
+  prompt?: string;
 }
 
 // 1. UPDATE TYPE
-type GameState = "NONE" | "ASTEROIDS" | "RUNNER" | "SNAKE";
+type GameState = "NONE" | "ASTEROIDS" | "RUNNER" | "SNAKE" | "RACER";
 
 export const TerminalModal = ({ locale }: { locale: string }) => {
   const t = useTranslations("Terminal");
@@ -50,9 +52,34 @@ export const TerminalModal = ({ locale }: { locale: string }) => {
   const [showJokeModal, setShowJokeModal] = useState(false);
   const [jokeContent, setJokeContent] = useState({ title: "", body: "" });
   const [clickCount, setClickCount] = useState(0);
+  const [isRoot, setIsRoot] = useState(false);
+  const [historyIndex, setHistoryIndex] = useState(-1);
 
   const inputRef = useRef<HTMLInputElement>(null);
   const scrollRef = useRef<HTMLDivElement>(null);
+
+  // History Navigation
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "ArrowUp") {
+      e.preventDefault();
+      const validHistory = history.filter(h => h.input.trim() !== "");
+      if (validHistory.length === 0) return;
+      
+      const newIndex = Math.min(historyIndex + 1, validHistory.length - 1);
+      setHistoryIndex(newIndex);
+      setInput(validHistory[validHistory.length - 1 - newIndex].input);
+    } else if (e.key === "ArrowDown") {
+      e.preventDefault();
+      const newIndex = Math.max(historyIndex - 1, -1);
+      setHistoryIndex(newIndex);
+      if (newIndex === -1) {
+        setInput("");
+      } else {
+        const validHistory = history.filter(h => h.input.trim() !== "");
+        setInput(validHistory[validHistory.length - 1 - newIndex].input);
+      }
+    }
+  };
 
   useEffect(() => {
     if (isOpen && gameState === "NONE") {
@@ -114,6 +141,7 @@ export const TerminalModal = ({ locale }: { locale: string }) => {
   // ----------------------------------------------------------------
   const handleCommand = (e: React.FormEvent) => {
     e.preventDefault();
+    setHistoryIndex(-1);
     const rawCmd = input.trim();
     const cmd = rawCmd.toLowerCase();
 
@@ -148,7 +176,12 @@ export const TerminalModal = ({ locale }: { locale: string }) => {
       case cmd === "exit":
       case cmd === "logout":
       case cmd === "bye":
-        close();
+        if (isRoot) {
+             setIsRoot(false);
+             output = t('root_logout');
+        } else {
+             close();
+        }
         break;
 
       // 3. DATA DISPLAY (Reading "files")
@@ -199,6 +232,7 @@ Type 'cat [project_name]' for details.
                     <li>{t('game_asteroids')}</li>
                     <li>{t('game_runner')}</li>
                     <li>{t('game_snake')}</li>
+                    <li>{t('game_racer')}</li>
                     <li>{t('game_nuke')}</li>
                     <li>{t('game_hl3')}</li>
                 </ul>
@@ -219,6 +253,10 @@ Type 'cat [project_name]' for details.
         setGameState("SNAKE");
         setInput("");
         return;
+      case cmd === "racer":
+        setGameState("RACER");
+        setInput("");
+        return;
       case cmd === "nuke":
         setJokeContent({ title: "Duke Nukem Forever", body: "😂 😂 😂" });
         setShowJokeModal(true);
@@ -234,6 +272,13 @@ Type 'cat [project_name]' for details.
 
       // 6. SUDO / EASTER EGGS
       case cmd.startsWith("sudo"):
+        // ROOT CHECK
+        if (isRoot && cmd !== "sudo system_override") {
+             output = t('root_exists');
+             style = "success";
+             break;
+        }
+
         if (cmd === "sudo matrix") {
             setMatrixMode(prev => !prev);
             output = matrixMode ? "Disabling visual overlay..." : "Injecting visual code...";
@@ -250,9 +295,13 @@ Type 'cat [project_name]' for details.
             output = `Flipping coin... ${result}`;
             style = "success";
         } else if (cmd === "sudo system_override") {
-            // System Override Egg
-            output = "ROOT ACCESS GRANTED. Welcome, Administrator.";
-            style = "success";
+            if(isRoot) {
+                 output = t('already_root');
+            } else {
+                 setIsRoot(true);
+                 output = t('root_granted');
+                 style = "success";
+            }
         } else if (cmd.includes("godmode")) {
             output = "God Mode Unlocked: Just kidding, you are still a guest.";
             style = "success";
@@ -263,7 +312,9 @@ Type 'cat [project_name]' for details.
         break;
 
       case cmd === "whoami":
-         output = "User: Guest | IP: ::1 | Access Level: Read Only";
+         output = isRoot 
+            ? t('whoami_root')
+            : t('whoami_guest');
          break;
 
       default:
@@ -271,7 +322,12 @@ Type 'cat [project_name]' for details.
         style = "error";
     }
 
-    setHistory(prev => [...prev, { input: rawCmd, output, style }]);
+    setHistory(prev => [...prev, { 
+        input: rawCmd, 
+        output, 
+        style,
+        prompt: isRoot ? "root@mikael-cv:~#" : "guest@mikael-cv:~$"
+    }]);
     setInput("");
   };
 
@@ -409,6 +465,9 @@ Type 'cat [project_name]' for details.
                   {gameState === "SNAKE" && (
                       <CyberSnake onExit={() => setGameState("NONE")} />
                   )}
+                  {gameState === "RACER" && (
+                      <VectorRacer onExit={() => setGameState("NONE")} />
+                  )}
 
                   {gameState === "NONE" && (
                     <div className="h-full overflow-y-auto p-4 md:p-6 space-y-2 text-green-500 scrollbar-hide">
@@ -421,7 +480,7 @@ Type 'cat [project_name]' for details.
                             }`}>
                                 {line.input && (
                                     <div className="flex gap-2 opacity-70">
-                                        <span>guest@mikael-cv:~$</span>
+                                        <span>{line.prompt || "guest@mikael-cv:~$"}</span>
                                         <span>{line.input}</span>
                                     </div>
                                 )}
@@ -431,12 +490,19 @@ Type 'cat [project_name]' for details.
 
                         {/* INPUT LINE */}
                         <form onSubmit={handleCommand} className="flex gap-2 items-center mt-4">
-                            <span className="text-green-400 shrink-0 font-bold">guest@mikael-cv:~$</span>
+                            <span className={`shrink-0 font-bold ${isRoot ? "text-red-500" : "text-green-400"}`}>
+                                {isRoot ? "root@mikael-cv:~#" : "guest@mikael-cv:~$"}
+                            </span>
                             <input
                                 ref={inputRef}
                                 value={input}
                                 onChange={(e) => setInput(e.target.value)}
-                                className="bg-transparent border-none outline-none flex-1 text-green-100 placeholder-green-800 caret-green-500 terminal-text"
+                                onKeyDown={handleKeyDown}
+                                className={`bg-transparent border-none outline-none flex-1 terminal-text caret-block ${
+                                    isRoot 
+                                    ? "text-red-500 placeholder-red-800 caret-red-500" 
+                                    : "text-green-100 placeholder-green-800 caret-green-500"
+                                }`}
                                 autoFocus
                                 spellCheck={false}
                                 autoComplete="off"

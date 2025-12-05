@@ -60,6 +60,7 @@
     "game_asteroids": "Type 'asteroids' to play Space Defense",
     "game_runner": "Type 'runner' to play Cyber Run",
     "game_snake": "Type 'snake' to play Cyber Snake",
+    "game_racer": "Type 'racer' to play Vector Racer",
     "game_nuke": "Type 'nuke' to play Duke Nukem Forever",
     "game_hl3": "Type 'hl3' to play Half-Life 3",
     "coming_soon": "Coming soon",
@@ -69,6 +70,17 @@
     "warning_line3": "(Your mouse appreciates the gentle treatment!)",
     "final_title": "OK, Sigh.",
     "final_line1": "Modernity wins.",
-    "final_line2": "Closing terminal..."
+    "final_line2": "Closing terminal...",
+    "root_logout": "Logged out of Root session. Returned to Guest.",
+    "root_exists": "uid=0(root) gid=0(root) groups=0(root). You are already a superuser.",
+    "already_root": "Already Root.",
+    "root_granted": "ROOT ACCESS GRANTED. Welcome, Administrator.",
+    "whoami_root": "User: root | Privileges: UI_OVERRIDE | Access: UNLIMITED",
+    "whoami_guest": "User: Guest | IP: ::1 | Access Level: Read Only",
+    "racer_score": "SCORE:",
+    "racer_controls": "LEFT/RIGHT to Drive | ESC to Quit",
+    "racer_crashed": "CRASHED",
+    "racer_final_score": "Final Score:",
+    "racer_return": "RETURN TO TERMINAL"
   }
 }

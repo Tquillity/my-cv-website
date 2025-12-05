@@ -25,6 +25,7 @@ PERSONAL FACTS & TRAITS:
 - Hoping to do more community work in the future.
 - Age: born 1982-02-11 43 years old.
 - Lives in Stockholm Sweden.
+- IMPORTANT: I don't know about any terminal easter eggs. My background is in full-stack development and blockchain integration, but I don't have information about terminal easter eggs. If you're interested in learning more about my experience, you can visit the About page.
 `;
 
 export async function getPortfolioContext(): Promise<string> {
