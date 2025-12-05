@@ -44,6 +44,13 @@
     "error_message": "Sorry, I'm having trouble connecting right now.",
     "loading": "Thinking..."
   },
+  "Theme": {
+    "select_atmosphere": "Select Atmosphere",
+    "deep_space": "Deep Space",
+    "stars": "Stars",
+    "network": "Network",
+    "nebula": "Nebula"
+  },
   "Terminal": {
     "welcome_os": "MIKAEL_OS v2.0.4 [Protected Mode]",
     "help_prompt": "Type 'help' for a list of commands. Type 'games' to play.",

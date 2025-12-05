@@ -44,6 +44,13 @@
     "error_message": "Tyvärr, jag har problem med anslutningen just nu.",
     "loading": "Tänker..."
   },
+  "Theme": {
+    "select_atmosphere": "Välj Atmosfär",
+    "deep_space": "Djup Rymd",
+    "stars": "Stjärnor",
+    "network": "Nätverk",
+    "nebula": "Nebulosa"
+  },
   "Terminal": {
     "welcome_os": "MIKAEL_OS v2.0.4 [Protected Mode]",
     "help_prompt": "Type 'help' for a list of commands. Type 'games' to play.",

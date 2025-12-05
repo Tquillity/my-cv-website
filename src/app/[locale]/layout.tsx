@@ -7,6 +7,7 @@ import { TerminalToggle } from "@/components/ui/terminal-toggle";
 import { FloatingNavbar } from "@/components/ui/floating-navbar";
 import { TerminalModal } from "@/components/features/terminal-modal";
 import { TerminalProvider } from "@/lib/terminal-context";
+import { BackgroundProvider } from "@/lib/background-context";
 import dynamic from "next/dynamic";
 import "@/styles/globals.css";
 
@@ -35,12 +36,14 @@ export default async function RootLayout({
       <body className={inter.className}>
         <Providers locale={locale} messages={messages}>
           <TerminalProvider>
-            <Scene />
-            <FloatingNavbar locale={locale} />
-            {children}
-            <AIChat />
-            <TerminalModal locale={locale} />
-            <TerminalToggle />
+            <BackgroundProvider>
+              <Scene />
+              <FloatingNavbar locale={locale} />
+              {children}
+              <AIChat />
+              <TerminalModal locale={locale} />
+              <TerminalToggle />
+            </BackgroundProvider>
           </TerminalProvider>
         </Providers>
       </body>

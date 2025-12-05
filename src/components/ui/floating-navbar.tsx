@@ -7,6 +7,8 @@ import { Home, User, Briefcase, Globe } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useTranslations } from "next-intl";
 
+import { BackgroundSwitcher } from "./background-switcher";
+
 export const FloatingNavbar = ({ locale }: { locale: string }) => {
   const t = useTranslations("Navigation");
   const pathname = usePathname();
@@ -74,6 +76,8 @@ export const FloatingNavbar = ({ locale }: { locale: string }) => {
           })}
 
           <div className="w-px h-6 bg-white/10 mx-2" />
+
+          <BackgroundSwitcher />
 
           <button
             onClick={toggleLanguage}
