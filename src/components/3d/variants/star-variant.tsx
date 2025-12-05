@@ -18,7 +18,15 @@ export const StarVariant: React.FC<{ color?: string; opacity?: number }> = ({ co
   return (
     <group ref={ref}>
       {/* High count small sparkles simulate stars but are colorable */}
-      <Sparkles count={3000} scale={[100, 100, 100]} size={2} speed={0} opacity={opacity} color={color} />
+      <Sparkles
+        count={2000}
+        scale={[120, 120, 120]} // Spread them out more
+        size={1.2}
+        speed={0.05} // MUCH SLOWER - majestic movement
+        opacity={opacity}
+        color={color}
+        noise={0.02} // Very subtle movement
+      />
     </group>
   );
 };

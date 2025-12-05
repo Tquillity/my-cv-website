@@ -49,7 +49,11 @@
     "deep_space": "Deep Space",
     "stars": "Stars",
     "network": "Network",
-    "nebula": "Nebula"
+    "nebula": "Nebula",
+    "select_atmosphere_stars": "Stars",
+    "select_atmosphere_network": "Network",
+    "select_atmosphere_nebula": "Nebula",
+    "select_atmosphere_deep_space": "Deep Space"
   },
   "Terminal": {
     "welcome_os": "MIKAEL_OS v2.0.4 [Protected Mode]",

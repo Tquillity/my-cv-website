@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ChevronDown, Stars, Network, Cloud, Sparkles } from "lucide-react";
 import { useBackground } from "@/lib/background-context";
@@ -18,19 +18,41 @@ export const BackgroundSwitcher = () => {
   const [isOpen, setIsOpen] = useState(false);
   const { variant, setVariant } = useBackground();
   const t = useTranslations("Theme");
+  const dropdownRef = useRef<HTMLDivElement>(null);
+
+  // Get current variant icon
+  const currentVariant = variants.find(v => v.id === variant) || variants[0];
+  const CurrentIcon = currentVariant.icon;
+
+  // Close dropdown on click outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setIsOpen(false);
+      }
+    };
+
+    if (isOpen) {
+      document.addEventListener('mousedown', handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [isOpen]);
 
   return (
-    <div className="relative">
+    <div ref={dropdownRef} className="relative">
       <button
         onClick={() => setIsOpen(!isOpen)}
         className={cn(
-          "flex items-center gap-2 px-3 py-2 rounded-full text-xs font-mono font-bold",
+          "flex items-center justify-center w-9 h-9 rounded-full",
           "bg-popover/80 backdrop-blur-md border border-border",
           "text-popover-foreground hover:bg-popover transition-colors"
         )}
+        aria-label={t('select_atmosphere')}
       >
-        <span className="hidden sm:inline">{t('select_atmosphere')}</span>
-        <ChevronDown className={cn("w-3 h-3 transition-transform", isOpen && "rotate-180")} />
+        <CurrentIcon className="w-4 h-4" />
       </button>
 
       <AnimatePresence>

@@ -49,7 +49,11 @@
     "deep_space": "Djup Rymd",
     "stars": "Stjärnor",
     "network": "Nätverk",
-    "nebula": "Nebulosa"
+    "nebula": "Nebulosa",
+    "select_atmosphere_stars": "Stjärnor",
+    "select_atmosphere_network": "Nätverk",
+    "select_atmosphere_nebula": "Nebulosa",
+    "select_atmosphere_deep_space": "Djup Rymd"
   },
   "Terminal": {
     "welcome_os": "MIKAEL_OS v2.0.4 [Protected Mode]",

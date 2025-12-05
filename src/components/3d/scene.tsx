@@ -53,7 +53,7 @@ export const Scene: React.FC = () => {
   const config = THEME_CONFIG[currentTheme];
 
   return (
-    <div className="fixed inset-0 pointer-events-none -z-10 bg-transparent">
+    <div className="fixed inset-0 pointer-events-none -z-10 bg-background transition-colors duration-700">
       {/* Remove bg-black from div, let the CSS variable handle the page background */}
       <Canvas camera={{ position: [0, 0, 1] }}>
         <Suspense fallback={null}>
