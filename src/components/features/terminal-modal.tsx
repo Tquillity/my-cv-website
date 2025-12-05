@@ -201,7 +201,8 @@ Type 'cat [project_name]' for details (Coming soon).
                 <p>Available Games:</p>
                 <ul className="list-disc pl-5 mt-1">
                     <li>guess (Guess the Number 1-100)</li>
-                    <li>blackjack (Coming soon)</li>
+                    <li>Duke Nukem Forever (Coming soon)</li>
+                    <li>Half-Life 3 (Coming soon)</li>
                 </ul>
             </div>
         );
