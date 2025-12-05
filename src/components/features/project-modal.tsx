@@ -38,7 +38,7 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({ selectedProject, onC
     if (selectedProject.additionalImages) {
       images.push(...selectedProject.additionalImages);
     }
-    return images.length > 0 ? images : ["/placeholder.webp"];
+    return images.length > 0 ? images : ["/images/commingsoon.png"];
   };
 
   const allImages = getAllImages();
@@ -47,7 +47,7 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({ selectedProject, onC
   const builder = currentImage && typeof currentImage !== "string" ? urlFor(currentImage) : undefined;
   const imageUrl = builder
     ? builder.width(800).height(600).url()
-    : (typeof currentImage === "string" ? currentImage : "/placeholder.webp");
+    : (typeof currentImage === "string" ? currentImage : "/images/commingsoon.png");
 
   const hasCaseStudy = !!selectedProject.caseStudy;
   const hasMultipleImages = allImages.length > 1;

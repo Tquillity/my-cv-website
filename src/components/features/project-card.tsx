@@ -4,7 +4,6 @@ import { motion } from "framer-motion";
 import Image from "next/image";
 import { Project } from "@/types";
 import { urlFor } from "@/lib/sanity";
-import { ImageOff } from "lucide-react";
 import { useTranslations } from "next-intl";
 
 interface ProjectCardProps {
@@ -17,7 +16,9 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ project, onClick }) =>
   
   const builder = project.mainImage ? urlFor(project.mainImage) : undefined;
   const imageUrl = builder ? builder.width(600).height(400).url() : 
-    (typeof project.mainImage === "string" ? project.mainImage : null);
+    (typeof project.mainImage === "string" && project.mainImage 
+      ? project.mainImage 
+      : "/images/commingsoon.png");
 
   return (
     <motion.div
@@ -26,19 +27,12 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ project, onClick }) =>
       className="group cursor-pointer rounded-xl bg-card text-card-foreground shadow-sm border overflow-hidden hover:shadow-md transition-shadow"
     >
       <div className="relative h-48 w-full overflow-hidden bg-muted flex items-center justify-center">
-        {imageUrl ? (
-          <Image
-            src={imageUrl}
-            alt={project.title}
-            fill
-            className="object-cover transition-transform duration-300 group-hover:scale-105"
-          />
-        ) : (
-          <div className="flex flex-col items-center text-muted-foreground">
-            <ImageOff className="w-8 h-8 mb-2 opacity-50" />
-            <span className="text-xs">{t('no_image')}</span>
-          </div>
-        )}
+        <Image
+          src={imageUrl}
+          alt={project.title}
+          fill
+          className="object-cover transition-transform duration-300 group-hover:scale-105"
+        />
       </div>
       <div className="p-4">
         <h3 className="font-semibold text-lg mb-2">{project.title}</h3>
