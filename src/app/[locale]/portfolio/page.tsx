@@ -3,10 +3,11 @@ import { PortfolioGrid } from "@/components/features/portfolio-grid";
 import { getTranslations } from "next-intl/server";
 
 export default async function PortfolioPage({
-  params: { locale },
+  params,
 }: {
-  params: { locale: string };
+  params: Promise<{ locale: string }>;
 }) {
+  const { locale } = await params;
   const projects = await getProjects();
   const t = await getTranslations("PortfolioPage");
 

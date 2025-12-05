@@ -8,14 +8,10 @@ import { FloatingNavbar } from "@/components/ui/floating-navbar";
 import { TerminalModal } from "@/components/features/terminal-modal";
 import { TerminalProvider } from "@/lib/terminal-context";
 import { BackgroundProvider } from "@/lib/background-context";
-import dynamic from "next/dynamic";
+import { SceneWrapper } from "@/components/3d/scene-wrapper";
 import "@/styles/globals.css";
 
 const inter = Inter({ subsets: ["latin"] });
-
-const Scene = dynamic(() => import("@/components/3d/scene").then((mod) => mod.Scene), {
-  ssr: false,
-});
 
 export const metadata: Metadata = {
   title: "Portfolio 2025",
@@ -24,11 +20,12 @@ export const metadata: Metadata = {
 
 export default async function RootLayout({
   children,
-  params: { locale },
+  params,
 }: {
   children: React.ReactNode;
-  params: { locale: string };
+  params: Promise<{ locale: string }>;
 }) {
+  const { locale } = await params;
   const messages = await getMessages();
 
   return (
@@ -37,7 +34,7 @@ export default async function RootLayout({
         <Providers locale={locale} messages={messages}>
           <TerminalProvider>
             <BackgroundProvider>
-              <Scene />
+              <SceneWrapper />
               <FloatingNavbar locale={locale} />
               {children}
               <AIChat />
@@ -50,4 +47,3 @@ export default async function RootLayout({
     </html>
   );
 }
-

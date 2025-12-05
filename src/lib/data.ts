@@ -51,7 +51,11 @@ export async function getProjects(): Promise<Project[]> {
   }
 
   try {
-    const data = await client.fetch(`*[_type == "project"] | order(publishedAt desc)`);
+    const data = await client.fetch(
+      `*[_type == "project"] | order(publishedAt desc)`,
+      {},
+      { next: { revalidate: 3600 } }
+    );
     console.log(`✅ [DATA] Successfully fetched ${data.length} Projects from Sanity.`);
     return data;
   } catch (error) {
@@ -63,10 +67,14 @@ export async function getProjects(): Promise<Project[]> {
 export async function getExperiences(): Promise<Experience[]> {
   try {
     // Force local data to ensure dates are correct until Sanity is updated
-    const data = await client.fetch(`*[_type == "experience"] | order(startDate desc) {
+    const data = await client.fetch(
+      `*[_type == "experience"] | order(startDate desc) {
       ...,
       "isProminent": coalesce(isProminent, true)
-    }`);
+    }`,
+      {},
+      { next: { revalidate: 3600 } }
+    );
     if (data && data.length > 0) {
       console.log(`✅ [DATA] Successfully fetched ${data.length} Experiences from Sanity.`);
       return data;
@@ -81,10 +89,14 @@ export async function getExperiences(): Promise<Experience[]> {
 
 export async function getEducation(): Promise<Education[]> {
   try {
-    const data = await client.fetch(`*[_type == "education"] | order(startDate desc) {
+    const data = await client.fetch(
+      `*[_type == "education"] | order(startDate desc) {
       ...,
       "isProminent": coalesce(isProminent, true)
-    }`);
+    }`,
+      {},
+      { next: { revalidate: 3600 } }
+    );
     if (data && data.length > 0) {
       console.log(`✅ [DATA] Fetched ${data.length} Education entries from Sanity.`);
       return data;
@@ -99,7 +111,11 @@ export async function getEducation(): Promise<Education[]> {
 
 export async function getProfile(): Promise<SkillSet | null> {
   try {
-    const data = await client.fetch(`*[_type == "skillSet"][0]`);
+    const data = await client.fetch(
+      `*[_type == "skillSet"][0]`,
+      {},
+      { next: { revalidate: 3600 } }
+    );
     if (!data) {
         console.log("⚠️ [DATA] Sanity Profile empty. Using local data.");
         return MOCK_PROFILE;
