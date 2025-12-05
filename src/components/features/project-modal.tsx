@@ -17,10 +17,10 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({ selectedProject, onC
   
   if (!selectedProject) return null;
 
-  const imageUrl =
-    typeof selectedProject.mainImage === "string"
-      ? selectedProject.mainImage
-      : urlFor(selectedProject.mainImage)?.width(800).height(600).url() || "/placeholder.webp";
+  const builder = selectedProject?.mainImage ? urlFor(selectedProject.mainImage) : undefined;
+  const imageUrl = builder 
+    ? builder.width(800).height(600).url() 
+    : (typeof selectedProject?.mainImage === "string" ? selectedProject.mainImage : "/placeholder.webp");
 
   return (
     <AnimatePresence>

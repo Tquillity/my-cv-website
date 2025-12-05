@@ -11,11 +11,8 @@ export const client = createClient({
 const builder = createImageUrlBuilder(client);
 
 export function urlFor(source: any) {
-  // Defensive check: return a dummy builder-like object or null if source is missing
   if (!source || !source.asset) {
-    return {
-      width: () => ({ height: () => ({ url: () => null }) })
-    };
+    return undefined; 
   }
   return builder.image(source);
 }

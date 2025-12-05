@@ -14,13 +14,10 @@ interface ProjectCardProps {
 
 export const ProjectCard: React.FC<ProjectCardProps> = ({ project, onClick }) => {
   const t = useTranslations("PortfolioPage");
-  let imageUrl = null;
   
-  if (typeof project.mainImage === "string") {
-    imageUrl = project.mainImage;
-  } else if (project.mainImage?.asset) {
-    imageUrl = urlFor(project.mainImage).width(600).height(400).url();
-  }
+  const builder = project.mainImage ? urlFor(project.mainImage) : undefined;
+  const imageUrl = builder ? builder.width(600).height(400).url() : 
+    (typeof project.mainImage === "string" ? project.mainImage : null);
 
   return (
     <motion.div

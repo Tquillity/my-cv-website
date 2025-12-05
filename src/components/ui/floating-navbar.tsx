@@ -2,8 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import Link from "next/link";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname, useRouter, Link } from "@/i18n/navigation"; // Use custom hooks
 import { Home, User, Briefcase, Globe } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useTranslations } from "next-intl";
@@ -14,7 +13,6 @@ export const FloatingNavbar = ({ locale }: { locale: string }) => {
   const router = useRouter();
   const [scrolled, setScrolled] = useState(false);
 
-  // Define nav items inside component to access hook
   const navItems = [
     { name: t('home'), link: "/", icon: <Home className="w-4 h-4" /> },
     { name: t('portfolio'), link: "/portfolio", icon: <Briefcase className="w-4 h-4" /> },
@@ -29,8 +27,8 @@ export const FloatingNavbar = ({ locale }: { locale: string }) => {
 
   const toggleLanguage = () => {
     const newLocale = locale === "en" ? "sv" : "en";
-    const newPath = pathname.replace(`/${locale}`, `/${newLocale}`);
-    router.push(newPath);
+    // next-intl handles the prefix replacement automatically
+    router.replace(pathname, { locale: newLocale });
   };
 
   return (
@@ -47,13 +45,14 @@ export const FloatingNavbar = ({ locale }: { locale: string }) => {
           )}
         >
           {navItems.map((item) => {
-            const itemPath = `/${locale}${item.link === "/" ? "" : item.link}`;
-            const isActive = pathname === itemPath || (item.link !== "/" && pathname.startsWith(itemPath));
+            // pathname from @/i18n/navigation does NOT include the locale prefix
+            // so we can compare directly against item.link
+            const isActive = pathname === item.link;
 
             return (
               <Link
                 key={item.link}
-                href={`/${locale}${item.link}`}
+                href={item.link}
                 className={cn(
                   "relative px-4 py-2 rounded-full text-sm font-medium transition-colors hover:text-white",
                   isActive ? "text-white" : "text-slate-400"
