@@ -9,6 +9,7 @@ import { TerminalModal } from "@/components/features/terminal-modal";
 import { TerminalProvider } from "@/lib/terminal-context";
 import { BackgroundProvider } from "@/lib/background-context";
 import { SceneWrapper } from "@/components/3d/scene-wrapper";
+import { BackgroundDimmer } from "@/components/ui/background-dimmer";
 import "@/styles/globals.css";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -35,6 +36,7 @@ export default async function RootLayout({
           <TerminalProvider>
             <BackgroundProvider>
               <SceneWrapper />
+              <BackgroundDimmer />
               <FloatingNavbar locale={locale} />
               {children}
               <AIChat />

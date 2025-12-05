@@ -12,7 +12,7 @@ export default async function PortfolioPage({
   const t = await getTranslations("PortfolioPage");
 
   return (
-    <main className="min-h-screen bg-background">
+    <main className="min-h-screen">
       <div className="container mx-auto px-4 py-24">
       <h1 className="text-4xl font-bold mb-12 text-center">{t('title')}</h1>
       <PortfolioGrid projects={projects} />

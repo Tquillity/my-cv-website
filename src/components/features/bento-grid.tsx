@@ -21,17 +21,13 @@ export const BentoGrid = ({ children, className }: BentoGridProps) => {
 };
 
 export const BentoCard = ({ children, className, colSpan = 1 }: BentoCardProps) => {
-  const colSpanClass = {
-    1: "lg:col-span-4", // Default 1/3 width on 12-col grid (Wait, 12 cols. 1/3 is 4. 1/2 is 6. 2/3 is 8. Full is 12.)
-    2: "lg:col-span-6", // Half width
-    3: "lg:col-span-8", // 2/3 width (approx) - actually I should make this flexible
-  };
-  
-  // Let's simplify. The grid is 12 columns.
-  // We can pass raw col classes in className.
-  
   return (
-    <div className={cn("relative overflow-hidden rounded-3xl border border-white/10 bg-white/5 p-6 md:p-8 backdrop-blur-md shadow-sm hover:shadow-md transition-all duration-300", className)}>
+    <div className={cn(
+      "relative overflow-hidden rounded-3xl border border-white/10",
+      "bg-black/40 backdrop-blur-md", // UPDATED: Darker for readability
+      "p-6 md:p-8 shadow-sm hover:shadow-md transition-all duration-300",
+      className
+    )}>
       {children}
     </div>
   );

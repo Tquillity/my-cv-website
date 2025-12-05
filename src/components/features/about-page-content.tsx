@@ -34,7 +34,7 @@ const EducationCard = ({ edu, t }: { edu: Education; t: any }) => {
       className={`p-4 rounded-xl border border-white/10 transition-colors duration-300 cursor-default relative overflow-hidden ${
         isHovered 
           ? "bg-[#0B1120] border-primary/30 shadow-2xl ring-1 ring-primary/20 z-10" 
-          : "bg-white/5 hover:border-white/20 z-0"
+          : "bg-black/40 backdrop-blur-sm hover:border-white/20 z-0" // UPDATED: Readability for non-hover
       }`}
     >
       <motion.div layout="position" className="flex justify-between items-start">
@@ -80,7 +80,7 @@ export const AboutPageContent: React.FC<AboutPageProps> = ({ education, experien
   );
 
   return (
-    <main className="min-h-screen bg-background text-foreground overflow-hidden pt-32 pb-20 px-4">
+    <main className="min-h-screen text-foreground overflow-hidden pt-32 pb-20 px-4">
       <div className="container mx-auto max-w-6xl space-y-12">
         
         {/* Header Section */}
