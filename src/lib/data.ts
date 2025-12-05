@@ -22,6 +22,7 @@ const MOCK_EXPERIENCE: Experience[] = cvData.experiences.map((exp: any) => ({
   startDate: exp.startDate || String(exp.startYear),
   endDate: exp.endDate || String(exp.endYear),
   isCurrent: exp.isCurrent || false,
+  isProminent: exp.isProminent ?? true,
   description: exp.description,
   skills: exp.skills,
 }));
@@ -32,6 +33,7 @@ const MOCK_EDUCATION: Education[] = cvData.education.map((edu: any, index: numbe
   degree: edu.degree,
   startDate: edu.startDate || String(edu.startYear),
   endDate: edu.endDate || String(edu.endYear),
+  isProminent: edu.isProminent ?? true,
   description: edu.description,
 }));
 

@@ -188,7 +188,7 @@ export const AboutPageContent: React.FC<AboutPageProps> = ({ education, experien
               <div>
                 <h2 className="text-3xl font-bold">{t('work_experience')}</h2>
                 <p className="text-slate-400 text-sm mt-1">
-                  {showLegacy ? "Showing full career history (1995 - Present)" : "Highlighting recent relevant experience"}
+                  {showLegacy ? t('show_full_history') : t('show_recent')}
                 </p>
               </div>
             </div>
@@ -199,7 +199,7 @@ export const AboutPageContent: React.FC<AboutPageProps> = ({ education, experien
                  onCheckedChange={setShowLegacy} 
                />
                <span className="text-sm font-medium text-slate-300">
-                 {showLegacy ? "Full History" : "Relevant Only"}
+                 {showLegacy ? t('toggle_full') : t('toggle_relevant')}
                </span>
             </div>
           </div>
@@ -233,7 +233,7 @@ export const AboutPageContent: React.FC<AboutPageProps> = ({ education, experien
                   className="text-sm text-slate-500 hover:text-primary transition-colors flex items-center justify-center gap-2 mx-auto"
                 >
                   <Briefcase className="w-4 h-4" />
-                  Show previous roles (Logistics, Military, Seismic)
+                  {t('show_previous_btn')}
                 </button>
               </motion.div>
             )}

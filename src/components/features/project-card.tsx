@@ -4,7 +4,8 @@ import { motion } from "framer-motion";
 import Image from "next/image";
 import { Project } from "@/types";
 import { urlFor } from "@/lib/sanity";
-import { ImageOff } from "lucide-react"; // Import icon for missing image
+import { ImageOff } from "lucide-react";
+import { useTranslations } from "next-intl";
 
 interface ProjectCardProps {
   project: Project;
@@ -12,13 +13,12 @@ interface ProjectCardProps {
 }
 
 export const ProjectCard: React.FC<ProjectCardProps> = ({ project, onClick }) => {
-  // Safe Image Logic
+  const t = useTranslations("PortfolioPage");
   let imageUrl = null;
   
   if (typeof project.mainImage === "string") {
-    imageUrl = project.mainImage; // Mock data string
+    imageUrl = project.mainImage;
   } else if (project.mainImage?.asset) {
-    // Only call urlFor if asset exists
     imageUrl = urlFor(project.mainImage).width(600).height(400).url();
   }
 
@@ -39,7 +39,7 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ project, onClick }) =>
         ) : (
           <div className="flex flex-col items-center text-muted-foreground">
             <ImageOff className="w-8 h-8 mb-2 opacity-50" />
-            <span className="text-xs">No Image</span>
+            <span className="text-xs">{t('no_image')}</span>
           </div>
         )}
       </div>
@@ -56,7 +56,7 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ project, onClick }) =>
               </span>
             ))
           ) : (
-            <span className="text-xs text-muted-foreground">No tags</span>
+            <span className="text-xs text-muted-foreground">{t('no_tags')}</span>
           )}
         </div>
       </div>

@@ -5,6 +5,7 @@ import Image from "next/image";
 import { Project } from "@/types";
 import { urlFor } from "@/lib/sanity";
 import { X, Github, ExternalLink } from "lucide-react";
+import { useTranslations } from "next-intl";
 
 interface ProjectModalProps {
   selectedProject: Project | null;
@@ -12,6 +13,8 @@ interface ProjectModalProps {
 }
 
 export const ProjectModal: React.FC<ProjectModalProps> = ({ selectedProject, onClose }) => {
+  const t = useTranslations("PortfolioPage");
+  
   if (!selectedProject) return null;
 
   const imageUrl =
@@ -74,7 +77,7 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({ selectedProject, onC
                       className="flex items-center gap-2 px-4 py-2 rounded-md bg-primary text-primary-foreground hover:bg-primary/90 transition-colors text-sm font-medium"
                     >
                       <Github className="w-4 h-4" />
-                      GitHub
+                      {t('github')}
                     </a>
                   )}
                   {selectedProject.liveUrl && (
@@ -85,7 +88,7 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({ selectedProject, onC
                       className="flex items-center gap-2 px-4 py-2 rounded-md border hover:bg-accent hover:text-accent-foreground transition-colors text-sm font-medium"
                     >
                       <ExternalLink className="w-4 h-4" />
-                      Live Demo
+                      {t('live_demo')}
                     </a>
                   )}
                 </div>

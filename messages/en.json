@@ -6,6 +6,18 @@
     "view_work": "View Work",
     "full_resume": "Full Resume"
   },
+  "Navigation": {
+    "home": "Home",
+    "portfolio": "Portfolio",
+    "about": "About"
+  },
+  "PortfolioPage": {
+    "title": "Portfolio",
+    "no_image": "No Image",
+    "no_tags": "No tags",
+    "github": "GitHub",
+    "live_demo": "Live Demo"
+  },
   "AboutPage": {
     "title": "About Me",
     "subtitle": "My journey, skills, and experience.",
@@ -15,7 +27,12 @@
     "languages": "Languages",
     "education": "Education",
     "work_experience": "Work Experience",
-    "present": "Present"
+    "present": "Present",
+    "show_full_history": "Showing full career history (1995 - Present)",
+    "show_recent": "Highlighting recent relevant experience",
+    "toggle_full": "Full History",
+    "toggle_relevant": "Relevant Only",
+    "show_previous_btn": "Show previous roles (Logistics, Military, Seismic)"
   },
   "AIChat": {
     "toggle_label": "Toggle AI Chat",
@@ -26,5 +43,30 @@
     "empty_state_2": "Ask me about his projects, skills, or experience!",
     "error_message": "Sorry, I'm having trouble connecting right now.",
     "loading": "Thinking..."
+  },
+  "Terminal": {
+    "welcome_os": "MIKAEL_OS v2.0.4 [Protected Mode]",
+    "help_prompt": "Type 'help' for a list of commands. Type 'games' to play.",
+    "help_desc": "Show this message",
+    "whoami_desc": "Current user info",
+    "about_desc": "Read bio (text mode)",
+    "projects_desc": "List projects (ASCII)",
+    "skills_desc": "Display technical stack",
+    "games_desc": "Play terminal games",
+    "clear_desc": "Clear screen",
+    "exit_desc": "Close terminal",
+    "sudo_hint": "Try 'sudo' commands for admin access...",
+    "games_header": "AVAILABLE CARTRIDGES:",
+    "game_asteroids": "Type 'asteroids' to play Space Defense",
+    "game_runner": "Type 'runner' to play Cyber Run",
+    "game_snake": "Type 'snake' to play Cyber Snake",
+    "coming_soon": "Coming soon",
+    "warning_title": "⚠️ Welcome to the 80's",
+    "warning_line1": "Clicking the desktop has never worked — not even back in X11 R5 days.",
+    "warning_line2": "Please type \"exit\", \"logout\", or \"bye\" …or just use the proper [X] in the corner.",
+    "warning_line3": "(Your mouse appreciates the gentle treatment!)",
+    "final_title": "OK, Sigh.",
+    "final_line1": "Modernity wins.",
+    "final_line2": "Closing terminal..."
   }
 }

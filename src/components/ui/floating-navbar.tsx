@@ -6,17 +6,20 @@ import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { Home, User, Briefcase, Globe } from "lucide-react";
 import { cn } from "@/lib/utils";
-
-const navItems = [
-  { name: "Home", link: "/", icon: <Home className="w-4 h-4" /> },
-  { name: "Portfolio", link: "/portfolio", icon: <Briefcase className="w-4 h-4" /> },
-  { name: "About", link: "/about", icon: <User className="w-4 h-4" /> },
-];
+import { useTranslations } from "next-intl";
 
 export const FloatingNavbar = ({ locale }: { locale: string }) => {
+  const t = useTranslations("Navigation");
   const pathname = usePathname();
   const router = useRouter();
   const [scrolled, setScrolled] = useState(false);
+
+  // Define nav items inside component to access hook
+  const navItems = [
+    { name: t('home'), link: "/", icon: <Home className="w-4 h-4" /> },
+    { name: t('portfolio'), link: "/portfolio", icon: <Briefcase className="w-4 h-4" /> },
+    { name: t('about'), link: "/about", icon: <User className="w-4 h-4" /> },
+  ];
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 20);
@@ -26,7 +29,6 @@ export const FloatingNavbar = ({ locale }: { locale: string }) => {
 
   const toggleLanguage = () => {
     const newLocale = locale === "en" ? "sv" : "en";
-    // Replace the locale segment in the path
     const newPath = pathname.replace(`/${locale}`, `/${newLocale}`);
     router.push(newPath);
   };
@@ -45,13 +47,12 @@ export const FloatingNavbar = ({ locale }: { locale: string }) => {
           )}
         >
           {navItems.map((item) => {
-            // Determine if active. Handle root "/" vs subpaths.
             const itemPath = `/${locale}${item.link === "/" ? "" : item.link}`;
             const isActive = pathname === itemPath || (item.link !== "/" && pathname.startsWith(itemPath));
 
             return (
               <Link
-                key={item.name}
+                key={item.link}
                 href={`/${locale}${item.link}`}
                 className={cn(
                   "relative px-4 py-2 rounded-full text-sm font-medium transition-colors hover:text-white",

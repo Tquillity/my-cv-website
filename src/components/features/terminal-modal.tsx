@@ -2,10 +2,15 @@
 
 import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { X, Terminal as TerminalIcon, Maximize2, Minimize2 } from "lucide-react";
+import { X, Terminal as TerminalIcon, Maximize2, Minimize2, Gamepad2 } from "lucide-react";
 import { useTerminal } from "@/lib/terminal-context";
 import { MatrixRain } from "./matrix-rain";
 import { useTranslations } from "next-intl";
+
+// Import Games
+import { SpaceDefense } from "@/components/games/space-defense";
+import { CyberRun } from "@/components/games/cyber-run";
+import { CyberSnake } from "@/components/games/cyber-snake";
 
 interface Command {
   input: string;
@@ -13,22 +18,32 @@ interface Command {
   style?: "normal" | "error" | "success" | "warning";
 }
 
-// Simple Game State
-type GameState = "NONE" | "GUESS_NUMBER";
+// 1. UPDATE TYPE
+type GameState = "NONE" | "ASTEROIDS" | "RUNNER" | "SNAKE";
 
 export const TerminalModal = ({ locale }: { locale: string }) => {
-  const t = useTranslations("AboutPage"); // Access existing data
+  const t = useTranslations("Terminal");
+  const t_data = useTranslations("AboutPage");
   const { isOpen, close } = useTerminal();
   const [input, setInput] = useState("");
   const [history, setHistory] = useState<Command[]>([
-    { input: "", output: "MIKAEL_OS v2.0.4 [Protected Mode]" },
-    { input: "", output: "Type 'help' for a list of commands." }
+    { input: "", output: "MIKAEL_OS v2.0.4 [Protected Mode]" }, // Kept hardcoded as it's a system string, or could use t('welcome_os') if preferred but prompt says "welcome_os" in json
   ]);
+
+  // Init history with localized strings on mount/open
+  useEffect(() => {
+      if (isOpen) {
+          setHistory([
+              { input: "", output: t('welcome_os') },
+              { input: "", output: t('help_prompt') }
+          ]);
+      }
+  }, [isOpen, t]);
+
 
   // Advanced States
   const [matrixMode, setMatrixMode] = useState(false);
   const [gameState, setGameState] = useState<GameState>("NONE");
-  const [gameData, setGameData] = useState<any>(null); // Store random number etc
   const [isFullScreen, setIsFullScreen] = useState(false);
   const [showWarning, setShowWarning] = useState(false);
   const [showFinalModal, setShowFinalModal] = useState(false);
@@ -38,15 +53,14 @@ export const TerminalModal = ({ locale }: { locale: string }) => {
   const scrollRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (isOpen) {
+    if (isOpen && gameState === "NONE") {
       setTimeout(() => inputRef.current?.focus(), 100);
       scrollToBottom();
-      // Reset warning state when terminal opens
       setShowWarning(false);
       setShowFinalModal(false);
       setClickCount(0);
     }
-  }, [isOpen, history]);
+  }, [isOpen, history, gameState]);
 
   // Handle outside clicks with warning system
   useEffect(() => {
@@ -58,39 +72,25 @@ export const TerminalModal = ({ locale }: { locale: string }) => {
       const target = event.target as Element;
       const terminalContainer = document.querySelector('[data-terminal-container]');
 
-      // Don't close if clicking inside terminal
-      if (terminalContainer && terminalContainer.contains(target)) {
-        return;
-      }
+      if (terminalContainer && terminalContainer.contains(target)) return;
 
-      // Don't trigger on warning modal or final modal clicks
-      if (showWarning || showFinalModal) {
-        return;
-      }
+      if (showWarning || showFinalModal) return;
 
       setClickCount(prev => {
         const newCount = prev + 1;
 
         if (newCount === 1) {
-          // First click - show warning
           setShowWarning(true);
-
-          // Reset click count after 6 seconds if no double click
           clickTimer = setTimeout(() => {
             setClickCount(0);
             setShowWarning(false);
           }, 6000);
 
         } else if (newCount === 2) {
-          // Double click - show final modal
           clearTimeout(clickTimer);
           setShowWarning(false);
           setShowFinalModal(true);
-
-          // Close terminal after 3 seconds
-          setTimeout(() => {
-            close();
-          }, 3000);
+          setTimeout(() => close(), 3000);
         }
 
         return newCount;
@@ -116,13 +116,6 @@ export const TerminalModal = ({ locale }: { locale: string }) => {
 
     if (!cmd) return;
 
-    // 1. GAME MODE INTERCEPTION
-    if (gameState === "GUESS_NUMBER") {
-        playGuessNumber(cmd);
-        setInput("");
-        return;
-    }
-
     let output: React.ReactNode = "";
     let style: Command["style"] = "normal";
 
@@ -131,15 +124,15 @@ export const TerminalModal = ({ locale }: { locale: string }) => {
       case cmd === "help":
         output = (
           <div className="grid grid-cols-2 gap-x-4 gap-y-1 max-w-md">
-            <span>help</span> <span className="text-slate-500">Show this message</span>
-            <span>whoami</span> <span className="text-slate-500">Current user info</span>
-            <span>about</span> <span className="text-slate-500">Read bio (text mode)</span>
-            <span>projects</span> <span className="text-slate-500">List projects (ASCII)</span>
-            <span>skills</span> <span className="text-slate-500">Display technical stack</span>
-            <span>games</span> <span className="text-slate-500">Play terminal games</span>
-            <span>clear</span> <span className="text-slate-500">Clear screen</span>
-            <span>exit</span> <span className="text-slate-500">Close terminal</span>
-            <span className="col-span-2 text-slate-600 mt-2 italic">Try &apos;sudo&apos; commands for admin access...</span>
+            <span>help</span> <span className="text-slate-500">{t('help_desc')}</span>
+            <span>whoami</span> <span className="text-slate-500">{t('whoami_desc')}</span>
+            <span>about</span> <span className="text-slate-500">{t('about_desc')}</span>
+            <span>projects</span> <span className="text-slate-500">{t('projects_desc')}</span>
+            <span>skills</span> <span className="text-slate-500">{t('skills_desc')}</span>
+            <span>games</span> <span className="text-slate-500">{t('games_desc')}</span>
+            <span>clear</span> <span className="text-slate-500">{t('clear_desc')}</span>
+            <span>exit</span> <span className="text-slate-500">{t('exit_desc')}</span>
+            <span className="col-span-2 text-slate-600 mt-2 italic">{t('sudo_hint')}</span>
           </div>
         );
         break;
@@ -160,8 +153,8 @@ export const TerminalModal = ({ locale }: { locale: string }) => {
         output = (
             <div className="space-y-2 border-l-2 border-green-800 pl-4 my-2">
                 <p className="text-white font-bold">Subject: Mikael Sundh</p>
-                <p>{t('intro')}</p>
-                <p className="opacity-70">Experience: {t('experience_section')}</p>
+                <p>{t_data('intro')}</p>
+                <p className="opacity-70">Experience: {t_data('experience_section')}</p>
                 <p className="text-xs text-green-700">END OF FILE</p>
             </div>
         );
@@ -178,7 +171,7 @@ export const TerminalModal = ({ locale }: { locale: string }) => {
 | OmniComment          | React, Blockchain | [Archived]            |
 | Smart Wallet         | Solidity, Web3    | [Deployed]            |
 +----------------------+-------------------+-----------------------+
-Type 'cat [project_name]' for details (Coming soon).
+Type 'cat [project_name]' for details.
 `}
             </div>
         );
@@ -197,25 +190,34 @@ Type 'cat [project_name]' for details (Coming soon).
       // 4. GAMES
       case cmd === "games":
         output = (
-            <div>
-                <p>Available Games:</p>
-                <ul className="list-disc pl-5 mt-1">
-                    <li>guess (Guess the Number 1-100)</li>
-                    <li>Duke Nukem Forever (Coming soon)</li>
-                    <li>Half-Life 3 (Coming soon)</li>
+            <div className="space-y-2">
+                <p>{t('games_header')}</p>
+                <ul className="list-disc pl-5 text-green-300">
+                    <li>{t('game_asteroids')}</li>
+                    <li>{t('game_runner')}</li>
+                    <li>{t('game_snake')}</li>
+                    <li>Duke Nukem Forever ({t('coming_soon')})</li>
+                    <li>Half-Life 3 ({t('coming_soon')})</li>
                 </ul>
             </div>
         );
         break;
+      
+      // 5. GAME TRIGGERS
+      case cmd === "asteroids":
+        setGameState("ASTEROIDS");
+        setInput("");
+        return; // Return early to skip history update
+      case cmd === "runner":
+        setGameState("RUNNER");
+        setInput("");
+        return; 
+      case cmd === "snake":
+        setGameState("SNAKE");
+        setInput("");
+        return;
 
-      case cmd === "guess":
-        setGameState("GUESS_NUMBER");
-        setGameData({ target: Math.floor(Math.random() * 100) + 1, attempts: 0 });
-        output = "GAME STARTED: I am thinking of a number between 1 and 100. Guess it.";
-        style = "success";
-        break;
-
-      // 5. SUDO / EASTER EGGS
+      // 6. SUDO / EASTER EGGS
       case cmd.startsWith("sudo"):
         if (cmd === "sudo matrix") {
             setMatrixMode(prev => !prev);
@@ -241,49 +243,12 @@ Type 'cat [project_name]' for details (Coming soon).
          break;
 
       default:
-        output = `Command not found: ${rawCmd}. Type 'help' for commands.`;
+        output = `Command not found: ${rawCmd}`;
         style = "error";
     }
 
     setHistory(prev => [...prev, { input: rawCmd, output, style }]);
     setInput("");
-  };
-
-  // ----------------------------------------------------------------
-  // GAME ENGINES
-  // ----------------------------------------------------------------
-  const playGuessNumber = (guessStr: string) => {
-     if (guessStr === "quit" || guessStr === "exit") {
-         setGameState("NONE");
-         setHistory(prev => [...prev, { input: guessStr, output: "Game Exited." }]);
-         return;
-     }
-
-     const guess = parseInt(guessStr);
-     let response = "";
-     let style: Command["style"] = "normal";
-
-     if (isNaN(guess)) {
-         response = "Please enter a valid number or type 'quit'.";
-         style = "warning";
-     } else {
-         const { target, attempts } = gameData;
-         const newAttempts = attempts + 1;
-
-         if (guess === target) {
-             response = `CORRECT! The number was ${target}. You won in ${newAttempts} attempts. (Game Over)`;
-             style = "success";
-             setGameState("NONE");
-         } else if (guess < target) {
-             response = "Too Low. Try again.";
-             setGameData({ ...gameData, attempts: newAttempts });
-         } else {
-             response = "Too High. Try again.";
-             setGameData({ ...gameData, attempts: newAttempts });
-         }
-     }
-
-     setHistory(prev => [...prev, { input: guessStr, output: response, style }]);
   };
 
   // ----------------------------------------------------------------
@@ -293,12 +258,13 @@ Type 'cat [project_name]' for details (Coming soon).
     <AnimatePresence>
       {isOpen && (
         <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
-            {/* BACKDROP DIMMER - Remove onClick since we handle it differently now */}
+            {/* BACKDROP DIMMER */}
             <motion.div
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
                 className="absolute inset-0 bg-black/60 backdrop-blur-sm"
+                onClick={close} 
             />
 
             {/* WARNING MODAL */}
@@ -311,11 +277,11 @@ Type 'cat [project_name]' for details (Coming soon).
                   className="absolute inset-0 z-[110] flex items-center justify-center p-4"
                 >
                   <div className="bg-black/90 border-2 border-green-500 rounded-lg p-6 max-w-md mx-4 text-center text-green-400 font-mono">
-                    <div className="text-lg font-bold mb-4">⚠️ Welcome to 1994</div>
+                    <div className="text-lg font-bold mb-4">{t('warning_title')}</div>
                     <div className="text-sm space-y-2">
-                      <p>Clicking the desktop has never worked — not even back in X11 R5 days.</p>
-                      <p>Please type &quot;exit&quot;, &quot;logout&quot;, or &quot;bye&quot; …or just use the proper [X] in the corner.</p>
-                      <p className="text-xs opacity-70 mt-4">(Your mouse appreciates the gentle treatment!)</p>
+                      <p>{t('warning_line1')}</p>
+                      <p>{t('warning_line2')}</p>
+                      <p className="text-xs opacity-70 mt-4">{t('warning_line3')}</p>
                       <div className="text-2xl mt-4">❤️</div>
                     </div>
                   </div>
@@ -333,10 +299,10 @@ Type 'cat [project_name]' for details (Coming soon).
                   className="absolute inset-0 z-[110] flex items-center justify-center p-4"
                 >
                   <div className="bg-black/90 border-2 border-green-500 rounded-lg p-6 max-w-md mx-4 text-center text-green-400 font-mono">
-                    <div className="text-lg font-bold mb-4">OK, Sigh.</div>
+                    <div className="text-lg font-bold mb-4">{t('final_title')}</div>
                     <div className="text-sm">
-                      <p>Modernity wins.</p>
-                      <p className="text-xs opacity-70 mt-4">Closing terminal...</p>
+                      <p>{t('final_line1')}</p>
+                      <p className="text-xs opacity-70 mt-4">{t('final_line2')}</p>
                     </div>
                   </div>
                 </motion.div>
@@ -361,7 +327,7 @@ Type 'cat [project_name]' for details (Coming soon).
                 className={`relative bg-black border-2 border-green-800 shadow-[0_0_50px_rgba(0,255,0,0.2)] overflow-hidden flex flex-col font-mono text-sm md:text-base ${
                     isFullScreen ? "w-full h-full" : "w-full max-w-4xl h-[80vh] rounded-lg"
                 }`}
-                onClick={() => inputRef.current?.focus()}
+                onClick={() => gameState === "NONE" && inputRef.current?.focus()}
             >
                 {/* 1. MATRIX RAIN LAYER (Conditional) */}
                 {matrixMode && <MatrixRain />}
@@ -373,8 +339,10 @@ Type 'cat [project_name]' for details (Coming soon).
                 {/* 3. HEADER */}
                 <div className="relative z-30 flex justify-between items-center px-4 py-2 bg-green-900/20 border-b border-green-800 text-green-400">
                     <div className="flex items-center gap-2">
-                        <TerminalIcon className="w-4 h-4" />
-                        <span className="font-bold tracking-wider">MIKAEL_OS_TERMINAL</span>
+                         {gameState !== "NONE" ? <Gamepad2 className="w-4 h-4 text-green-300 animate-pulse" /> : <TerminalIcon className="w-4 h-4" />}
+                        <span className="font-bold tracking-wider">
+                             {gameState === "NONE" ? "MIKAEL_OS_TERMINAL" : `PLAYING: ${gameState}`}
+                        </span>
                     </div>
                     <div className="flex gap-4">
                          <button onClick={() => setIsFullScreen(!isFullScreen)} className="hover:text-white">
@@ -387,40 +355,52 @@ Type 'cat [project_name]' for details (Coming soon).
                 </div>
 
                 {/* 4. CONTENT AREA */}
-                <div className="relative z-30 flex-1 overflow-y-auto p-4 md:p-6 space-y-2 text-green-500 scrollbar-hide">
-                    {history.map((line, i) => (
-                        <div key={i} className={`${
-                            line.style === 'error' ? 'text-red-400' :
-                            line.style === 'success' ? 'text-green-300' :
-                            line.style === 'warning' ? 'text-yellow-400' :
-                            'text-green-500'
-                        }`}>
-                            {line.input && (
-                                <div className="flex gap-2 opacity-70">
-                                    <span>guest@mikael-cv:~$</span>
-                                    <span>{line.input}</span>
-                                </div>
-                            )}
-                            <div className="whitespace-pre-wrap leading-relaxed ml-2">{line.output}</div>
-                        </div>
-                    ))}
+                <div className="relative z-30 flex-1 overflow-hidden bg-black/50">
+                  {gameState === "ASTEROIDS" && (
+                      <SpaceDefense onExit={() => setGameState("NONE")} />
+                  )}
+                  {gameState === "RUNNER" && (
+                      <CyberRun onExit={() => setGameState("NONE")} />
+                  )}
+                  {gameState === "SNAKE" && (
+                      <CyberSnake onExit={() => setGameState("NONE")} />
+                  )}
 
-                    {/* INPUT LINE */}
-                    <form onSubmit={handleCommand} className="flex gap-2 items-center mt-4">
-                        <span className="text-green-400 shrink-0 font-bold">
-                            {gameState === "GUESS_NUMBER" ? "GAME >>" : "guest@mikael-cv:~$"}
-                        </span>
-                        <input
-                            ref={inputRef}
-                            value={input}
-                            onChange={(e) => setInput(e.target.value)}
-                            className="bg-transparent border-none outline-none flex-1 text-green-100 placeholder-green-800 caret-green-500 terminal-text"
-                            autoFocus
-                            spellCheck={false}
-                            autoComplete="off"
-                        />
-                    </form>
-                    <div ref={scrollRef} />
+                  {gameState === "NONE" && (
+                    <div className="h-full overflow-y-auto p-4 md:p-6 space-y-2 text-green-500 scrollbar-hide">
+                        {history.map((line, i) => (
+                            <div key={i} className={`${
+                                line.style === 'error' ? 'text-red-400' :
+                                line.style === 'success' ? 'text-green-300' :
+                                line.style === 'warning' ? 'text-yellow-400' :
+                                'text-green-500'
+                            }`}>
+                                {line.input && (
+                                    <div className="flex gap-2 opacity-70">
+                                        <span>guest@mikael-cv:~$</span>
+                                        <span>{line.input}</span>
+                                    </div>
+                                )}
+                                <div className="whitespace-pre-wrap leading-relaxed ml-2">{line.output}</div>
+                            </div>
+                        ))}
+
+                        {/* INPUT LINE */}
+                        <form onSubmit={handleCommand} className="flex gap-2 items-center mt-4">
+                            <span className="text-green-400 shrink-0 font-bold">guest@mikael-cv:~$</span>
+                            <input
+                                ref={inputRef}
+                                value={input}
+                                onChange={(e) => setInput(e.target.value)}
+                                className="bg-transparent border-none outline-none flex-1 text-green-100 placeholder-green-800 caret-green-500 terminal-text"
+                                autoFocus
+                                spellCheck={false}
+                                autoComplete="off"
+                            />
+                        </form>
+                        <div ref={scrollRef} />
+                    </div>
+                  )}
                 </div>
             </motion.div>
         </div>
