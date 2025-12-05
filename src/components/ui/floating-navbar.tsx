@@ -8,6 +8,7 @@ import { cn } from "@/lib/utils";
 import { useTranslations } from "next-intl";
 
 import { BackgroundSwitcher } from "./background-switcher";
+import { ThemeToggle } from "./theme-toggle";
 
 export const FloatingNavbar = ({ locale }: { locale: string }) => {
   const t = useTranslations("Navigation");
@@ -74,6 +75,10 @@ export const FloatingNavbar = ({ locale }: { locale: string }) => {
               </Link>
             );
           })}
+
+          <div className="w-px h-6 bg-white/10 mx-2" />
+
+          <ThemeToggle />
 
           <div className="w-px h-6 bg-white/10 mx-2" />
 

@@ -12,8 +12,12 @@ interface ProvidersProps {
 export function Providers({ children, locale, messages }: ProvidersProps) {
   return (
     <NextIntlClientProvider locale={locale} messages={messages} timeZone="Europe/Stockholm">
-      {/* FORCE DARK MODE: attribute="class" and defaultTheme="dark" forcedTheme="dark" */}
-      <ThemeProvider attribute="class" defaultTheme="dark" forcedTheme="dark" enableSystem={false}>
+      <ThemeProvider 
+        attribute="class" 
+        defaultTheme="system" 
+        enableSystem 
+        themes={['light', 'dark', 'middle']}
+      >
         {children}
       </ThemeProvider>
     </NextIntlClientProvider>

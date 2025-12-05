@@ -31,20 +31,20 @@ const EducationCard = ({ edu, t }: { edu: Education; t: any }) => {
       exit={{ opacity: 0, x: -10 }}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
-      className={`p-4 rounded-xl border border-white/10 transition-colors duration-300 cursor-default relative overflow-hidden ${
+      className={`p-4 rounded-xl border border-border/50 transition-colors duration-300 cursor-default relative overflow-hidden ${
         isHovered 
-          ? "bg-[#0B1120] border-primary/30 shadow-2xl ring-1 ring-primary/20 z-10" 
-          : "bg-black/40 backdrop-blur-sm hover:border-white/20 z-0" // UPDATED: Readability for non-hover
+          ? "bg-card border-primary/30 shadow-2xl ring-1 ring-primary/20 z-10" 
+          : "bg-card/40 backdrop-blur-sm hover:border-border/80 z-0" // UPDATED: Semantic colors
       }`}
     >
       <motion.div layout="position" className="flex justify-between items-start">
         <div>
-          <h3 className={`font-bold transition-colors ${isHovered ? "text-primary" : "text-slate-200"}`}>
+          <h3 className={`font-bold transition-colors ${isHovered ? "text-primary" : "text-foreground"}`}>
             {edu.institution}
           </h3>
-          <p className="text-xs text-blue-300 font-mono mt-0.5">{edu.degree}</p>
+          <p className="text-xs text-muted-foreground font-mono mt-0.5">{edu.degree}</p>
         </div>
-        <span className="text-xs text-slate-500 font-mono whitespace-nowrap bg-black/20 px-2 py-1 rounded">
+        <span className="text-xs text-muted-foreground font-mono whitespace-nowrap bg-secondary/50 px-2 py-1 rounded">
           {edu.startDate?.split("-")[0]} — {edu.endDate ? edu.endDate.split("-")[0] : t('present')}
         </span>
       </motion.div>
@@ -59,7 +59,7 @@ const EducationCard = ({ edu, t }: { edu: Education; t: any }) => {
         transition={{ duration: 0.3, ease: "circOut" }}
         className="overflow-hidden"
       >
-        <p className="text-sm text-slate-400 leading-relaxed border-t border-white/5 pt-3">
+        <p className="text-sm text-muted-foreground leading-relaxed border-t border-border/50 pt-3">
           {edu.description}
         </p>
       </motion.div>
@@ -86,10 +86,10 @@ export const AboutPageContent: React.FC<AboutPageProps> = ({ education, experien
         {/* Header Section */}
         <div className="flex justify-between items-end">
           <div>
-            <h1 className="text-4xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-white to-slate-400">
+            <h1 className="text-4xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-foreground to-muted-foreground">
               {t('title') || "About Me"}
             </h1>
-            <p className="text-slate-400 mt-2">
+            <p className="text-muted-foreground mt-2">
               {t('subtitle') || "My journey, skills, and experience."}
             </p>
           </div>
@@ -103,9 +103,9 @@ export const AboutPageContent: React.FC<AboutPageProps> = ({ education, experien
             <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-primary to-transparent opacity-50" />
             <div className="flex items-center gap-3 mb-4">
               <User className="w-6 h-6 text-primary" />
-              <h2 className="text-2xl font-semibold">Technical Objective</h2>
+              <h2 className="text-2xl font-semibold text-foreground">Technical Objective</h2>
             </div>
-            <p className="text-lg leading-relaxed text-slate-300 font-light">
+            <p className="text-lg leading-relaxed text-muted-foreground font-light">
               {profile?.bio || "Loading bio..."}
             </p>
           </BentoCard>
@@ -113,17 +113,17 @@ export const AboutPageContent: React.FC<AboutPageProps> = ({ education, experien
           {/* 2. Languages & Profile Stats */}
           <BentoCard className="lg:col-span-5">
             <div className="flex items-center gap-3 mb-6">
-              <Languages className="w-6 h-6 text-purple-400" />
-              <h2 className="text-2xl font-semibold">{t('languages')}</h2>
+              <Languages className="w-6 h-6 text-primary" />
+              <h2 className="text-2xl font-semibold text-foreground">{t('languages')}</h2>
             </div>
             <div className="space-y-5">
               {profile?.languages?.map((lang, index) => (
                 <div key={lang.language} className="space-y-2">
                   <div className="flex justify-between text-sm">
-                    <span className="font-medium text-slate-200">{lang.language}</span>
+                    <span className="font-medium text-foreground">{lang.language}</span>
                     <span className="text-muted-foreground text-xs uppercase tracking-wider">{lang.proficiency}</span>
                   </div>
-                  <div className="h-1.5 w-full bg-white/5 rounded-full overflow-hidden">
+                  <div className="h-1.5 w-full bg-secondary rounded-full overflow-hidden">
                     <motion.div
                       initial={{ width: 0 }}
                       whileInView={{ 
@@ -133,7 +133,7 @@ export const AboutPageContent: React.FC<AboutPageProps> = ({ education, experien
                           "90%" 
                       }}
                       transition={{ duration: 1, delay: 0.2 + (index * 0.1) }}
-                      className="h-full bg-gradient-to-r from-purple-500 to-blue-500"
+                      className="h-full bg-primary"
                     />
                   </div>
                 </div>
@@ -144,8 +144,8 @@ export const AboutPageContent: React.FC<AboutPageProps> = ({ education, experien
           {/* 3. Skills Cloud */}
           <BentoCard className="lg:col-span-6">
             <div className="flex items-center gap-3 mb-6">
-              <Terminal className="w-6 h-6 text-green-400" />
-              <h2 className="text-2xl font-semibold">{t('tech_stack')}</h2>
+              <Terminal className="w-6 h-6 text-primary" />
+              <h2 className="text-2xl font-semibold text-foreground">{t('tech_stack')}</h2>
             </div>
             <div className="flex flex-wrap gap-2">
               {profile?.skills?.map((skill, index) => (
@@ -155,7 +155,7 @@ export const AboutPageContent: React.FC<AboutPageProps> = ({ education, experien
                   whileInView={{ opacity: 1, scale: 1 }}
                   viewport={{ once: true }}
                   transition={{ delay: index * 0.03 }}
-                  className="px-3 py-1.5 rounded-md bg-white/5 border border-white/10 text-slate-300 text-xs font-medium hover:bg-primary/10 hover:text-primary hover:border-primary/30 transition-all cursor-default"
+                  className="px-3 py-1.5 rounded-md bg-secondary border border-border text-muted-foreground text-xs font-medium hover:bg-primary/10 hover:text-primary hover:border-primary/30 transition-all cursor-default"
                 >
                   {skill}
                 </motion.span>
@@ -166,8 +166,8 @@ export const AboutPageContent: React.FC<AboutPageProps> = ({ education, experien
           {/* 4. Education Grid */}
           <BentoCard className="lg:col-span-6 flex flex-col relative overflow-visible">
             <div className="flex items-center gap-3 mb-6">
-              <GraduationCap className="w-6 h-6 text-blue-400" />
-              <h2 className="text-2xl font-semibold">{t('education')}</h2>
+              <GraduationCap className="w-6 h-6 text-primary" />
+              <h2 className="text-2xl font-semibold text-foreground">{t('education')}</h2>
             </div>
             <div className="grid gap-4 relative">
               {visibleEducation.map((edu) => (
@@ -182,23 +182,23 @@ export const AboutPageContent: React.FC<AboutPageProps> = ({ education, experien
 
         {/* Experience Section */}
         <section className="pt-12">
-          <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-12 border-b border-white/10 pb-8">
+          <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-12 border-b border-border/50 pb-8">
             <div className="flex items-center gap-3">
               <Code className="w-8 h-8 text-primary" />
               <div>
-                <h2 className="text-3xl font-bold">{t('work_experience')}</h2>
-                <p className="text-slate-400 text-sm mt-1">
+                <h2 className="text-3xl font-bold text-foreground">{t('work_experience')}</h2>
+                <p className="text-muted-foreground text-sm mt-1">
                   {showLegacy ? t('show_full_history') : t('show_recent')}
                 </p>
               </div>
             </div>
             
-            <div className="flex items-center gap-4 bg-white/5 p-2 pr-6 rounded-full border border-white/10">
+            <div className="flex items-center gap-4 bg-secondary/50 p-2 pr-6 rounded-full border border-border/50">
                <Switch 
                  checked={showLegacy} 
                  onCheckedChange={setShowLegacy} 
                />
-               <span className="text-sm font-medium text-slate-300">
+               <span className="text-sm font-medium text-muted-foreground">
                  {showLegacy ? t('toggle_full') : t('toggle_relevant')}
                </span>
             </div>
@@ -230,7 +230,7 @@ export const AboutPageContent: React.FC<AboutPageProps> = ({ education, experien
               >
                 <button 
                   onClick={() => setShowLegacy(true)}
-                  className="text-sm text-slate-500 hover:text-primary transition-colors flex items-center justify-center gap-2 mx-auto"
+                  className="text-sm text-muted-foreground hover:text-primary transition-colors flex items-center justify-center gap-2 mx-auto"
                 >
                   <Briefcase className="w-4 h-4" />
                   {t('show_previous_btn')}

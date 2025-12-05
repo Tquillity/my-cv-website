@@ -23,8 +23,8 @@ export const BentoGrid = ({ children, className }: BentoGridProps) => {
 export const BentoCard = ({ children, className, colSpan = 1 }: BentoCardProps) => {
   return (
     <div className={cn(
-      "relative overflow-hidden rounded-3xl border border-white/10",
-      "bg-black/40 backdrop-blur-md", // UPDATED: Darker for readability
+      "relative overflow-hidden rounded-3xl border border-border/50", // UPDATED: Semantic border
+      "bg-card/40 backdrop-blur-md", // UPDATED: Semantic card background
       "p-6 md:p-8 shadow-sm hover:shadow-md transition-all duration-300",
       className
     )}>
