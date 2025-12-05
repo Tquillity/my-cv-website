@@ -6,6 +6,7 @@ import { X, Terminal as TerminalIcon, Maximize2, Minimize2, Gamepad2 } from "luc
 import { useTerminal } from "@/lib/terminal-context";
 import { MatrixRain } from "./matrix-rain";
 import { useTranslations } from "next-intl";
+import { useTerminalSound } from "@/hooks/use-terminal-sound";
 
 // Import Games
 import { SpaceDefense } from "@/components/games/space-defense";
@@ -54,6 +55,9 @@ export const TerminalModal = ({ locale }: { locale: string }) => {
   const [clickCount, setClickCount] = useState(0);
   const [isRoot, setIsRoot] = useState(false);
   const [historyIndex, setHistoryIndex] = useState(-1);
+  const [isBooting, setIsBooting] = useState(true);
+  const [bootLines, setBootLines] = useState<string[]>([]);
+  const { playKeystroke } = useTerminalSound();
 
   const inputRef = useRef<HTMLInputElement>(null);
   const scrollRef = useRef<HTMLDivElement>(null);
@@ -83,14 +87,39 @@ export const TerminalModal = ({ locale }: { locale: string }) => {
 
   useEffect(() => {
     if (isOpen && gameState === "NONE") {
-      setTimeout(() => inputRef.current?.focus(), 100);
+      setIsBooting(true);
+      setBootLines([]);
+      setHistory([
+          { input: "", output: t('welcome_os') },
+          { input: "", output: t('help_prompt') }
+      ]); // Prepare main history for after boot
+
+      // Boot Sequence
+      const timeouts = [
+        setTimeout(() => setBootLines(p => [...p, t('boot_line1')]), 100),
+        setTimeout(() => setBootLines(p => [...p, t('boot_line2')]), 600),
+        setTimeout(() => setBootLines(p => [...p, t('boot_line3')]), 1200),
+        setTimeout(() => setBootLines(p => [...p, t('boot_line4')]), 1800),
+        setTimeout(() => {
+            setIsBooting(false);
+            // Focus input after boot
+            setTimeout(() => inputRef.current?.focus(), 50);
+        }, 2600),
+      ];
+
       scrollToBottom();
       setShowWarning(false);
       setShowFinalModal(false);
       setShowJokeModal(false);
       setClickCount(0);
+
+      return () => timeouts.forEach(clearTimeout);
     }
-  }, [isOpen, history, gameState]);
+  }, [isOpen, gameState, t]);
+
+  useEffect(() => {
+      scrollToBottom();
+  }, [bootLines, history]);
 
   // Handle outside clicks with warning system
   useEffect(() => {
@@ -470,44 +499,67 @@ Type 'cat [project_name]' for details.
                   )}
 
                   {gameState === "NONE" && (
-                    <div className="h-full overflow-y-auto p-4 md:p-6 space-y-2 text-green-500 scrollbar-hide">
-                        {history.map((line, i) => (
-                            <div key={i} className={`${
-                                line.style === 'error' ? 'text-red-400' :
-                                line.style === 'success' ? 'text-green-300' :
-                                line.style === 'warning' ? 'text-yellow-400' :
-                                'text-green-500'
-                            }`}>
-                                {line.input && (
-                                    <div className="flex gap-2 opacity-70">
-                                        <span>{line.prompt || "guest@mikael-cv:~$"}</span>
-                                        <span>{line.input}</span>
-                                    </div>
-                                )}
-                                <div className="whitespace-pre-wrap leading-relaxed ml-2">{line.output}</div>
+                    <div className="h-full overflow-y-auto p-4 md:p-6 space-y-2 text-green-500 scrollbar-hide" onClick={() => inputRef.current?.focus()}>
+                        
+                        {/* BOOT SCREEN */}
+                        {isBooting ? (
+                            <div className="space-y-1">
+                                {bootLines.map((line, i) => (
+                                    <div key={i}>{line}</div>
+                                ))}
+                                <div className="animate-pulse">_</div>
                             </div>
-                        ))}
+                        ) : (
+                            /* MAIN TERMINAL */
+                            <>
+                                {history.map((line, i) => (
+                                    <div key={i} className={`${
+                                        line.style === 'error' ? 'text-red-400' :
+                                        line.style === 'success' ? 'text-green-300' :
+                                        line.style === 'warning' ? 'text-yellow-400' :
+                                        'text-green-500'
+                                    }`}>
+                                        {line.input && (
+                                            <div className="flex gap-2 opacity-70">
+                                                <span>{line.prompt || "guest@mikael-cv:~$"}</span>
+                                                <span>{line.input}</span>
+                                            </div>
+                                        )}
+                                        <div className="whitespace-pre-wrap leading-relaxed ml-2">{line.output}</div>
+                                    </div>
+                                ))}
 
-                        {/* INPUT LINE */}
-                        <form onSubmit={handleCommand} className="flex gap-2 items-center mt-4">
-                            <span className={`shrink-0 font-bold ${isRoot ? "text-red-500" : "text-green-400"}`}>
-                                {isRoot ? "root@mikael-cv:~#" : "guest@mikael-cv:~$"}
-                            </span>
-                            <input
-                                ref={inputRef}
-                                value={input}
-                                onChange={(e) => setInput(e.target.value)}
-                                onKeyDown={handleKeyDown}
-                                className={`bg-transparent border-none outline-none flex-1 terminal-text caret-block ${
-                                    isRoot 
-                                    ? "text-red-500 placeholder-red-800 caret-red-500" 
-                                    : "text-green-100 placeholder-green-800 caret-green-500"
-                                }`}
-                                autoFocus
-                                spellCheck={false}
-                                autoComplete="off"
-                            />
-                        </form>
+                                {/* CUSTOM BLOCK CURSOR INPUT */}
+                                <form onSubmit={handleCommand} className="flex gap-2 items-center mt-4 relative">
+                                    <span className={`shrink-0 font-bold ${isRoot ? "text-red-500" : "text-green-400"}`}>
+                                        {isRoot ? "root@mikael-cv:~#" : "guest@mikael-cv:~$"}
+                                    </span>
+                                    
+                                    <div className="relative flex-1">
+                                        {/* Visible Text & Cursor */}
+                                        <div className="absolute inset-0 pointer-events-none flex items-center">
+                                            <span className="whitespace-pre-wrap text-green-100">{input}</span>
+                                            <span className={`w-3 h-5 animate-pulse ml-0.5 align-middle ${isRoot ? "bg-red-500" : "bg-green-500"}`}></span>
+                                        </div>
+
+                                        {/* Hidden Real Input */}
+                                        <input
+                                            ref={inputRef}
+                                            value={input}
+                                            onChange={(e) => {
+                                                setInput(e.target.value);
+                                                playKeystroke();
+                                            }}
+                                            onKeyDown={handleKeyDown}
+                                            className="w-full opacity-0 bg-transparent border-none outline-none text-transparent caret-transparent cursor-default"
+                                            autoFocus
+                                            spellCheck={false}
+                                            autoComplete="off"
+                                        />
+                                    </div>
+                                </form>
+                            </>
+                        )}
                         <div ref={scrollRef} />
                     </div>
                   )}

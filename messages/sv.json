@@ -81,6 +81,10 @@
     "racer_controls": "LEFT/RIGHT to Drive | ESC to Quit",
     "racer_crashed": "CRASHED",
     "racer_final_score": "Final Score:",
-    "racer_return": "RETURN TO TERMINAL"
+    "racer_return": "RETURN TO TERMINAL",
+    "boot_line1": "MIKAEL_OS BIOS v2.0.4",
+    "boot_line2": "Copyright (C) 1982 Mikael Corp",
+    "boot_line3": "Checking Memory... 640KB OK",
+    "boot_line4": "Loading Kernel..."
   }
 }
