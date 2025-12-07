@@ -52,7 +52,7 @@
       "name": "CodeBase",
       "languages": ["Python", "Tkinter", "Threading", "Watchdog"],
       "stackType": "Desktop App",
-      "description": "A developer productivity tool that scans repositories, visualizes structure, and generates context-optimized prompts for LLMs.",
+      "description": "A developer productivity tool that scans repositories, visualizes structure, and generates context-optimized prompts for LLMs. Installable versions available for Linux (RPM).",
       "image": "/images/CodeBase/home.png",
       "additionalImages": [
         "/images/CodeBase/codebase1.png",
@@ -65,6 +65,11 @@
       "liveVersion": null,
       "startDate": "2025-11-01",
       "lastUpdated": "2025-11-15",
+      "tags": ["Software"],
+      "downloads": {
+        "linux": "/Downloads/codebase-6.0-1.x86_64.rpm",
+        "windows": "soon"
+      },
       "caseStudy": {
         "problem": "Preparing code context for Large Language Models (LLMs) is tedious. Developers manually open files, copy content, and format it with separators, often leading to missed dependencies or context window overflows.",
         "solution": "I built a native desktop GUI that visualizes the repository tree, respects `.gitignore` rules, and allows 1-click generation of formatted prompts. It features a multi-threaded file scanner and a secure content preview engine.",
@@ -104,7 +109,7 @@
       "languages": ["TypeScript", "NodeJS", "React", "MongoDB", "Redis", "Docker"],
       "stackType": "Fullstack",
       "description": "A decentralized commenting system allowing users to comment on any webpage via a Chrome Extension.",
-      "image": "OmniComment.webp",
+      "image": "/images/commingsoon.png",
       "projectType": "Commercial Startup",
       "status": "Beta",
       "githubRepo": null,

@@ -13,7 +13,7 @@ const MOCK_PROJECTS: Project[] = portfolioData.projects.map((p: any) => ({
     img.startsWith('/') ? img : `/${img}`
   ),
   description: p.description,
-  tags: p.languages || [], // Map languages to tags
+  tags: (p.tags || []).concat(p.languages || []), // Merge tags and languages for mock
   githubUrl: p.githubRepo,
   publishedAt: p.startDate,
   // NEW: Map the caseStudy object directly
@@ -23,7 +23,9 @@ const MOCK_PROJECTS: Project[] = portfolioData.projects.map((p: any) => ({
     architecture: p.caseStudy.architecture,
     technicalChallenges: p.caseStudy.technicalChallenges,
     codeSnippets: p.caseStudy.codeSnippets
-  } : undefined
+  } : undefined,
+  // NEW: Map downloads
+  downloads: p.downloads
 }));
 
 const MOCK_EXPERIENCE: Experience[] = cvData.experiences.map((exp: any) => ({
@@ -57,7 +59,7 @@ const MOCK_PROFILE: SkillSet = {
 
 export async function getProjects(): Promise<Project[]> {
   // Use Sanity unless Project ID is completely missing from env
-
+  
   if (!process.env.NEXT_PUBLIC_SANITY_PROJECT_ID) {
     console.log("⚠️ [DATA] No Project ID. Using MOCK data.");
     return MOCK_PROJECTS;

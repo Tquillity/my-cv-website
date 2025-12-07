@@ -9,7 +9,9 @@
   "Navigation": {
     "home": "Home",
     "portfolio": "Portfolio",
-    "about": "About"
+    "about": "About",
+    "github": "GitHub",
+    "linkedin": "LinkedIn"
   },
   "PortfolioPage": {
     "title": "Portfolio",
@@ -20,12 +22,17 @@
     "tab_overview": "Overview",
     "tab_architecture": "Architecture",
     "tab_code": "Code & Engineering",
+    "tab_downloads": "Downloads",
     "architecture_title": "System Architecture",
     "challenges_title": "Key Technical Challenges",
     "problem": "The Problem",
     "solution": "The Solution",
     "source_code_warning": "⚠️ Source code is proprietary. These snippets demonstrate specific technical implementations without revealing business logic.",
-    "click_to_expand": "Click to expand"
+    "click_to_expand": "Click to expand",
+    "download_linux": "Download for Linux (RPM)",
+    "download_windows": "Download for Windows",
+    "coming_soon": "Coming Soon",
+    "software_tag": "Downloadable"
   },
   "AboutPage": {
     "title": "About Me",
@@ -105,6 +112,7 @@
     "boot_line1": "MIKAEL_OS BIOS v2.0.4",
     "boot_line2": "Copyright (C) 1982 Mikael Corp",
     "boot_line3": "Checking Memory... 640KB OK",
-    "boot_line4": "Loading Kernel..."
+    "boot_line4": "Loading Kernel...",
+    "toggle_terminal": "Toggle Terminal Mode"
   }
 }

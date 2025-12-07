@@ -114,9 +114,10 @@ async function migrate() {
         title: project.name,
         slug: { _type: 'slug', current: project.name.toLowerCase().replace(/\s+/g, '-') },
         description: project.description,
-        tags: project.languages,
+        tags: project.tags || project.languages, // Prefer explicit tags if available
         githubUrl: project.githubRepo,
         publishedAt: project.startDate,
+        downloads: project.downloads, // Add downloads field
         ...(caseStudyData && { caseStudy: caseStudyData }),
         // Update images if we have new ones
         ...(mainImageAssetId && { mainImage: { _type: 'image', asset: { _type: 'reference', _ref: mainImageAssetId } } }),

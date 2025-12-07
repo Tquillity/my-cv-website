@@ -5,6 +5,7 @@ import Image from "next/image";
 import { Project } from "@/types";
 import { urlFor } from "@/lib/sanity";
 import { useTranslations } from "next-intl";
+import { Download } from "lucide-react";
 
 interface ProjectCardProps {
   project: Project;
@@ -20,6 +21,8 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ project, onClick }) =>
       ? project.mainImage 
       : "/images/commingsoon.png");
 
+  const isDownloadable = !!project.downloads;
+
   return (
     <motion.div
       layoutId={project._id}
@@ -33,6 +36,13 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ project, onClick }) =>
           fill
           className="object-cover transition-transform duration-300 group-hover:scale-105"
         />
+        {isDownloadable && (
+          <div className="absolute top-2 right-2 z-10">
+             <div className="bg-primary text-primary-foreground p-1.5 rounded-full shadow-lg" title={t('software_tag')}>
+                <Download className="w-4 h-4" />
+             </div>
+          </div>
+        )}
       </div>
       <div className="p-4">
         <h3 className="font-semibold text-lg mb-2">{project.title}</h3>
@@ -41,7 +51,11 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ project, onClick }) =>
             project.tags.map((tag) => (
               <span
                 key={tag}
-                className="inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors text-foreground"
+                className={`inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors ${
+                  tag === "Software" 
+                    ? "bg-primary text-primary-foreground border-primary" 
+                    : "text-foreground bg-secondary"
+                }`}
               >
                 {tag}
               </span>

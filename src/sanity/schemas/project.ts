@@ -144,6 +144,17 @@ export default defineType({
         }),
       ],
     }),
+
+    // --- NEW: Software Downloads Section ---
+    defineField({
+      name: "downloads",
+      title: "Software Downloads",
+      type: "object",
+      fields: [
+        defineField({ name: "linux", title: "Linux Download URL", type: "string" }),
+        defineField({ name: "windows", title: "Windows Download URL", type: "string" }),
+        defineField({ name: "mac", title: "Mac Download URL", type: "string" }),
+      ],
+    }),
   ],
 });
-

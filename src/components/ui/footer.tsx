@@ -7,12 +7,22 @@ import { useTheme } from "next-themes";
 import { ThemeImage } from "./theme-image";
 import { TerminalToggle } from "./terminal-toggle";
 import { AIChat } from "@/components/features/ai-chat";
+import { useState, useEffect } from "react";
+import { useTranslations } from "next-intl";
 
 export const Footer = () => {
+  const t = useTranslations("Navigation");
   const { resolvedTheme } = useTheme();
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
   
   // Theme-aware icon colors matching the logo
   const getIconColor = () => {
+    if (!mounted) return 'text-muted-foreground';
+
     switch (resolvedTheme) {
       case 'light':
         return 'text-black';
@@ -38,7 +48,7 @@ export const Footer = () => {
           <Link
             href="/"
             className="flex items-center justify-center hover:opacity-80 transition-opacity h-full"
-            aria-label="Home"
+            aria-label={t('home')}
           >
             <ThemeImage
               srcLight="/logos/logo-black.png"
@@ -58,7 +68,7 @@ export const Footer = () => {
               target="_blank"
               rel="noopener noreferrer"
               className={`flex items-center justify-center p-3 rounded-full hover:bg-primary/10 transition-colors ${getIconColor()}`}
-              aria-label="GitHub"
+              aria-label={t('github')}
             >
               <Github className="w-5 h-5 sm:w-6 sm:h-6" />
             </a>
@@ -67,7 +77,7 @@ export const Footer = () => {
               target="_blank"
               rel="noopener noreferrer"
               className={`flex items-center justify-center p-3 rounded-full hover:bg-primary/10 transition-colors ${getIconColor()}`}
-              aria-label="LinkedIn"
+              aria-label={t('linkedin')}
             >
               <Linkedin className="w-5 h-5 sm:w-6 sm:h-6" />
             </a>

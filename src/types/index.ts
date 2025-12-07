@@ -42,6 +42,12 @@ export interface Project {
   publishedAt: string;
   // NEW FIELD
   caseStudy?: CaseStudy;
+  // NEW FIELD
+  downloads?: {
+    linux?: string;
+    windows?: string;
+    mac?: string;
+  };
 }
 
 export interface Experience {
@@ -72,4 +78,3 @@ export interface SkillSet {
   skills: string[];
   languages: { language: string; proficiency: string }[];
 }
-

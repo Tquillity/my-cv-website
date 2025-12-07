@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
 import { Project, SanityImage } from "@/types";
 import { urlFor } from "@/lib/sanity";
-import { X, Github, Code2, Network, BookOpen, ChevronLeft, ChevronRight } from "lucide-react";
+import { X, Github, Code2, Network, BookOpen, ChevronLeft, ChevronRight, Download, HardDrive } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { OmniCommentArchitecture } from "./architecture-diagram";
 
@@ -16,7 +16,7 @@ interface ProjectModalProps {
 
 export const ProjectModal: React.FC<ProjectModalProps> = ({ selectedProject, onClose }) => {
   const t = useTranslations("PortfolioPage");
-  const [activeTab, setActiveTab] = useState<"overview" | "architecture" | "code">("overview");
+  const [activeTab, setActiveTab] = useState<"overview" | "architecture" | "code" | "downloads">("overview");
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [isLightboxOpen, setIsLightboxOpen] = useState(false);
 
@@ -58,6 +58,7 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({ selectedProject, onC
 
   const hasCaseStudy = !!selectedProject.caseStudy;
   const hasMultipleImages = allImages.length > 1;
+  const hasDownloads = !!selectedProject.downloads;
 
   const nextImage = () => {
     setCurrentImageIndex((prev) => (prev + 1) % allImages.length);
@@ -66,6 +67,8 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({ selectedProject, onC
   const prevImage = () => {
     setCurrentImageIndex((prev) => (prev - 1 + allImages.length) % allImages.length);
   };
+
+  const isWindowsReady = selectedProject.downloads?.windows && selectedProject.downloads.windows !== "soon";
 
   return (
     <AnimatePresence>
@@ -171,27 +174,39 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({ selectedProject, onC
                 </div>
               </div>
 
-              {/* Tabs (Only show if Case Study exists) */}
-              {hasCaseStudy && (
-                <div className="flex border-b border-border bg-muted/30 px-6 pt-2">
+              {/* Tabs */}
+              {(hasCaseStudy || hasDownloads) && (
+                <div className="flex border-b border-border bg-muted/30 px-6 pt-2 overflow-x-auto">
                   <TabButton
                     active={activeTab === "overview"}
                     onClick={() => setActiveTab("overview")}
                     icon={<BookOpen className="w-4 h-4" />}
                     label={t('tab_overview')}
                   />
-                  <TabButton
-                    active={activeTab === "architecture"}
-                    onClick={() => setActiveTab("architecture")}
-                    icon={<Network className="w-4 h-4" />}
-                    label={t('tab_architecture')}
-                  />
-                  <TabButton
-                    active={activeTab === "code"}
-                    onClick={() => setActiveTab("code")}
-                    icon={<Code2 className="w-4 h-4" />}
-                    label={t('tab_code')}
-                  />
+                  {hasCaseStudy && (
+                    <>
+                      <TabButton
+                        active={activeTab === "architecture"}
+                        onClick={() => setActiveTab("architecture")}
+                        icon={<Network className="w-4 h-4" />}
+                        label={t('tab_architecture')}
+                      />
+                      <TabButton
+                        active={activeTab === "code"}
+                        onClick={() => setActiveTab("code")}
+                        icon={<Code2 className="w-4 h-4" />}
+                        label={t('tab_code')}
+                      />
+                    </>
+                  )}
+                  {hasDownloads && (
+                    <TabButton
+                      active={activeTab === "downloads"}
+                      onClick={() => setActiveTab("downloads")}
+                      icon={<Download className="w-4 h-4" />}
+                      label={t('tab_downloads')}
+                    />
+                  )}
                 </div>
               )}
 
@@ -294,6 +309,66 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({ selectedProject, onC
                     ))}
                   </motion.div>
                 )}
+
+                {/* DOWNLOADS TAB */}
+                {activeTab === "downloads" && selectedProject.downloads && (
+                  <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="space-y-6">
+                    <div className="grid md:grid-cols-2 gap-4">
+                      {/* Linux Download */}
+                      {selectedProject.downloads.linux && (
+                         <div className="p-6 rounded-xl border border-border bg-card/50 flex flex-col items-center justify-center text-center gap-4 hover:border-primary/50 transition-colors">
+                           <div className="p-3 bg-primary/10 rounded-full text-primary">
+                             <HardDrive className="w-8 h-8" />
+                           </div>
+                           <div>
+                             <h4 className="font-bold text-lg">Linux (RPM)</h4>
+                             <p className="text-sm text-muted-foreground">Fedora, RHEL, CentOS</p>
+                           </div>
+                           <a 
+                             href={selectedProject.downloads.linux} 
+                             download 
+                             className="mt-2 flex items-center gap-2 px-6 py-2 rounded-md bg-primary text-primary-foreground hover:bg-primary/90 transition-colors font-medium w-full justify-center"
+                           >
+                             <Download className="w-4 h-4" />
+                             {t('download_linux')}
+                           </a>
+                         </div>
+                      )}
+
+                      {/* Windows Download */}
+                      {selectedProject.downloads.windows && (
+                         <div className="p-6 rounded-xl border border-border/50 bg-secondary/20 flex flex-col items-center justify-center text-center gap-4 opacity-75">
+                           <div className="p-3 bg-secondary rounded-full text-muted-foreground">
+                             <HardDrive className="w-8 h-8" />
+                           </div>
+                           <div>
+                             <h4 className="font-bold text-lg">Windows</h4>
+                             <p className="text-sm text-muted-foreground">Windows 10/11 (Installer)</p>
+                           </div>
+                           {isWindowsReady ? (
+                             <a 
+                               href={selectedProject.downloads.windows}
+                               download
+                               className="mt-2 flex items-center gap-2 px-6 py-2 rounded-md bg-primary text-primary-foreground hover:bg-primary/90 transition-colors font-medium w-full justify-center"
+                             >
+                               <Download className="w-4 h-4" />
+                               {t('download_windows')}
+                             </a>
+                           ) : (
+                             <button 
+                               disabled 
+                               className="mt-2 flex items-center gap-2 px-6 py-2 rounded-md bg-secondary text-muted-foreground cursor-not-allowed font-medium w-full justify-center"
+                             >
+                               <span className="text-xs font-bold px-1.5 py-0.5 bg-background/50 rounded">{t('coming_soon')}</span>
+                               {t('download_windows')}
+                             </button>
+                           )}
+                         </div>
+                      )}
+                    </div>
+                  </motion.div>
+                )}
+
               </div>
             </motion.div>
           </div>
@@ -374,7 +449,7 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({ selectedProject, onC
 const TabButton = ({ active, onClick, icon, label }: { active: boolean, onClick: () => void, icon: any, label: string }) => (
   <button
     onClick={onClick}
-    className={`flex items-center gap-2 px-4 py-3 text-sm font-medium border-b-2 transition-colors ${
+    className={`flex items-center gap-2 px-4 py-3 text-sm font-medium border-b-2 transition-colors whitespace-nowrap ${
       active
         ? "border-primary text-primary"
         : "border-transparent text-muted-foreground hover:text-foreground hover:border-border"
