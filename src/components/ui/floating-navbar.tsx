@@ -36,17 +36,17 @@ export const FloatingNavbar = ({ locale }: { locale: string }) => {
 
   return (
     <div className="fixed top-6 inset-x-0 max-w-fit mx-auto z-50 pointer-events-none">
-      <div className="pointer-events-auto">
-        <motion.div
-          initial={{ y: -100, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          className={cn(
-            "flex items-center gap-1 p-2 rounded-full border border-border/50 transition-all duration-300",
-            scrolled
-              ? "bg-popover/80 backdrop-blur-md shadow-lg py-2"
-              : "bg-popover/50 backdrop-blur-sm shadow-sm py-3"
-          )}
-        >
+        <div className="pointer-events-auto">
+          <motion.div
+            initial={{ y: -100, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            className={cn(
+              "flex items-center gap-1 p-2 rounded-full border border-border/50 transition-all duration-300",
+              scrolled
+                ? "bg-popover/80 backdrop-blur-md shadow-lg py-2"
+                : "bg-popover/50 backdrop-blur-sm shadow-sm py-3"
+            )}
+          >
           {navItems.map((item) => {
             // pathname from @/i18n/navigation does NOT include the locale prefix
             // so we can compare directly against item.link

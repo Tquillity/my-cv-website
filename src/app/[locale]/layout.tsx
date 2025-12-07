@@ -2,9 +2,8 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import { getMessages } from "next-intl/server";
 import { Providers } from "@/components/providers";
-import { AIChat } from "@/components/features/ai-chat";
-import { TerminalToggle } from "@/components/ui/terminal-toggle";
 import { FloatingNavbar } from "@/components/ui/floating-navbar";
+import { Footer } from "@/components/ui/footer";
 import { TerminalModal } from "@/components/features/terminal-modal";
 import { TerminalProvider } from "@/lib/terminal-context";
 import { BackgroundProvider } from "@/lib/background-context";
@@ -17,6 +16,7 @@ const inter = Inter({ subsets: ["latin"] });
 export const metadata: Metadata = {
   title: "Portfolio 2025",
   description: "My Portfolio",
+  // Favicon is managed dynamically by FaviconManager component based on theme
 };
 
 export default async function RootLayout({
@@ -39,9 +39,8 @@ export default async function RootLayout({
               <BackgroundDimmer />
               <FloatingNavbar locale={locale} />
               {children}
-              <AIChat />
               <TerminalModal locale={locale} />
-              <TerminalToggle />
+              <Footer />
             </BackgroundProvider>
           </TerminalProvider>
         </Providers>

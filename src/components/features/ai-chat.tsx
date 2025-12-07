@@ -14,7 +14,11 @@ interface Message {
   content: string;
 }
 
-export const AIChat: React.FC = () => {
+interface AIChatProps {
+  className?: string;
+}
+
+export const AIChat: React.FC<AIChatProps> = ({ className }) => {
   const t = useTranslations("AIChat");
   const [isOpen, setIsOpen] = useState(false);
   const [input, setInput] = useState("");
@@ -92,7 +96,10 @@ export const AIChat: React.FC = () => {
       <button
         ref={buttonRef}
         onClick={() => setIsOpen(!isOpen)}
-        className="fixed bottom-6 right-20 z-50 p-3 rounded-full bg-primary text-primary-foreground hover:bg-primary/90 transition-colors shadow-lg"
+        className={cn(
+          "p-3 rounded-full bg-primary text-primary-foreground hover:bg-primary/90 transition-colors shadow-lg",
+          className
+        )}
         aria-label={t('toggle_label')}
       >
         {isOpen ? <X className="w-6 h-6" /> : <MessageCircle className="w-6 h-6" />}

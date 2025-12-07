@@ -2,6 +2,7 @@
 
 import { NextIntlClientProvider, AbstractIntlMessages } from "next-intl";
 import { ThemeProvider } from "next-themes";
+import { FaviconManager } from "@/components/ui/favicon-manager";
 
 interface ProvidersProps {
   children: React.ReactNode;
@@ -18,6 +19,7 @@ export function Providers({ children, locale, messages }: ProvidersProps) {
         enableSystem 
         themes={['light', 'dark', 'middle']}
       >
+        <FaviconManager />
         {children}
       </ThemeProvider>
     </NextIntlClientProvider>
