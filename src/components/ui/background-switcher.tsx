@@ -61,7 +61,8 @@ export const BackgroundSwitcher = () => {
             initial={{ opacity: 0, y: -10, scale: 0.95 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: -10, scale: 0.95 }}
-            className="absolute top-full mt-2 right-0 min-w-[160px] bg-popover/90 backdrop-blur-md border border-border rounded-lg shadow-lg z-50"
+            className="absolute top-full mt-2 right-0 min-w-[160px] bg-popover backdrop-blur-lg border border-border rounded-lg shadow-xl z-50"
+            style={{ backgroundColor: 'hsl(var(--popover) / 0.98)' }}
           >
             {variants.map((v) => {
               const Icon = v.icon;

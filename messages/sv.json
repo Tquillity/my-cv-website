@@ -24,7 +24,8 @@
     "challenges_title": "Tekniska Utmaningar",
     "problem": "Problemet",
     "solution": "Lösningen",
-    "source_code_warning": "⚠️ Källkoden är proprietär. Dessa kodavsnitt demonstrerar specifika tekniska lösningar utan att avslöja affärslogik."
+    "source_code_warning": "⚠️ Källkoden är proprietär. Dessa kodavsnitt demonstrerar specifika tekniska lösningar utan att avslöja affärslogik.",
+    "click_to_expand": "Klicka för att expandera"
   },
   "AboutPage": {
     "title": "Om Mig",

@@ -37,26 +37,52 @@ async function migrate() {
         { title: project.name }
       );
 
-      // Prepare Image Upload
-      let imageAssetId = null;
+      // 1. Handle Main Image
+      let mainImageAssetId = null;
       if (project.image) {
-        // Clean the path: remove leading slash if present
         const cleanPath = project.image.startsWith('/') ? project.image.slice(1) : project.image;
         const imagePath = path.join(__dirname, '../public', cleanPath);
         
         if (fs.existsSync(imagePath)) {
-          console.log(`   -> Uploading image: ${cleanPath}...`);
+          console.log(`   -> Uploading Main Image: ${cleanPath}`);
           try {
             const asset = await client.assets.upload('image', fs.createReadStream(imagePath), {
               filename: path.basename(imagePath)
             });
-            imageAssetId = asset._id;
-            console.log(`   -> Image uploaded (ID: ${asset._id})`);
+            mainImageAssetId = asset._id;
+            console.log(`   -> Main Image uploaded (ID: ${asset._id})`);
           } catch (err) {
-            console.error(`   -> Failed to upload image: ${err.message}`);
+            console.error(`   -> Failed to upload main image: ${err.message}`);
           }
         } else {
-            console.log(`   -> Image file not found at: ${imagePath}`);
+          console.log(`   -> Main image file not found at: ${imagePath}`);
+        }
+      }
+
+      // 2. Handle Additional Images
+      let additionalImageAssets = [];
+      if (project.additionalImages && project.additionalImages.length > 0) {
+        for (const img of project.additionalImages) {
+          const cleanPath = img.startsWith('/') ? img.slice(1) : img;
+          const imagePath = path.join(__dirname, '../public', cleanPath);
+          if (fs.existsSync(imagePath)) {
+            console.log(`   -> Uploading Gallery Image: ${cleanPath}`);
+            try {
+              const asset = await client.assets.upload('image', fs.createReadStream(imagePath), {
+                filename: path.basename(imagePath)
+              });
+              additionalImageAssets.push({
+                _type: 'image',
+                _key: asset._id.substring(0, 20), // Use part of asset ID as key
+                asset: { _type: 'reference', _ref: asset._id }
+              });
+              console.log(`   -> Gallery Image uploaded (ID: ${asset._id})`);
+            } catch (err) {
+              console.error(`   -> Failed to upload gallery image: ${err.message}`);
+            }
+          } else {
+            console.log(`   -> Gallery image file not found at: ${imagePath}`);
+          }
         }
       }
 
@@ -82,36 +108,27 @@ async function migrate() {
         }))
       } : undefined;
 
+      // Prepare document data
+      const doc = {
+        _type: 'project',
+        title: project.name,
+        slug: { _type: 'slug', current: project.name.toLowerCase().replace(/\s+/g, '-') },
+        description: project.description,
+        tags: project.languages,
+        githubUrl: project.githubRepo,
+        publishedAt: project.startDate,
+        ...(caseStudyData && { caseStudy: caseStudyData }),
+        // Update images if we have new ones
+        ...(mainImageAssetId && { mainImage: { _type: 'image', asset: { _type: 'reference', _ref: mainImageAssetId } } }),
+        ...(additionalImageAssets.length > 0 && { additionalImages: additionalImageAssets })
+      };
+
       if (existing) {
-        // UPDATE MODE: Only patch specific fields (Case Study + Links)
-        // We DO NOT touch mainImage, description, or title to preserve CMS edits.
         console.log(`   -> Found existing (ID: ${existing._id}). Patching...`);
-
-        await client.patch(existing._id)
-          .set({
-            ...(caseStudyData && { caseStudy: caseStudyData }), // Only set if exists
-            githubUrl: project.githubRepo,
-            tags: project.languages, // Updating tags as requested
-            publishedAt: project.startDate, // Updating sort order
-            ...(imageAssetId && { mainImage: { _type: 'image', asset: { _type: 'reference', _ref: imageAssetId } } })
-          })
-          .commit();
-
+        await client.patch(existing._id).set(doc).commit();
       } else {
-        // CREATE MODE: Create new project if it doesn't exist
         console.log(`   -> Not found. Creating new entry...`);
-
-        await client.create({
-          _type: 'project',
-          title: project.name,
-          slug: { _type: 'slug', current: project.name.toLowerCase().replace(/\s+/g, '-') },
-          description: project.description,
-          tags: project.languages,
-          githubUrl: project.githubRepo,
-          publishedAt: project.startDate,
-          ...(caseStudyData && { caseStudy: caseStudyData }),
-          ...(imageAssetId && { mainImage: { _type: 'image', asset: { _type: 'reference', _ref: imageAssetId } } })
-        });
+        await client.create(doc);
       }
     }
 

@@ -24,7 +24,8 @@
     "challenges_title": "Key Technical Challenges",
     "problem": "The Problem",
     "solution": "The Solution",
-    "source_code_warning": "⚠️ Source code is proprietary. These snippets demonstrate specific technical implementations without revealing business logic."
+    "source_code_warning": "⚠️ Source code is proprietary. These snippets demonstrate specific technical implementations without revealing business logic.",
+    "click_to_expand": "Click to expand"
   },
   "AboutPage": {
     "title": "About Me",

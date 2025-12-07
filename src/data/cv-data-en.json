@@ -86,11 +86,13 @@
     "CSS/SASS/Tailwind",
     "JavaScript/TypeScript",
     "React/Next.js",
-    "Node.js/MongoDB/Redis",
-    "Python",
-    "Solidity/Smart Contracts",
+    "Node.js/Express/MongoDB",
+    "Python/Tkinter",
+    "Three.js/R3F",
+    "Solidity/Smart Contracts/Polygon",
     "Git/GitHub",
-    "Cloud (Render, AWS)"
+    "Docker/Cloud (Render, AWS)",
+    "Sanity CMS"
   ],
   "languages": [
     {

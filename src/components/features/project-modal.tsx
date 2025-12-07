@@ -18,12 +18,14 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({ selectedProject, onC
   const t = useTranslations("PortfolioPage");
   const [activeTab, setActiveTab] = useState<"overview" | "architecture" | "code">("overview");
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const [isLightboxOpen, setIsLightboxOpen] = useState(false);
 
   // Reset tab to overview when opening a new project
   useEffect(() => {
     if (selectedProject) {
       setActiveTab("overview");
       setCurrentImageIndex(0);
+      setIsLightboxOpen(false);
     }
   }, [selectedProject]);
 
@@ -47,6 +49,11 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({ selectedProject, onC
   const builder = currentImage && typeof currentImage !== "string" ? urlFor(currentImage) : undefined;
   const imageUrl = builder
     ? builder.width(800).height(600).url()
+    : (typeof currentImage === "string" ? currentImage : "/images/commingsoon.png");
+  
+  // High-quality image URL for lightbox
+  const lightboxImageUrl = builder
+    ? builder.width(1920).height(1080).quality(100).url()
     : (typeof currentImage === "string" ? currentImage : "/images/commingsoon.png");
 
   const hasCaseStudy = !!selectedProject.caseStudy;
@@ -85,7 +92,8 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({ selectedProject, onC
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
                     transition={{ duration: 0.3 }}
-                    className="relative w-full h-full"
+                    className="relative w-full h-full cursor-zoom-in hover:opacity-90 transition-opacity"
+                    onClick={() => setIsLightboxOpen(true)}
                   >
                     <Image
                       src={imageUrl}
@@ -93,9 +101,15 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({ selectedProject, onC
                       fill
                       className="object-cover"
                     />
+                    {/* Click indicator overlay */}
+                    <div className="absolute inset-0 bg-black/0 hover:bg-black/10 transition-colors flex items-center justify-center opacity-0 group-hover:opacity-100 pointer-events-none">
+                      <div className="px-3 py-1.5 bg-black/70 text-white text-xs rounded-full backdrop-blur-sm">
+                        {t('click_to_expand')}
+                      </div>
+                    </div>
                   </motion.div>
                 </AnimatePresence>
-                <div className="absolute inset-0 bg-gradient-to-t from-background to-transparent" />
+                <div className="absolute inset-0 bg-gradient-to-t from-background to-transparent pointer-events-none" />
                 
                 {/* Navigation Arrows (only show if multiple images) */}
                 {hasMultipleImages && (
@@ -122,7 +136,7 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({ selectedProject, onC
                     </button>
                     
                     {/* Image Indicator Dots */}
-                    <div className="absolute bottom-16 left-1/2 -translate-x-1/2 flex gap-2 z-20">
+                    <div className="absolute bottom-16 left-1/2 -translate-x-1/2 flex gap-2 z-20 pointer-events-auto">
                       {allImages.map((_, idx) => (
                         <button
                           key={idx}
@@ -143,12 +157,16 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({ selectedProject, onC
                 )}
 
                 <button
-                  onClick={onClose}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    onClose();
+                  }}
                   className="absolute top-4 right-4 p-2 rounded-full bg-black/50 text-white backdrop-blur-sm hover:bg-black/70 transition-colors z-10"
+                  aria-label="Close modal"
                 >
                   <X className="w-5 h-5" />
                 </button>
-                <div className="absolute bottom-4 left-6">
+                <div className="absolute bottom-4 left-6 pointer-events-none">
                   <h2 className="text-3xl font-bold text-foreground">{selectedProject.title}</h2>
                 </div>
               </div>
@@ -279,6 +297,74 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({ selectedProject, onC
               </div>
             </motion.div>
           </div>
+
+          {/* LIGHTBOX OVERLAY */}
+          <AnimatePresence>
+            {isLightboxOpen && (
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                className="fixed inset-0 z-[60] bg-black/95 backdrop-blur-xl flex items-center justify-center"
+                onClick={() => setIsLightboxOpen(false)}
+              >
+                {/* Close Button */}
+                <button
+                  onClick={() => setIsLightboxOpen(false)}
+                  className="absolute top-6 right-6 p-3 rounded-full bg-white/10 hover:bg-white/20 text-white transition-colors z-70"
+                  aria-label="Close lightbox"
+                >
+                  <X className="w-8 h-8" />
+                </button>
+
+                {/* Main Lightbox Image */}
+                <div
+                  className="relative w-full h-full max-w-7xl max-h-[90vh] p-4 flex items-center justify-center"
+                  onClick={(e) => e.stopPropagation()}
+                >
+                  <Image
+                    src={lightboxImageUrl}
+                    alt={`${selectedProject.title} - Image ${currentImageIndex + 1}`}
+                    fill
+                    className="object-contain"
+                    quality={100}
+                    priority
+                  />
+                </div>
+
+                {/* Navigation Arrows */}
+                {hasMultipleImages && (
+                  <>
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        prevImage();
+                      }}
+                      className="absolute left-6 top-1/2 -translate-y-1/2 p-4 rounded-full bg-white/10 hover:bg-white/20 text-white transition-colors z-70"
+                      aria-label="Previous image"
+                    >
+                      <ChevronLeft className="w-10 h-10" />
+                    </button>
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        nextImage();
+                      }}
+                      className="absolute right-6 top-1/2 -translate-y-1/2 p-4 rounded-full bg-white/10 hover:bg-white/20 text-white transition-colors z-70"
+                      aria-label="Next image"
+                    >
+                      <ChevronRight className="w-10 h-10" />
+                    </button>
+                  </>
+                )}
+
+                {/* Image Counter */}
+                <div className="absolute bottom-6 left-1/2 -translate-x-1/2 px-4 py-2 bg-black/50 rounded-full text-white font-mono text-sm border border-white/10 z-70">
+                  {currentImageIndex + 1} / {allImages.length}
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
         </>
       )}
     </AnimatePresence>

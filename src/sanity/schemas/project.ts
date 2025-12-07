@@ -28,6 +28,12 @@ export default defineType({
       },
     }),
     defineField({
+      name: "additionalImages",
+      title: "Additional Images",
+      type: "array",
+      of: [{ type: "image", options: { hotspot: true } }],
+    }),
+    defineField({
       name: "description",
       title: "Description",
       type: "text",
