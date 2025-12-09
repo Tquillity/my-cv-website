@@ -14,6 +14,8 @@ interface ProjectModalProps {
   onClose: () => void;
 }
 
+const COMMON_STACK = ["Next.js 16", "React", "React 19", "TypeScript", "Tailwind CSS", "Node.js", "Python"];
+
 export const ProjectModal: React.FC<ProjectModalProps> = ({ selectedProject, onClose }) => {
   const t = useTranslations("PortfolioPage");
   const [activeTab, setActiveTab] = useState<"overview" | "architecture" | "code" | "downloads">("overview");
@@ -69,6 +71,16 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({ selectedProject, onC
     setCurrentImageIndex((prev) => (prev - 1 + allImages.length) % allImages.length);
   };
 
+  const getTagStyles = (tag: string) => {
+    if (tag === "Software") {
+      return "bg-primary text-primary-foreground border-primary font-bold";
+    }
+    if (COMMON_STACK.some(tech => tag.includes(tech))) {
+      return "text-foreground bg-secondary border-transparent";
+    }
+    return "bg-indigo-500/10 text-indigo-500 border-indigo-500/20";
+  };
+
   const isWindowsReady = selectedProject.downloads?.windows && selectedProject.downloads.windows !== "soon";
 
   return (
@@ -104,7 +116,7 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({ selectedProject, onC
                       src={imageUrl}
                       alt={`${selectedProject.title} - Image ${currentImageIndex + 1}`}
                       fill
-                      className="object-cover"
+                      className="object-cover object-top"
                     />
                     {/* Click indicator overlay */}
                     <div className="absolute inset-0 bg-black/0 hover:bg-black/10 transition-colors flex items-center justify-center opacity-0 group-hover:opacity-100 pointer-events-none">
@@ -212,8 +224,8 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({ selectedProject, onC
                 </div>
               )}
 
-              {/* Scrollable Content */}
-              <div className="p-6 overflow-y-auto flex-1 custom-scrollbar">
+              {/* Scrollable Content Area - Using flex-1 to fill the fixed height */}
+              <div className="p-6 overflow-y-auto flex-1 custom-scrollbar w-full">
 
                 {/* OVERVIEW TAB */}
                 {activeTab === "overview" && (
@@ -238,7 +250,7 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({ selectedProject, onC
 
                     <div className="flex flex-wrap gap-2">
                       {selectedProject.tags.map((tag) => (
-                        <span key={tag} className="inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold text-foreground bg-secondary">
+                        <span key={tag} className={`inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors ${getTagStyles(tag)}`}>
                           {tag}
                         </span>
                       ))}
@@ -412,9 +424,9 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({ selectedProject, onC
                   <X className="w-8 h-8" />
                 </button>
 
-                {/* Main Lightbox Image */}
+                {/* Main Lightbox Image - Full Fit */}
                 <div
-                  className="relative w-full h-full max-w-7xl max-h-[90vh] p-4 flex items-center justify-center"
+                  className="relative w-full h-full max-w-[95vw] max-h-[95vh] p-4 flex items-center justify-center"
                   onClick={(e) => e.stopPropagation()}
                 >
                   <Image

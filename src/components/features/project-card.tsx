@@ -12,6 +12,8 @@ interface ProjectCardProps {
   onClick: () => void;
 }
 
+const COMMON_STACK = ["Next.js 16", "React", "React 19", "TypeScript", "Tailwind CSS", "Node.js", "Python"];
+
 export const ProjectCard: React.FC<ProjectCardProps> = ({ project, onClick }) => {
   const t = useTranslations("PortfolioPage");
   
@@ -22,6 +24,17 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ project, onClick }) =>
       : "/images/commingsoon.png");
 
   const isDownloadable = !!project.downloads;
+
+  const getTagStyles = (tag: string) => {
+    if (tag === "Software") {
+      return "bg-primary text-primary-foreground border-primary font-bold";
+    }
+    if (COMMON_STACK.some(tech => tag.includes(tech))) {
+      return "text-foreground bg-secondary border-transparent";
+    }
+    // Unicity (Unique Tech) - Indigo styling
+    return "bg-indigo-500/10 text-indigo-500 border-indigo-500/20";
+  };
 
   return (
     <motion.div
@@ -34,7 +47,8 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ project, onClick }) =>
           src={imageUrl}
           alt={project.title}
           fill
-          className="object-cover transition-transform duration-300 group-hover:scale-105"
+          // Updated fit to be cover but aligned to top to show headers/faces better
+          className="object-cover object-top transition-transform duration-500 group-hover:scale-105"
         />
         {isDownloadable && (
           <div className="absolute top-2 right-2 z-10">
@@ -51,11 +65,7 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ project, onClick }) =>
             project.tags.map((tag) => (
               <span
                 key={tag}
-                className={`inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors ${
-                  tag === "Software" 
-                    ? "bg-primary text-primary-foreground border-primary" 
-                    : "text-foreground bg-secondary"
-                }`}
+                className={`inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors ${getTagStyles(tag)}`}
               >
                 {tag}
               </span>

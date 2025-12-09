@@ -14,7 +14,7 @@
       "liveVersion": "https://mikaelsundh.com",
       "startDate": "2025-12-01",
       "lastUpdated": "2025-12-05",
-      "tags": ["Next.js 16", "Three.js", "AI/RAG", "Sanity CMS"],
+      "tags": ["Next.js 16", "TypeScript", "Tailwind CSS", "Three.js", "AI/RAG", "Sanity CMS"],
       "caseStudy": {
         "problem": "Standard static portfolios fail to demonstrate complex engineering skills or personality. I needed a platform that could serve as both a resume and a live demonstration of modern frontend capabilities.",
         "solution": "I built a 'living' application using the Next.js 16 App Router. It features a persistent 3D background (R3F), a context-aware AI agent (Groq Llama 3.3), and a fully functional CLI terminal Easter egg that mimics a retro OS.",
@@ -66,7 +66,7 @@
       "liveVersion": null,
       "startDate": "2025-11-01",
       "lastUpdated": "2025-11-15",
-      "tags": ["Python", "Tkinter", "Threading", "Desktop App"],
+      "tags": ["Software", "Python", "Tkinter", "Threading", "Desktop App"],
       "tags": ["Software"],
       "downloads": {
         "linux": "/Downloads/codebase-6.0-1.x86_64.rpm",
@@ -195,7 +195,7 @@
       "liveVersion": "https://pomozen.online",
       "startDate": "2025-12-01",
       "lastUpdated": "2025-12-20",
-      "tags": ["React 19", "Web Workers", "Zustand", "PWA"],
+      "tags": ["React 19", "TypeScript", "Tailwind CSS", "PWA", "Web Workers", "Zustand"],
       "caseStudy": {
         "problem": "Browser-based timers often suffer from 'time drift' when the tab becomes inactive due to browser battery-saving throttling. Additionally, most online timers require internet access and track user data.",
         "solution": "I architected an offline-first PWA that offloads the timing logic to a dedicated Web Worker. This ensures the timer runs precisely even when the tab is backgrounded. State is persisted locally via Zustand middleware, offering a privacy-first experience.",
