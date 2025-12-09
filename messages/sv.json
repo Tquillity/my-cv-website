@@ -28,6 +28,8 @@
     "problem": "Problemet",
     "solution": "Lösningen",
     "source_code_warning": "⚠️ Källkoden är proprietär. Dessa kodavsnitt demonstrerar specifika tekniska lösningar utan att avslöja affärslogik.",
+    "open_source_message": "Detta projekt är öppen källkod.",
+    "view_full_source": "Visa fullständig källkod",
     "click_to_expand": "Klicka för att expandera",
     "download_linux": "Ladda ner för Linux (RPM)",
     "download_windows": "Ladda ner för Windows",

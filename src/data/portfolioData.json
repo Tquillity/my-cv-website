@@ -14,6 +14,7 @@
       "liveVersion": "https://mikaelsundh.com",
       "startDate": "2025-12-01",
       "lastUpdated": "2025-12-05",
+      "tags": ["Next.js 16", "Three.js", "AI/RAG", "Sanity CMS"],
       "caseStudy": {
         "problem": "Standard static portfolios fail to demonstrate complex engineering skills or personality. I needed a platform that could serve as both a resume and a live demonstration of modern frontend capabilities.",
         "solution": "I built a 'living' application using the Next.js 16 App Router. It features a persistent 3D background (R3F), a context-aware AI agent (Groq Llama 3.3), and a fully functional CLI terminal Easter egg that mimics a retro OS.",
@@ -65,6 +66,7 @@
       "liveVersion": null,
       "startDate": "2025-11-01",
       "lastUpdated": "2025-11-15",
+      "tags": ["Python", "Tkinter", "Threading", "Desktop App"],
       "tags": ["Software"],
       "downloads": {
         "linux": "/Downloads/codebase-6.0-1.x86_64.rpm",
@@ -116,6 +118,7 @@
       "liveVersion": null,
       "startDate": "2024-06-12",
       "lastUpdated": "2025-02-14",
+      "tags": ["Microservices", "WebSockets", "MongoDB Aggregation", "Chrome Extension"],
       "caseStudy": {
         "problem": "Traditional comment systems are siloed to specific websites. Users cannot discuss content on static pages or sites that have disabled comments.",
         "solution": "A browser-agnostic overlay system that injects a discussion layer over any URL, synchronized via WebSockets for real-time interaction.",
@@ -162,6 +165,7 @@
       "liveVersion": null,
       "startDate": "2025-01-01",
       "lastUpdated": "2025-03-01",
+      "tags": ["Node.js", "MongoDB", "Stripe", "Polygon/Web3"],
       "caseStudy": {
         "problem": "Current market solutions lacked a unified system for secure certificate verification alongside course delivery.",
         "solution": "Integrated the Polygon blockchain to mint secure, verifiable diplomas upon course completion, ensuring data integrity and GDPR compliance.",
@@ -171,6 +175,58 @@
         },
         "technicalChallenges": [],
         "codeSnippets": []
+      }
+    },
+    {
+      "id": 7,
+      "name": "PomoZen",
+      "languages": ["React 19", "TypeScript", "Vite", "Tailwind CSS v4", "Web Workers", "Zustand"],
+      "stackType": "Frontend / PWA",
+      "description": "An offline-first, high-performance Pomodoro timer built with React 19 and Web Workers. Features 'Zen Mode' soundscapes, local persistence, and zero-drift timing logic.",
+      "image": "/images/pomozen/home.png",
+      "additionalImages": [
+        "/images/pomozen/pomozen1.png",
+        "/images/pomozen/pomozen2.png",
+        "/images/pomozen/pomozen3.png"
+      ],
+      "projectType": "Open Source Tool",
+      "status": "Live",
+      "githubRepo": "https://github.com/Tquillity/PomoZen",
+      "liveVersion": "https://pomozen.online",
+      "startDate": "2025-12-01",
+      "lastUpdated": "2025-12-20",
+      "tags": ["React 19", "Web Workers", "Zustand", "PWA"],
+      "caseStudy": {
+        "problem": "Browser-based timers often suffer from 'time drift' when the tab becomes inactive due to browser battery-saving throttling. Additionally, most online timers require internet access and track user data.",
+        "solution": "I architected an offline-first PWA that offloads the timing logic to a dedicated Web Worker. This ensures the timer runs precisely even when the tab is backgrounded. State is persisted locally via Zustand middleware, offering a privacy-first experience.",
+        "architecture": {
+          "diagramType": "none",
+          "description": "The application follows a 'Brain/Heart/Face' architecture. The 'Heart' (Timer Engine) runs in a Web Worker using Comlink. The 'Brain' (Zustand Store) manages state and persistence. The 'Face' (React UI) purely reflects the store state."
+        },
+        "technicalChallenges": [
+          {
+            "title": "Main Thread Throttling",
+            "description": "Browsers throttle `setInterval` on the main thread when tabs are inactive. To solve this, I moved the timer logic to a dedicated Web Worker and communicated via `postMessage` (wrapped in Comlink) to keep the UI in sync without drift."
+          },
+          {
+            "title": "Audio Policy Compliance",
+            "description": "Browsers block autoplaying audio. I implemented an `AudioUnlocker` component that captures the first user interaction to unlock the AudioContext globally, allowing the alarm and ambient 'Zen Mode' sounds to play reliably."
+          }
+        ],
+        "codeSnippets": [
+          {
+            "title": "Web Worker Timer (Drift Prevention)",
+            "language": "TypeScript",
+            "description": "The timer logic runs in a separate thread, exposed via Comlink, ensuring precision regardless of UI load or tab visibility.",
+            "code": "import * as Comlink from 'comlink';\n\nlet intervalId: number | null = null;\n\nconst api = {\n  start(callback) {\n    if (intervalId) return;\n    // The worker runs independent of the main thread's event loop\n    intervalId = self.setInterval(() => {\n      callback(0); // Pulse sent to main thread\n    }, 1000);\n  },\n  pause() {\n    if (intervalId) {\n      self.clearInterval(intervalId);\n      intervalId = null;\n    }\n  }\n};\n\nComlink.expose(api);"
+          },
+          {
+            "title": "Zustand Persistence & Logic",
+            "language": "TypeScript",
+            "description": "State management handles both the business logic and local storage synchronization automatically.",
+            "code": "export const useTimeStore = create<TimeState>()(\n  persist(\n    (set, get) => ({\n      timeLeft: DEFAULT_DURATION,\n      isRunning: false,\n      startTimer: async () => {\n        set({ isRunning: true });\n        // Start the worker proxy\n        await getWorker().start(Comlink.proxy(() => get().tick()));\n      },\n      tick: () => {\n        const { timeLeft, mode } = get();\n        if (timeLeft > 0) {\n          set({ timeLeft: timeLeft - 1 });\n        } else {\n          events.emit('timer:complete', mode);\n        }\n      }\n    }),\n    { name: 'pomo-time-storage' }\n  )\n);"
+          }
+        ]
       }
     }
   ]

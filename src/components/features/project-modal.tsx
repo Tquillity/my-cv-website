@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
 import { Project, SanityImage } from "@/types";
 import { urlFor } from "@/lib/sanity";
-import { X, Github, Code2, Network, BookOpen, ChevronLeft, ChevronRight, Download, HardDrive } from "lucide-react";
+import { X, Github, Code2, Network, BookOpen, ChevronLeft, ChevronRight, Download, HardDrive, ExternalLink } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { OmniCommentArchitecture } from "./architecture-diagram";
 
@@ -59,6 +59,7 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({ selectedProject, onC
   const hasCaseStudy = !!selectedProject.caseStudy;
   const hasMultipleImages = allImages.length > 1;
   const hasDownloads = !!selectedProject.downloads;
+  const isPrivateRepo = !selectedProject.githubUrl;
 
   const nextImage = () => {
     setCurrentImageIndex((prev) => (prev + 1) % allImages.length);
@@ -84,7 +85,8 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({ selectedProject, onC
           <div className="fixed inset-0 z-50 flex items-center justify-center p-4 pointer-events-none">
             <motion.div
               layoutId={selectedProject._id}
-              className="w-full max-w-4xl bg-background rounded-2xl overflow-hidden shadow-2xl pointer-events-auto max-h-[90vh] flex flex-col border border-border"
+              // UPDATE: Added fixed height (h-[85vh]) to prevent resizing jumping between tabs
+              className="w-full max-w-5xl bg-background rounded-2xl overflow-hidden shadow-2xl pointer-events-auto h-[85vh] flex flex-col border border-border"
             >
               {/* Header Image Area with Carousel */}
               <div className="relative h-48 sm:h-64 w-full shrink-0 group">
@@ -174,9 +176,9 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({ selectedProject, onC
                 </div>
               </div>
 
-              {/* Tabs */}
+              {/* Tabs - Sticky Top to prevent scrolling off */}
               {(hasCaseStudy || hasDownloads) && (
-                <div className="flex border-b border-border bg-muted/30 px-6 pt-2 overflow-x-auto">
+                <div className="flex border-b border-border bg-muted/90 backdrop-blur-sm px-6 pt-2 overflow-x-auto shrink-0 sticky top-0 z-20">
                   <TabButton
                     active={activeTab === "overview"}
                     onClick={() => setActiveTab("overview")}
@@ -283,11 +285,29 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({ selectedProject, onC
                 {/* CODE SNIPPETS TAB */}
                 {activeTab === "code" && selectedProject.caseStudy && (
                   <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="space-y-8">
-                    <div className="bg-amber-500/10 border border-amber-500/20 p-4 rounded-lg mb-6">
-                      <p className="text-sm text-amber-500 font-medium">
-                        {t('source_code_warning')}
-                      </p>
-                    </div>
+
+                    {/* UPDATE: Conditional Warning Logic */}
+                    {isPrivateRepo ? (
+                      <div className="bg-amber-500/10 border border-amber-500/20 p-4 rounded-lg mb-6">
+                        <p className="text-sm text-amber-500 font-medium">
+                          {t('source_code_warning')}
+                        </p>
+                      </div>
+                    ) : (
+                      <div className="flex items-center justify-between bg-secondary/30 p-3 rounded-lg border border-border/50 mb-6">
+                        <p className="text-sm text-muted-foreground">
+                          {t('open_source_message')}
+                        </p>
+                        <a
+                          href={selectedProject.githubUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-xs flex items-center gap-1 text-primary hover:underline"
+                        >
+                          {t('view_full_source')} <ExternalLink className="w-3 h-3" />
+                        </a>
+                      </div>
+                    )}
 
                     {selectedProject.caseStudy.codeSnippets.map((snippet, idx) => (
                       <div key={idx} className="space-y-2">
