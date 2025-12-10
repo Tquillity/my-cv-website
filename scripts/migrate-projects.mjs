@@ -108,24 +108,38 @@ async function migrate() {
         }))
       } : undefined;
 
-      // Prepare tags array (Strings -> Objects)
-      const uniqueTags = [...new Set([
-        ...(project.tags || []),
-        ...(project.languages || [])
-      ])];
+      // Prepare tags array (Objects with name/description -> Objects with proper keys)
+      let tagObjects = [];
 
-      const tagObjects = uniqueTags.map(tagName => {
-        // You can add basic description logic here if you want to seed it
-        // Example:
-        // let desc = undefined;
-        // if(tagName === "Software" && project.downloads?.linux) desc = "RPM Download available";
+      if (project.tags && project.tags.length > 0) {
+        // If tags are already objects (new format), use them directly
+        if (typeof project.tags[0] === 'object' && project.tags[0].name) {
+          tagObjects = project.tags.map(tagObj => ({
+            _key: tagObj.name.replace(/\s+/g, '-').toLowerCase(),
+            name: tagObj.name,
+            description: tagObj.description || undefined
+          }));
+        } else {
+          // If tags are still strings (old format), convert them
+          const uniqueTags = [...new Set([
+            ...(project.tags || []),
+            ...(project.languages || [])
+          ])];
 
-        return {
-          _key: tagName.replace(/\s+/g, '-').toLowerCase(), // Unique key for array items
-          name: tagName,
-          description: undefined // Placeholder
-        };
-      });
+          tagObjects = uniqueTags.map(tagName => ({
+            _key: tagName.replace(/\s+/g, '-').toLowerCase(),
+            name: tagName,
+            description: undefined
+          }));
+        }
+      } else if (project.languages && project.languages.length > 0) {
+        // Fallback to languages if no tags
+        tagObjects = project.languages.map(lang => ({
+          _key: lang.replace(/\s+/g, '-').toLowerCase(),
+          name: lang,
+          description: undefined
+        }));
+      }
 
       // Prepare document data
       const doc = {

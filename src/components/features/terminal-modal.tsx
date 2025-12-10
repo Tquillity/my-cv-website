@@ -85,6 +85,29 @@ export const TerminalModal = ({ locale }: { locale: string }) => {
     }
   };
 
+  // Prevent browser scroll when terminal is open
+  useEffect(() => {
+    if (isOpen) {
+      // Prevent body scroll
+      const originalOverflow = document.body.style.overflow;
+      document.body.style.overflow = 'hidden';
+      
+      // Prevent scroll on arrow keys globally when terminal is open
+      const handleGlobalKeyDown = (e: KeyboardEvent) => {
+        if (["ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight", "Space"].includes(e.code)) {
+          e.preventDefault();
+        }
+      };
+
+      window.addEventListener("keydown", handleGlobalKeyDown, { passive: false });
+
+      return () => {
+        document.body.style.overflow = originalOverflow;
+        window.removeEventListener("keydown", handleGlobalKeyDown);
+      };
+    }
+  }, [isOpen]);
+
   useEffect(() => {
     if (isOpen && gameState === "NONE") {
       setIsBooting(true);
@@ -120,6 +143,7 @@ export const TerminalModal = ({ locale }: { locale: string }) => {
   useEffect(() => {
       scrollToBottom();
   }, [bootLines, history]);
+
 
   // Handle outside clicks with warning system
   useEffect(() => {
@@ -499,7 +523,18 @@ Type 'cat [project_name]' for details.
                   )}
 
                   {gameState === "NONE" && (
-                    <div className="h-full overflow-y-auto p-4 md:p-6 space-y-2 text-green-500 scrollbar-hide" onClick={() => inputRef.current?.focus()}>
+                    <div 
+                      className="h-full overflow-y-auto p-4 md:p-6 space-y-2 text-green-500 scrollbar-hide" 
+                      onClick={() => inputRef.current?.focus()}
+                      onWheel={(e) => {
+                        // Prevent scroll propagation to browser when scrolling inside terminal
+                        e.stopPropagation();
+                      }}
+                      onTouchMove={(e) => {
+                        // Prevent touch scroll propagation
+                        e.stopPropagation();
+                      }}
+                    >
                         
                         {/* BOOT SCREEN */}
                         {isBooting ? (

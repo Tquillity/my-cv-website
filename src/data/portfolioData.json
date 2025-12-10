@@ -14,7 +14,64 @@
       "liveVersion": "https://mikaelsundh.com",
       "startDate": "2025-12-01",
       "lastUpdated": "2025-12-05",
-      "tags": ["Next.js 16", "TypeScript", "Tailwind CSS", "Sanity CMS", "Three.js", "AI/RAG", "Server Actions"],
+      "tags": [
+        {
+          "name": "AI/RAG",
+          "description": "Injects structured CV data dynamically into the LLM context via Retrieval-Augmented Generation."
+        },
+        {
+          "name": "Canvas API",
+          "description": "Powers the retro terminal games and visual effects via low-level 2D rendering."
+        },
+        {
+          "name": "Framer Motion",
+          "description": "Orchestrates complex layout transitions, modal animations, and polished UI micro-interactions."
+        },
+        {
+          "name": "Groq Llama 3",
+          "description": "Powers the AI chat assistant using high-speed inference models via server-side API calls."
+        },
+        {
+          "name": "Next.js 16",
+          "description": "Utilizes the latest App Router architecture for robust server-side rendering and SEO."
+        },
+        {
+          "name": "React 19",
+          "description": "Implements the React Compiler for automatic memoization and optimized rendering performance."
+        },
+        {
+          "name": "React Three Fiber",
+          "description": "Declaratively manages interactive 3D scene elements and camera transitions within the React tree."
+        },
+        {
+          "name": "Sanity CMS",
+          "description": "Enables real-time updates to experience, skills, and projects without requiring redeployment."
+        },
+        {
+          "name": "Server Actions",
+          "description": "Handles data mutations and logic directly on the server, eliminating separate API endpoints."
+        },
+        {
+          "name": "Tailwind CSS",
+          "description": "A utility-first styling architecture configured for seamless dark, light, and custom theme switching."
+        },
+        {
+          "name": "Three.js",
+          "description": "Powers the interactive 3D space environment with WebGL rendering and camera controls."
+        },
+        {
+          "name": "TypeScript",
+          "description": "Ensures strict type safety throughout the codebase for scalability and error prevention."
+        },
+        {
+          "name": "Zod",
+          "description": "Strictly validates the integrity of data schemas entering the application from external sources."
+        },
+        {
+          "name": "i18n (next-intl)",
+          "description": "Manages middleware routing and content localization for seamless English and Swedish support."
+        }
+      ],
       "caseStudy": {
         "problem": "Standard static portfolios fail to demonstrate complex engineering skills or personality. I needed a platform that could serve as both a resume and a live demonstration of modern frontend capabilities.",
         "solution": "I built a 'living' application using the Next.js 16 App Router. It features a persistent 3D background (R3F), a context-aware AI agent (Groq Llama 3.3), and a fully functional CLI terminal Easter egg that mimics a retro OS.",
@@ -67,7 +124,60 @@
       "liveVersion": null,
       "startDate": "2025-11-01",
       "lastUpdated": "2025-11-15",
-      "tags": ["Software", "Python", "Tkinter", "Threading", "Watchdog", "Desktop App"],
+      "tags": [
+        {
+          "name": "Desktop App",
+          "description": "A native GUI application that runs locally on the user's machine without requiring a web browser."
+        },
+        {
+          "name": "Inno Setup / RPM",
+          "description": "Native platform packaging scripts that generate .exe installers for Windows and .rpm packages for Linux."
+        },
+        {
+          "name": "LRU Caching",
+          "description": "A custom, thread-safe Least Recently Used cache implementation to optimize repeated file access."
+        },
+        {
+          "name": "Multi-threading",
+          "description": "Offloads blocking I/O and file scanning to background threads while syncing UI updates via thread-safe Queues."
+        },
+        {
+          "name": "Pygments",
+          "description": "A generic syntax highlighting engine integrated into the scrollable text widgets for code readability."
+        },
+        {
+          "name": "PyInstaller",
+          "description": "Bundles the Python interpreter, dependencies, and assets into standalone executables for Windows and Linux."
+        },
+        {
+          "name": "Python 3.12",
+          "description": "The core runtime environment, utilizing modern type hinting and filesystem APIs."
+        },
+        {
+          "name": "Security / Sanitization",
+          "description": "Validates file paths and sanitizes content to prevent path traversal and binary file ingestion."
+        },
+        {
+          "name": "Software",
+          "description": "Indicates a compiled, downloadable desktop application available for Linux (RPM), with Windows installers coming soon."
+        },
+        {
+          "name": "Tiktoken",
+          "description": "A fast BPE tokenizer used to calculate accurate token counts for LLM context optimization."
+        },
+        {
+          "name": "Tkinter (ttkbootstrap)",
+          "description": "A modern theming extension for the standard Python GUI framework, providing dark mode and styled widgets."
+        },
+        {
+          "name": "TkinterDnD",
+          "description": "Provides native operating system drag-and-drop integration for loading repositories."
+        },
+        {
+          "name": "Watchdog",
+          "description": "Monitors the filesystem for changes to trigger live reloads during the development cycle."
+        }
+      ],
       "downloads": {
         "linux": "/Downloads/codebase-6.0-1.x86_64.rpm",
         "windows": "soon"
@@ -118,7 +228,60 @@
       "liveVersion": null,
       "startDate": "2024-06-12",
       "lastUpdated": "2025-02-14",
-      "tags": ["TypeScript", "Node.js", "React", "MongoDB", "Redis", "Docker", "Microservices", "WebSockets", "Chrome Extension"],
+      "tags": [
+        {
+          "name": "Biome",
+          "description": "A high-performance toolchain used in the CI/CD pipeline for fast linting and code formatting."
+        },
+        {
+          "name": "Chrome Extension (MV3)",
+          "description": "A Manifest V3 extension that injects a React application into third-party webpages via content scripts."
+        },
+        {
+          "name": "Docker Compose",
+          "description": "Orchestrates the local development environment, containerizing MongoDB, Mongo-Express, and Redis services."
+        },
+        {
+          "name": "JWT & Security",
+          "description": "Implements a robust authentication flow with short-lived access tokens, httpOnly cookies, and automatic refresh rotation."
+        },
+        {
+          "name": "MongoDB (Recursive)",
+          "description": "Utilizes the $graphLookup aggregation pipeline to efficiently fetch and rebuild deeply nested comment threads."
+        },
+        {
+          "name": "Monorepo (Workspaces)",
+          "description": "Manages shared logic, Zod schemas, and UI components across the Backend, Web App, and Extension."
+        },
+        {
+          "name": "React & Vite",
+          "description": "Powers both the main web dashboard and the injected extension UI with fast hot-module replacement."
+        },
+        {
+          "name": "Redis",
+          "description": "Enables real-time comment synchronization across clients, using Redis to scale WebSocket connections."
+        },
+        {
+          "name": "Shadow DOM",
+          "description": "Isolates the extension's CSS styles to prevent conflicts with the host website's design."
+        },
+        {
+          "name": "Socket.IO & Redis",
+          "description": "Enables real-time comment synchronization across clients, using Redis to scale WebSocket connections."
+        },
+        {
+          "name": "TanStack Query",
+          "description": "Manages asynchronous server state, caching, and optimistic UI updates for comments and interactions."
+        },
+        {
+          "name": "TypeScript",
+          "description": "Enforces strict type safety across all workspaces, sharing interfaces between client and server via a local package."
+        },
+        {
+          "name": "Zod",
+          "description": "Defines single-source-of-truth validation schemas used for both API request validation and frontend form handling."
+        }
+      ],
       "caseStudy": {
         "problem": "Traditional comment systems are siloed to specific websites. Users cannot discuss content on static pages or sites that have disabled comments.",
         "solution": "A browser-agnostic overlay system that injects a discussion layer over any URL, synchronized via WebSockets for real-time interaction.",
@@ -195,7 +358,56 @@
       "liveVersion": "https://pomozen.online",
       "startDate": "2025-12-01",
       "lastUpdated": "2025-12-20",
-      "tags": ["Software", "React 19", "TypeScript", "Vite", "Tailwind CSS", "Zustand", "Web Workers", "PWA"],
+      "tags": [
+        {
+          "name": "Comlink",
+          "description": "Abstracts complex postMessage communication into a proxy-based API for seamless Worker interaction."
+        },
+        {
+          "name": "GitHub Actions",
+          "description": "Automates the CI/CD pipeline for linting, testing, and building production artifacts on commit."
+        },
+        {
+          "name": "Local Storage",
+          "description": "Provides a privacy-first, serverless persistence layer for all user data and application settings."
+        },
+        {
+          "name": "PWA (Offline)",
+          "description": "Enables full offline functionality and installation capabilities via Service Worker asset caching."
+        },
+        {
+          "name": "React 19",
+          "description": "Leverages the React Compiler for automatic optimization and efficient rendering without manual memoization."
+        },
+        {
+          "name": "Software",
+          "description": "Indicates a compiled, installable application available as a Progressive Web App."
+        },
+        {
+          "name": "Tailwind CSS v4",
+          "description": "Utilizes the latest CSS-first configuration engine for dynamic theming via CSS variables."
+        },
+        {
+          "name": "TypeScript",
+          "description": "Enforces strict type safety and interface definitions across the main thread, stores, and workers."
+        },
+        {
+          "name": "Vite",
+          "description": "High-performance build tool managing HMR and static asset generation for the PWA manifest."
+        },
+        {
+          "name": "Vitest",
+          "description": "A Vite-native unit testing framework used for validating business logic and component rendering."
+        },
+        {
+          "name": "Web Workers",
+          "description": "Offloads high-precision timing logic to a background thread to prevent browser throttling in inactive tabs."
+        },
+        {
+          "name": "Zustand",
+          "description": "Manages global application state with middleware for automatic Local Storage synchronization."
+        }
+      ],
       "caseStudy": {
         "problem": "Browser-based timers often suffer from 'time drift' when the tab becomes inactive due to browser battery-saving throttling. Additionally, most online timers require internet access and track user data.",
         "solution": "I architected an offline-first PWA that offloads the timing logic to a dedicated Web Worker. This ensures the timer runs precisely even when the tab is backgrounded. State is persisted locally via Zustand middleware, offering a privacy-first experience.",

@@ -22,7 +22,7 @@ const COMMON_STACK = [
   "PostgreSQL", "Zustand", "Tkinter"
 ];
 
-export const ProjectModal: React.FC<ProjectModalProps> = ({ selectedProject, initialTab = "overview", onClose }) => {
+export const ProjectModal: React.FC<ProjectModalProps> = ({ selectedProject, initialTab, onClose }) => {
   const t = useTranslations("PortfolioPage");
   const [activeTab, setActiveTab] = useState<"overview" | "architecture" | "code" | "downloads">("overview");
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
@@ -31,7 +31,7 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({ selectedProject, ini
   // Set tab when project or initialTab changes
   useEffect(() => {
     if (selectedProject) {
-      setActiveTab(initialTab); // Use the passed initialTab
+      setActiveTab(initialTab || "overview"); // Use passed initialTab or fallback to overview
       setCurrentImageIndex(0);
       setIsLightboxOpen(false);
     }
@@ -491,8 +491,6 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({ selectedProject, ini
                   <Image
                     src={lightboxImageUrl}
                     alt={`${selectedProject.title} - Image ${currentImageIndex + 1}`}
-                    width={1920}
-                    height={1080}
                     className="object-contain max-h-[90vh] w-auto h-auto"
                     quality={100}
                     priority

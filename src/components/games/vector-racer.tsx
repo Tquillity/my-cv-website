@@ -8,6 +8,13 @@ export const VectorRacer = ({ onExit }: { onExit: () => void }) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [score, setScore] = useState(0);
   const [gameOver, setGameOver] = useState(false);
+  const [gameId, setGameId] = useState(0);
+
+  const restartGame = () => {
+      setGameOver(false);
+      setScore(0);
+      setGameId(prev => prev + 1);
+  };
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -36,7 +43,10 @@ export const VectorRacer = ({ onExit }: { onExit: () => void }) => {
     const keys: { [key: string]: boolean } = {};
 
     const handleKeyDown = (e: KeyboardEvent) => {
-        if(["ArrowLeft", "ArrowRight"].includes(e.code)) e.preventDefault();
+        // Prevent browser scroll
+        if(["ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight", "Space"].includes(e.code)) {
+            e.preventDefault();
+        }
         keys[e.code] = true;
         if (e.code === "Escape") onExit();
     };
@@ -135,7 +145,7 @@ export const VectorRacer = ({ onExit }: { onExit: () => void }) => {
       window.removeEventListener("keyup", handleKeyUp);
       cancelAnimationFrame(animationId);
     };
-  }, [onExit]);
+  }, [onExit, gameId]);
 
   return (
     <div className="absolute inset-0 z-50 bg-black flex flex-col items-center justify-center font-mono">
@@ -146,9 +156,20 @@ export const VectorRacer = ({ onExit }: { onExit: () => void }) => {
         <div className="absolute z-50 text-center bg-black/90 p-8 border border-green-500">
           <h2 className="text-3xl text-green-500 mb-4 animate-pulse">{t('racer_crashed')}</h2>
           <p className="text-green-300 mb-6">{t('racer_final_score')} {score}</p>
-          <button onClick={onExit} className="px-4 py-2 bg-green-900/50 text-green-400 hover:bg-green-500 hover:text-black transition-colors border border-green-500">
-            {t('racer_return')}
-          </button>
+          <div className="flex flex-col gap-3">
+            <button 
+                onClick={restartGame}
+                className="px-4 py-2 bg-green-700 text-black font-bold hover:bg-green-500 transition-colors border border-green-500"
+            >
+                {t('racer_play_again')}
+            </button>
+            <button 
+                onClick={onExit}
+                className="px-4 py-2 bg-green-900/50 text-green-400 hover:bg-green-500 hover:text-black transition-colors border border-green-500"
+            >
+                {t('racer_return')}
+            </button>
+          </div>
         </div>
       )}
 
