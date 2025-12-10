@@ -13,7 +13,7 @@ const MOCK_PROJECTS: Project[] = portfolioData.projects.map((p: any) => ({
     img.startsWith('/') ? img : `/${img}`
   ),
   description: p.description,
-  tags: (p.tags || []).concat(p.languages || []), // Merge tags and languages for mock
+  tags: Array.from(new Set([...(p.tags || []), ...(p.languages || [])])), // Merge and deduplicate
   githubUrl: p.githubRepo,
   publishedAt: p.startDate,
   // NEW: Map the caseStudy object directly
