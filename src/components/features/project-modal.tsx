@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
 import { Project, SanityImage } from "@/types";
@@ -11,6 +11,7 @@ import { OmniCommentArchitecture } from "./architecture-diagram";
 
 interface ProjectModalProps {
   selectedProject: Project | null;
+  initialTab?: "overview" | "architecture" | "code" | "downloads"; // NEW PROP
   onClose: () => void;
 }
 
@@ -20,20 +21,35 @@ const COMMON_STACK = [
   "PostgreSQL", "Zustand", "Tkinter"
 ];
 
-export const ProjectModal: React.FC<ProjectModalProps> = ({ selectedProject, onClose }) => {
+export const ProjectModal: React.FC<ProjectModalProps> = ({ selectedProject, initialTab = "overview", onClose }) => {
   const t = useTranslations("PortfolioPage");
   const [activeTab, setActiveTab] = useState<"overview" | "architecture" | "code" | "downloads">("overview");
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [isLightboxOpen, setIsLightboxOpen] = useState(false);
 
-  // Reset tab to overview when opening a new project
+  // Set tab when project or initialTab changes
   useEffect(() => {
     if (selectedProject) {
-      setActiveTab("overview");
+      setActiveTab(initialTab); // Use the passed initialTab
       setCurrentImageIndex(0);
       setIsLightboxOpen(false);
     }
-  }, [selectedProject]);
+  }, [selectedProject, initialTab]);
+
+  // Handle ESC key to close Lightbox or Modal
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        if (isLightboxOpen) {
+          setIsLightboxOpen(false);
+        } else if (selectedProject) {
+          onClose();
+        }
+      }
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [isLightboxOpen, selectedProject, onClose]);
 
   if (!selectedProject) return null;
 
@@ -46,7 +62,7 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({ selectedProject, onC
     if (selectedProject.additionalImages) {
       images.push(...selectedProject.additionalImages);
     }
-    return images.length > 0 ? images : ["/images/commingsoon.png"];
+    return images.length > 0 ? images : ["/images/comingsoon.png"];
   };
 
   const allImages = getAllImages();
@@ -55,12 +71,12 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({ selectedProject, onC
   const builder = currentImage && typeof currentImage !== "string" ? urlFor(currentImage) : undefined;
   const imageUrl = builder
     ? builder.width(800).height(600).url()
-    : (typeof currentImage === "string" ? currentImage : "/images/commingsoon.png");
+    : (typeof currentImage === "string" ? currentImage : "/images/comingsoon.png");
   
-  // High-quality image URL for lightbox
+  // High-quality image for lightbox (no cropping)
   const lightboxImageUrl = builder
-    ? builder.width(1920).height(1080).quality(100).url()
-    : (typeof currentImage === "string" ? currentImage : "/images/commingsoon.png");
+    ? builder.width(1920).quality(100).url()
+    : (typeof currentImage === "string" ? currentImage : "/images/comingsoon.png");
 
   const hasCaseStudy = !!selectedProject.caseStudy;
   const hasMultipleImages = allImages.length > 1;
@@ -448,28 +464,33 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({ selectedProject, onC
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
-                className="fixed inset-0 z-[60] bg-black/95 backdrop-blur-xl flex items-center justify-center"
+                // Close on clicking backdrop
                 onClick={() => setIsLightboxOpen(false)}
+                className="fixed inset-0 z-[60] bg-black/95 backdrop-blur-xl flex items-center justify-center p-4"
               >
-                {/* Close Button */}
+                {/* Close Button - High Z-Index, Independent of Image */}
                 <button
-                  onClick={() => setIsLightboxOpen(false)}
-                  className="absolute top-6 right-6 p-3 rounded-full bg-white/10 hover:bg-white/20 text-white transition-colors z-70"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setIsLightboxOpen(false);
+                  }}
+                  className="absolute top-6 right-6 p-3 rounded-full bg-white/10 hover:bg-white/20 text-white transition-colors z-[70] cursor-pointer"
                   aria-label="Close lightbox"
                 >
                   <X className="w-8 h-8" />
                 </button>
 
-                {/* Main Lightbox Image - Full Fit */}
+                {/* Main Lightbox Image Container */}
                 <div
-                  className="relative w-full h-full max-w-[95vw] max-h-[95vh] p-4 flex items-center justify-center"
-                  onClick={(e) => e.stopPropagation()}
+                  className="relative w-auto h-auto max-w-[95vw] max-h-[90vh] flex items-center justify-center"
+                  onClick={(e) => e.stopPropagation()} // Clicking image doesn't close
                 >
                   <Image
                     src={lightboxImageUrl}
                     alt={`${selectedProject.title} - Image ${currentImageIndex + 1}`}
-                    fill
-                    className="object-contain"
+                    width={1920}
+                    height={1080}
+                    className="object-contain max-h-[90vh] w-auto h-auto"
                     quality={100}
                     priority
                   />

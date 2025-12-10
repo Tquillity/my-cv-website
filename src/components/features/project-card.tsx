@@ -10,6 +10,7 @@ import { Download } from "lucide-react";
 interface ProjectCardProps {
   project: Project;
   onClick: () => void;
+  onDownloadClick?: () => void; // Added Prop
 }
 
 const COMMON_STACK = [
@@ -18,14 +19,14 @@ const COMMON_STACK = [
   "PostgreSQL", "Zustand", "Tkinter"
 ];
 
-export const ProjectCard: React.FC<ProjectCardProps> = ({ project, onClick }) => {
+export const ProjectCard: React.FC<ProjectCardProps> = ({ project, onClick, onDownloadClick }) => {
   const t = useTranslations("PortfolioPage");
   
   const builder = project.mainImage ? urlFor(project.mainImage) : undefined;
   const imageUrl = builder ? builder.width(600).height(400).url() : 
     (typeof project.mainImage === "string" && project.mainImage 
       ? project.mainImage 
-      : "/images/commingsoon.png");
+      : "/images/comingsoon.png");
 
   const isDownloadable = !!project.downloads;
 
@@ -55,8 +56,18 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ project, onClick }) =>
           className="object-cover object-top transition-transform duration-500 group-hover:scale-105"
         />
         {isDownloadable && (
-          <div className="absolute top-2 right-2 z-10">
-             <div className="bg-primary text-primary-foreground p-1.5 rounded-full shadow-lg" title={t('software_tag')}>
+          <div
+            className="absolute top-2 right-2 z-10"
+            onClick={(e) => {
+              // Stop card click event
+              e.stopPropagation();
+              if (onDownloadClick) onDownloadClick();
+            }}
+          >
+             <div
+               className="bg-primary text-primary-foreground p-1.5 rounded-full shadow-lg hover:bg-primary/80 transition-colors hover:scale-110 cursor-pointer"
+               title={t('software_tag')}
+             >
                 <Download className="w-4 h-4" />
              </div>
           </div>

@@ -10,6 +10,11 @@ interface PortfolioGridProps {
   projects: Project[];
 }
 
+type ModalState = {
+  id: string;
+  tab: "overview" | "architecture" | "code" | "downloads";
+} | null;
+
 // Legend Component
 const TagLegend = () => (
   <div className="text-center mt-14 mb-14">
@@ -34,9 +39,13 @@ const TagLegend = () => (
 );
 
 export const PortfolioGrid: React.FC<PortfolioGridProps> = ({ projects }) => {
-  const [selectedId, setSelectedId] = useState<string | null>(null);
+  const [modalState, setModalState] = useState<ModalState>(null);
 
-  const selectedProject = projects.find((p) => p._id === selectedId) || null;
+  const selectedProject = modalState
+
+    ? projects.find((p) => p._id === modalState.id) || null
+
+    : null;
 
   return (
     <>
@@ -46,13 +55,15 @@ export const PortfolioGrid: React.FC<PortfolioGridProps> = ({ projects }) => {
           <ProjectCard
             key={project._id}
             project={project}
-            onClick={() => setSelectedId(project._id)}
+            onClick={() => setModalState({ id: project._id, tab: "overview" })}
+            onDownloadClick={() => setModalState({ id: project._id, tab: "downloads" })}
           />
         ))}
       </div>
       <ProjectModal
         selectedProject={selectedProject}
-        onClose={() => setSelectedId(null)}
+        initialTab={modalState?.tab}
+        onClose={() => setModalState(null)}
       />
     </>
   );
