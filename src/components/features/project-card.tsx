@@ -12,7 +12,11 @@ interface ProjectCardProps {
   onClick: () => void;
 }
 
-const COMMON_STACK = ["Next.js 16", "React", "React 19", "TypeScript", "Tailwind CSS", "Node.js", "Python"];
+const COMMON_STACK = [
+  "Next.js", "React", "TypeScript", "Tailwind CSS", "Node.js", "Python",
+  "Vite", "MongoDB", "Redis", "Docker", "Sanity", "Express", "Stripe",
+  "PostgreSQL", "Zustand", "Tkinter"
+];
 
 export const ProjectCard: React.FC<ProjectCardProps> = ({ project, onClick }) => {
   const t = useTranslations("PortfolioPage");
@@ -40,9 +44,9 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ project, onClick }) =>
     <motion.div
       layoutId={project._id}
       onClick={onClick}
-      className="group cursor-pointer rounded-xl bg-card text-card-foreground shadow-sm border overflow-hidden hover:shadow-md transition-shadow"
+      className="group cursor-pointer rounded-xl bg-card text-card-foreground shadow-sm border border-border/60 overflow-hidden hover:shadow-lg transition-all flex flex-col h-full hover:-translate-y-1 duration-300"
     >
-      <div className="relative h-48 w-full overflow-hidden bg-muted flex items-center justify-center">
+      <div className="relative h-48 w-full overflow-hidden bg-muted/30 flex items-center justify-center">
         <Image
           src={imageUrl}
           alt={project.title}
@@ -58,14 +62,14 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ project, onClick }) =>
           </div>
         )}
       </div>
-      <div className="p-4">
-        <h3 className="font-semibold text-lg mb-2">{project.title}</h3>
+      <div className="p-5 flex flex-col flex-1 gap-3">
+        <h3 className="font-semibold text-xl">{project.title}</h3>
         <div className="flex flex-wrap gap-2">
           {project.tags?.length > 0 ? (
             project.tags.map((tag) => (
               <span
                 key={tag}
-                className={`inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors ${getTagStyles(tag)}`}
+                className={`inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors cursor-default ${getTagStyles(tag)}`}
               >
                 {tag}
               </span>

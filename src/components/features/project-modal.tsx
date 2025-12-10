@@ -14,7 +14,11 @@ interface ProjectModalProps {
   onClose: () => void;
 }
 
-const COMMON_STACK = ["Next.js 16", "React", "React 19", "TypeScript", "Tailwind CSS", "Node.js", "Python"];
+const COMMON_STACK = [
+  "Next.js", "React", "TypeScript", "Tailwind CSS", "Node.js", "Python",
+  "Vite", "MongoDB", "Redis", "Docker", "Sanity", "Express", "Stripe",
+  "PostgreSQL", "Zustand", "Tkinter"
+];
 
 export const ProjectModal: React.FC<ProjectModalProps> = ({ selectedProject, onClose }) => {
   const t = useTranslations("PortfolioPage");
@@ -98,7 +102,7 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({ selectedProject, onC
             <motion.div
               layoutId={selectedProject._id}
               // UPDATE: Added fixed height (h-[85vh]) to prevent resizing jumping between tabs
-              className="w-full max-w-5xl bg-background rounded-2xl overflow-hidden shadow-2xl pointer-events-auto h-[85vh] flex flex-col border border-border"
+              className="w-full max-w-5xl bg-background rounded-2xl overflow-hidden shadow-2xl pointer-events-auto h-[85vh] flex flex-col border border-border custom-scrollbar"
             >
               {/* Header Image Area with Carousel */}
               <div className="relative h-48 sm:h-64 w-full shrink-0 group">
