@@ -39,6 +39,9 @@
   "AboutPage": {
     "title": "Om Mig",
     "subtitle": "Min resa, kunskaper och erfarenhet.",
+    "tab_cv": "CV / Meritförteckning",
+    "tab_cover_letter": "Personligt Brev",
+    "cover_letter_placeholder": "I grund och botten är jag en skapare. Med en kandidatexamen i rymdteknik och över ett decennium inom teknisk projektledning – från seismiska operationer till sjöss till samordning av EU-finansiering på Vinnova – har jag alltid fascinerats av komplexa system.\n\n2023 växlade jag spår helt till mjukvaruutveckling. Jag skriver inte bara kod; jag applicerar ett ingenjörsmässigt tänkande på modern webbutveckling. Jag arbetar utifrån en 'AI-First'-metodik och använder dagligen verktyg som Cursor och AI för att accelerera arbetsflöden och arkitektera skalbara lösningar.\n\nUtanför skärmen drivs jag av nyfikenhet och disciplin. Jag applicerar samma optimeringstänk på min hälsa och träning som på min kod. Jag är historieintresserad, en hängiven gamer och en friluftsmänniska som finner lugnet i naturen – vare sig det gäller camping eller jakt. I både arbete och privatliv värdesätter jag äkthet och djupa relationer framför kallprat.",
     "intro": "Jag är en passionerad Fullstack & Blockchain Ingenjör dedikerad till att bygga skalbara, användarcentrerade applikationer. Med en stark grund i moderna webbteknologier och decentraliserade system strävar jag efter att skapa digitala upplevelser som gör skillnad.",
     "experience_section": "Erfarenhet",
     "tech_stack": "Teknikstack",

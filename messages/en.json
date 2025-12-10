@@ -39,6 +39,9 @@
   "AboutPage": {
     "title": "About Me",
     "subtitle": "My journey, skills, and experience.",
+    "tab_cv": "CV / Resume",
+    "tab_cover_letter": "Cover Letter",
+    "cover_letter_placeholder": "I am a builder at heart. With a B.Sc. in Space Engineering and over a decade of experience in technical project management—ranging from seismic operations at sea to coordinating EU space funding at Vinnova—I have always been fascinated by complex systems.\n\nIn 2023, I pivoted fully to Software Development. I don't just write code; I apply an engineering mindset to modern web development. I am an 'AI-First' developer, utilizing LLMs and tools like Cursor daily to accelerate workflows, generate robust testing suites, and architect scalable solutions faster than traditional methods allow.\n\nBeyond the screen, I am driven by curiosity and discipline. I apply the same optimization mindset to my health and training as I do to my code. I am a history buff, an avid gamer, and an outdoorsman who finds clarity in nature—whether camping or hunting. In both work and life, I value authenticity and deep connections over transactional interactions.",
     "intro": "I am a passionate Fullstack & Blockchain Engineer dedicated to building scalable, user-centric applications. With a strong foundation in modern web technologies and decentralized systems, I strive to create digital experiences that make a difference.",
     "experience_section": "Work Experience",
     "tech_stack": "Tech Stack",

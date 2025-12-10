@@ -4,7 +4,7 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Education, Experience, SkillSet } from "@/types";
 import { TimelineItem } from "@/components/features/timeline-item";
-import { GraduationCap, Code, Languages, Terminal, User, Briefcase } from "lucide-react";
+import { GraduationCap, Code, Languages, Terminal, User, Briefcase, FileText, BookOpen } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { BentoGrid, BentoCard } from "@/components/features/bento-grid";
 import { Switch } from "@/components/ui/switch";
@@ -67,8 +67,23 @@ const EducationCard = ({ edu, t }: { edu: Education; t: any }) => {
   );
 };
 
+const TabButton = ({ active, onClick, icon, label }: { active: boolean, onClick: () => void, icon: any, label: string }) => (
+  <button
+    onClick={onClick}
+    className={`flex items-center gap-2 px-4 py-3 text-sm font-medium border-b-2 transition-colors whitespace-nowrap overflow-visible ${
+      active
+        ? "border-primary text-primary"
+        : "border-transparent text-muted-foreground hover:text-foreground hover:border-border"
+    }`}
+  >
+    {icon}
+    <span className="overflow-visible">{label}</span>
+  </button>
+);
+
 export const AboutPageContent: React.FC<AboutPageProps> = ({ education, experience, profile }) => {
   const t = useTranslations("AboutPage");
+  const [activeTab, setActiveTab] = useState<'cv' | 'cover_letter'>('cv');
   const [showLegacy, setShowLegacy] = useState(false);
 
   const visibleExperience = experience.filter(
@@ -85,9 +100,9 @@ export const AboutPageContent: React.FC<AboutPageProps> = ({ education, experien
         
         {/* Header Section */}
         <div className="flex justify-between items-end">
-          <div>
-            <h1 className="text-4xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-foreground to-muted-foreground">
-              {t('title') || "About Me"}
+          <div className="flex-1 min-w-0">
+            <h1 className="text-4xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-foreground to-muted-foreground leading-tight break-words">
+              {activeTab === 'cv' ? t('tab_cv') : t('tab_cover_letter')}
             </h1>
             <p className="text-muted-foreground mt-2">
               {t('subtitle') || "My journey, skills, and experience."}
@@ -95,8 +110,34 @@ export const AboutPageContent: React.FC<AboutPageProps> = ({ education, experien
           </div>
         </div>
 
-        {/* Bento Grid Dashboard */}
-        <BentoGrid>
+        {/* Tab Navigation */}
+        <div className="flex border-b border-border bg-muted/90 backdrop-blur-sm px-6 pt-2 overflow-x-auto">
+          <TabButton
+            active={activeTab === 'cv'}
+            onClick={() => setActiveTab('cv')}
+            icon={<BookOpen className="w-4 h-4" />}
+            label={t('tab_cv')}
+          />
+          <TabButton
+            active={activeTab === 'cover_letter'}
+            onClick={() => setActiveTab('cover_letter')}
+            icon={<FileText className="w-4 h-4" />}
+            label={t('tab_cover_letter')}
+          />
+        </div>
+
+        {/* Content Area */}
+        <AnimatePresence mode="wait">
+          {activeTab === 'cv' && (
+            <motion.div
+              key="cv"
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -10 }}
+              transition={{ duration: 0.3 }}
+            >
+              {/* Bento Grid Dashboard */}
+              <BentoGrid>
           
           {/* 1. Bio (Technical Objective) */}
           <BentoCard className="lg:col-span-7 flex flex-col justify-center">
@@ -178,10 +219,10 @@ export const AboutPageContent: React.FC<AboutPageProps> = ({ education, experien
             </div>
           </BentoCard>
 
-        </BentoGrid>
+              </BentoGrid>
 
-        {/* Experience Section */}
-        <section className="pt-12">
+              {/* Experience Section */}
+              <section className="pt-12">
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-12 border-b border-border/50 pb-8">
             <div className="flex items-center gap-3">
               <Code className="w-8 h-8 text-primary" />
@@ -237,8 +278,37 @@ export const AboutPageContent: React.FC<AboutPageProps> = ({ education, experien
                 </button>
               </motion.div>
             )}
-          </div>
-        </section>
+              </div>
+            </section>
+            </motion.div>
+          )}
+
+          {activeTab === 'cover_letter' && (
+            <motion.div
+              key="cover_letter"
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -10 }}
+              transition={{ duration: 0.3 }}
+              className="pt-8"
+            >
+              <div className="bg-card/40 backdrop-blur-sm border border-border/50 rounded-xl p-8 md:p-12">
+                <div className="max-w-3xl mx-auto space-y-6">
+                  <div className="flex items-center gap-3 mb-6">
+                    <FileText className="w-6 h-6 text-primary" />
+                    <h2 className="text-2xl font-semibold text-foreground">{t('tab_cover_letter')}</h2>
+                  </div>
+                  
+                  <div className="prose prose-invert max-w-none">
+                    <p className="text-muted-foreground text-lg leading-relaxed whitespace-pre-line">
+                      {t('cover_letter_placeholder')}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
 
       </div>
     </main>
