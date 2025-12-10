@@ -61,7 +61,7 @@ const THEME_CONFIG = {
   }
 };
 
-const BackgroundContent = ({ variant, config }: { variant: BackgroundType, config: any }) => {
+const BackgroundContent = ({ variant, config, currentTheme }: { variant: BackgroundType, config: any, currentTheme: 'light' | 'middle' | 'dark' }) => {
   switch (variant) {
     case "stars":
       return <StarVariant color={config.color} opacity={config.starOpacity} />;
@@ -72,7 +72,7 @@ const BackgroundContent = ({ variant, config }: { variant: BackgroundType, confi
     case "galaxy":
       return <GalaxyVariant color={config.galaxyColor} opacity={config.starOpacity} />;
     case "aurora":
-      return <AuroraVariant color={config.auroraColor} opacity={config.starOpacity} />;
+      return <AuroraVariant theme={currentTheme} />;
     case "space":
     default:
       return <SparkleVariant color={config.color} opacity={config.starOpacity} />;
@@ -117,7 +117,7 @@ export const Scene: React.FC = () => {
       >
         <CameraResizer />
         <Suspense fallback={null}>
-          {mounted && <BackgroundContent variant={variant} config={config} />}
+          {mounted && <BackgroundContent variant={variant} config={config} currentTheme={currentTheme} />}
         </Suspense>
       </Canvas>
     </div>

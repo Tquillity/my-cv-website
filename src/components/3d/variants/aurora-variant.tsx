@@ -78,7 +78,7 @@ const AuroraShader = {
   `,
 };
 
-export const AuroraVariant: React.FC<{ color?: string; opacity?: number }> = ({ color = "#00ff88", opacity = 1 }) => {
+export const AuroraVariant: React.FC<{ theme?: 'light' | 'middle' | 'dark' }> = ({ theme = 'dark' }) => {
   const materialRef = useRef<ShaderMaterial>(null);
   
   const prefersReducedMotion = useMemo(() => {
@@ -86,13 +86,24 @@ export const AuroraVariant: React.FC<{ color?: string; opacity?: number }> = ({ 
     return window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   }, []);
 
+  // Realistic Aurora colors - darker for light mode, bright for middle/dark
   const colors = useMemo(() => {
-    return {
-      c1: new Color(color),
-      c2: new Color("#3b82f6"), // Blueish
-      c3: new Color("#8b5cf6"), // Purpleish
-    };
-  }, [color]);
+    if (theme === 'light') {
+      // Darker colors for light mode
+      return {
+        c1: new Color("#00cc6a"), // Darker Green/Teal
+        c2: new Color("#4a1fcc"), // Darker Purple/Violet
+        c3: new Color("#00a8cc"), // Darker Blue
+      };
+    } else {
+      // Bright colors for middle and dark modes
+      return {
+        c1: new Color("#00ff87"), // Bright Green/Teal
+        c2: new Color("#6028ff"), // Deep Purple/Violet
+        c3: new Color("#00d4ff"), // Soft Blue
+      };
+    }
+  }, [theme]);
 
   useFrame((state) => {
     if (materialRef.current && !prefersReducedMotion) {
@@ -101,9 +112,9 @@ export const AuroraVariant: React.FC<{ color?: string; opacity?: number }> = ({ 
   });
 
   return (
-    <group position={[0, -5, -15]} rotation={[0.5, 0, 0]}>
-      {/* Large curved plane for the aurora */}
-      <Plane args={[40, 20, 64, 64]}>
+    <group position={[0, 0, -20]} rotation={[0.3, 0, 0]}>
+      {/* Much larger plane to cover entire viewport without clipping */}
+      <Plane args={[100, 100, 128, 128]}>
         <shaderMaterial
           ref={materialRef}
           args={[AuroraShader]}
