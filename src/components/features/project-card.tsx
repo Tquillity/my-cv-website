@@ -6,6 +6,7 @@ import { Project } from "@/types";
 import { urlFor } from "@/lib/sanity";
 import { useTranslations } from "next-intl";
 import { Download } from "lucide-react";
+import { SimpleTooltip } from "@/components/ui/simple-tooltip"; // Import
 
 interface ProjectCardProps {
   project: Project;
@@ -77,13 +78,14 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ project, onClick, onDo
         <h3 className="font-semibold text-xl">{project.title}</h3>
         <div className="flex flex-wrap gap-2">
           {project.tags?.length > 0 ? (
-            project.tags.map((tag) => (
-              <span
-                key={tag}
-                className={`inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors cursor-default ${getTagStyles(tag)}`}
-              >
-                {tag}
-              </span>
+            project.tags.map((tagObj) => (
+              <SimpleTooltip key={tagObj.name} content={tagObj.description}>
+                <span
+                  className={`inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors cursor-default ${getTagStyles(tagObj.name)}`}
+                >
+                  {tagObj.name}
+                </span>
+              </SimpleTooltip>
             ))
           ) : (
             <span className="text-xs text-muted-foreground">{t('no_tags')}</span>

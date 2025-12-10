@@ -38,12 +38,38 @@ export default defineType({
       title: "Description",
       type: "text",
     }),
+    // --- UPDATED TAGS FIELD ---
     defineField({
       name: "tags",
       title: "Tags",
       type: "array",
-      of: [{ type: "string" }],
+      of: [
+        {
+          type: "object",
+          fields: [
+            {
+              name: "name",
+              title: "Tag Name",
+              type: "string",
+              validation: (Rule) => Rule.required()
+            },
+            {
+              name: "description",
+              title: "Tooltip Description",
+              type: "string",
+              description: "Optional text to show on hover (e.g., 'RPM Download' or 'Browser Install')"
+            }
+          ],
+          preview: {
+            select: {
+              title: 'name',
+              subtitle: 'description'
+            }
+          }
+        }
+      ],
     }),
+    // ---------------------------
     defineField({
       name: "githubUrl",
       title: "GitHub URL",

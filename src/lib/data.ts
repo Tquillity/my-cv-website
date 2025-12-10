@@ -1,7 +1,17 @@
 import { client } from "./sanity";
-import { Project, Experience, Education, SkillSet } from "@/types";
+import { Project, Experience, Education, SkillSet, Tag } from "@/types";
 import cvData from "../data/cv-data-en.json";
 import portfolioData from "../data/portfolioData.json";
+
+// Helper to convert string arrays to Tag objects
+const normalizeTags = (tags: string[] = [], languages: string[] = []): Tag[] => {
+  const uniqueNames = Array.from(new Set([...tags, ...languages]));
+  return uniqueNames.map(name => ({
+    name,
+    // You can add logic here later to map specific descriptions based on name if using mock data
+    description: undefined
+  }));
+};
 
 // Mock Data / Local Data Fallback
 const MOCK_PROJECTS: Project[] = portfolioData.projects.map((p: any) => ({
@@ -13,7 +23,8 @@ const MOCK_PROJECTS: Project[] = portfolioData.projects.map((p: any) => ({
     img.startsWith('/') ? img : `/${img}`
   ),
   description: p.description,
-  tags: Array.from(new Set([...(p.tags || []), ...(p.languages || [])])), // Merge and deduplicate
+  // UPDATED: Use helper
+  tags: normalizeTags(p.tags, p.languages),
   githubUrl: p.githubRepo,
   publishedAt: p.startDate,
   // NEW: Map the caseStudy object directly

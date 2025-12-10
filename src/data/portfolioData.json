@@ -56,6 +56,7 @@
       "description": "A developer productivity tool that scans repositories, visualizes structure, and generates context-optimized prompts for LLMs. Installable versions available for Linux (RPM).",
       "image": "/images/CodeBase/home.png",
       "additionalImages": [
+        "/images/CodeBase/codebase.png",
         "/images/CodeBase/codebase1.png",
         "/images/CodeBase/codebase2.png",
         "/images/CodeBase/codebase3.png"
@@ -110,7 +111,7 @@
       "languages": ["TypeScript", "NodeJS", "React", "MongoDB", "Redis", "Docker"],
       "stackType": "Fullstack",
       "description": "A decentralized commenting system allowing users to comment on any webpage via a Chrome Extension.",
-      "image": "/images/commingsoon.png",
+      "image": "/images/comingsoon.png",
       "projectType": "Commercial Startup",
       "status": "Beta",
       "githubRepo": null,
@@ -157,7 +158,7 @@
       "languages": ["Node.js", "Express.js", "MongoDB", "React", "Tailwind CSS", "Polygon"],
       "stackType": "Fullstack",
       "description": "A scalable video course platform with tiered user management (Admin, Client, Employee), Stripe payment integration, and Blockchain-based diploma verification.",
-      "image": "/images/commingsoon.png",
+      "image": "/images/comingsoon.png",
       "projectType": "Commercial (Internship)",
       "status": "In Development",
       "githubRepo": null,

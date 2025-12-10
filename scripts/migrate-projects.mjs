@@ -108,17 +108,33 @@ async function migrate() {
         }))
       } : undefined;
 
+      // Prepare tags array (Strings -> Objects)
+      const uniqueTags = [...new Set([
+        ...(project.tags || []),
+        ...(project.languages || [])
+      ])];
+
+      const tagObjects = uniqueTags.map(tagName => {
+        // You can add basic description logic here if you want to seed it
+        // Example:
+        // let desc = undefined;
+        // if(tagName === "Software" && project.downloads?.linux) desc = "RPM Download available";
+
+        return {
+          _key: tagName.replace(/\s+/g, '-').toLowerCase(), // Unique key for array items
+          name: tagName,
+          description: undefined // Placeholder
+        };
+      });
+
       // Prepare document data
       const doc = {
         _type: 'project',
         title: project.name,
         slug: { _type: 'slug', current: project.name.toLowerCase().replace(/\s+/g, '-') },
         description: project.description,
-        // Merge tags and languages, and remove duplicates using Set
-        tags: [...new Set([
-          ...(project.tags || []),
-          ...(project.languages || [])
-        ])],
+        // UPDATED: Send tag objects
+        tags: tagObjects,
         githubUrl: project.githubRepo,
         publishedAt: project.startDate,
         downloads: project.downloads, // Add downloads field

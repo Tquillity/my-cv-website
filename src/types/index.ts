@@ -27,6 +27,12 @@ export interface CaseStudy {
   codeSnippets: CodeSnippet[];
 }
 
+// NEW INTERFACE
+export interface Tag {
+  name: string;
+  description?: string; // Optional description for the tooltip
+}
+
 export interface Project {
   _id: string;
   title: string;
@@ -36,7 +42,7 @@ export interface Project {
   mainImage: SanityImage | string; // String for mock data URLs
   additionalImages?: (SanityImage | string)[]; // Array of additional images for carousel
   description: string;
-  tags: string[];
+  tags: Tag[];
   githubUrl?: string;
   liveUrl?: string;
   publishedAt: string;

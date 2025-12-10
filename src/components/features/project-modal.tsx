@@ -8,6 +8,7 @@ import { urlFor } from "@/lib/sanity";
 import { X, Github, Code2, Network, BookOpen, ChevronLeft, ChevronRight, Download, HardDrive, ExternalLink } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { OmniCommentArchitecture } from "./architecture-diagram";
+import { SimpleTooltip } from "@/components/ui/simple-tooltip";
 
 interface ProjectModalProps {
   selectedProject: Project | null;
@@ -270,10 +271,10 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({ selectedProject, ini
 
                     {/* Dynamic Tag Legend - Only show categories present in this project */}
                     {(() => {
-                      const hasSoftware = selectedProject.tags.some(tag => tag === "Software");
-                      const hasTechStack = selectedProject.tags.some(tag => COMMON_STACK.some(tech => tag.includes(tech)));
+                      const hasSoftware = selectedProject.tags.some(tag => tag.name === "Software");
+                      const hasTechStack = selectedProject.tags.some(tag => COMMON_STACK.some(tech => tag.name.includes(tech)));
                       const hasUnique = selectedProject.tags.some(tag =>
-                        tag !== "Software" && !COMMON_STACK.some(tech => tag.includes(tech))
+                        tag.name !== "Software" && !COMMON_STACK.some(tech => tag.name.includes(tech))
                       );
 
                       return (hasSoftware || hasTechStack || hasUnique) && (
@@ -301,10 +302,12 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({ selectedProject, ini
                     })()}
 
                     <div className="flex flex-wrap gap-2">
-                      {selectedProject.tags.map((tag) => (
-                        <span key={tag} className={`inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors ${getTagStyles(tag)}`}>
-                          {tag}
-                        </span>
+                      {selectedProject.tags.map((tagObj) => (
+                        <SimpleTooltip key={tagObj.name} content={tagObj.description}>
+                          <span className={`inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors ${getTagStyles(tagObj.name)}`}>
+                            {tagObj.name}
+                          </span>
+                        </SimpleTooltip>
                       ))}
                     </div>
 
