@@ -252,6 +252,38 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({ selectedProject, onC
                       </div>
                     )}
 
+                    {/* Dynamic Tag Legend - Only show categories present in this project */}
+                    {(() => {
+                      const hasSoftware = selectedProject.tags.some(tag => tag === "Software");
+                      const hasTechStack = selectedProject.tags.some(tag => COMMON_STACK.some(tech => tag.includes(tech)));
+                      const hasUnique = selectedProject.tags.some(tag =>
+                        tag !== "Software" && !COMMON_STACK.some(tech => tag.includes(tech))
+                      );
+
+                      return (hasSoftware || hasTechStack || hasUnique) && (
+                        <div className="flex flex-wrap gap-3 justify-center text-xs text-muted-foreground mb-3">
+                          {hasSoftware && (
+                            <div className="flex items-center gap-1.5">
+                              <span className="w-2 h-2 rounded-full bg-primary border border-primary" />
+                              <span>Software Product</span>
+                            </div>
+                          )}
+                          {hasTechStack && (
+                            <div className="flex items-center gap-1.5">
+                              <span className="w-2 h-2 rounded-full bg-secondary border border-border" />
+                              <span>Tech Stack</span>
+                            </div>
+                          )}
+                          {hasUnique && (
+                            <div className="flex items-center gap-1.5">
+                              <span className="w-2 h-2 rounded-full bg-indigo-500/20 border border-indigo-500/50" />
+                              <span>Unique Feature / Skill</span>
+                            </div>
+                          )}
+                        </div>
+                      );
+                    })()}
+
                     <div className="flex flex-wrap gap-2">
                       {selectedProject.tags.map((tag) => (
                         <span key={tag} className={`inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors ${getTagStyles(tag)}`}>

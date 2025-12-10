@@ -12,18 +12,23 @@ interface PortfolioGridProps {
 
 // Legend Component
 const TagLegend = () => (
-  <div className="flex flex-wrap gap-4 md:gap-6 justify-center mb-8 text-xs font-medium text-muted-foreground bg-secondary/30 py-3 px-6 rounded-full border border-border/50 backdrop-blur-sm">
-    <div className="flex items-center gap-2">
-      <span className="w-2.5 h-2.5 rounded-full bg-primary border border-primary" />
-      <span>Software Product</span>
-    </div>
-    <div className="flex items-center gap-2">
-      <span className="w-2.5 h-2.5 rounded-full bg-secondary border border-border" />
-      <span>Tech Stack</span>
-    </div>
-    <div className="flex items-center gap-2">
-      <span className="w-2.5 h-2.5 rounded-full bg-indigo-500/20 border border-indigo-500/50" />
-      <span>Unique Feature / Skill</span>
+  <div className="text-center mt-14 mb-14">
+    <div className="bg-secondary/30 py-3 px-6 rounded-full border border-border/50 backdrop-blur-sm">
+      <h3 className="text-sm font-semibold text-foreground mb-1.5">Technology Categories</h3>
+      <div className="flex flex-wrap gap-4 md:gap-6 justify-center text-xs font-medium text-muted-foreground">
+        <div className="flex items-center gap-2">
+          <span className="w-2.5 h-2.5 rounded-full bg-primary border border-primary" />
+          <span>Software Product</span>
+        </div>
+        <div className="flex items-center gap-2">
+          <span className="w-2.5 h-2.5 rounded-full bg-secondary border border-border" />
+          <span>Tech Stack</span>
+        </div>
+        <div className="flex items-center gap-2">
+          <span className="w-2.5 h-2.5 rounded-full bg-indigo-500/20 border border-indigo-500/50" />
+          <span>Unique Feature / Skill</span>
+        </div>
+      </div>
     </div>
   </div>
 );
