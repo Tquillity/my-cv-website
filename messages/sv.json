@@ -32,9 +32,15 @@
     "view_full_source": "Visa fullständig källkod",
     "click_to_expand": "Klicka för att expandera",
     "download_linux": "Ladda ner för Linux (RPM)",
+    "download_linux_desc": "Fedora, RHEL, CentOS",
     "download_windows": "Ladda ner för Windows",
+    "download_windows_desc": "Windows 10/11 (Installer)",
     "coming_soon": "Kommer Snart",
-    "software_tag": "Nedladdningsbar"
+    "software_tag": "Nedladdningsbar",
+    "legend_title": "Teknikkategorier",
+    "legend_software": "Mjukvaruprodukt",
+    "legend_stack": "Teknikstack",
+    "legend_unique": "Unik Egenskap / Färdighet"
   },
   "AboutPage": {
     "title": "Om Mig",
@@ -44,6 +50,8 @@
     "cover_letter_placeholder": "I grund och botten är jag en skapare. Med en kandidatexamen i rymdteknik och över ett decennium inom teknisk projektledning – från seismiska operationer till sjöss till samordning av EU-finansiering på Vinnova – har jag alltid fascinerats av komplexa system.\n\n2023 växlade jag spår helt till mjukvaruutveckling. Jag skriver inte bara kod; jag applicerar ett ingenjörsmässigt tänkande på modern webbutveckling. Jag arbetar utifrån en 'AI-First'-metodik och använder dagligen verktyg som Cursor och AI för att accelerera arbetsflöden och arkitektera skalbara lösningar.\n\nUtanför skärmen drivs jag av nyfikenhet och disciplin. Jag applicerar samma optimeringstänk på min hälsa och träning som på min kod. Jag är historieintresserad, en hängiven gamer och en friluftsmänniska som finner lugnet i naturen – vare sig det gäller camping eller jakt. I både arbete och privatliv värdesätter jag äkthet och djupa relationer framför kallprat.",
     "intro": "Jag är en passionerad Fullstack & Blockchain Ingenjör dedikerad till att bygga skalbara, användarcentrerade applikationer. Med en stark grund i moderna webbteknologier och decentraliserade system strävar jag efter att skapa digitala upplevelser som gör skillnad.",
     "experience_section": "Erfarenhet",
+    "technical_objective": "Teknisk Målsättning",
+    "bio_loading": "Laddar bio...",
     "tech_stack": "Teknikstack",
     "languages": "Språk",
     "education": "Utbildning",
@@ -75,6 +83,22 @@
     "select_atmosphere_network": "Nätverk",
     "select_atmosphere_nebula": "Nebulosa",
     "select_atmosphere_deep_space": "Djup Rymd"
+  },
+  "ArchitectureDiagram": {
+    "chrome_extension": "Chrome Tillägg",
+    "content_script": "Content Script / Iframe Injektion",
+    "websockets": "WebSockets / HTTP",
+    "nodejs_api": "Node.js API",
+    "express_ts": "Express / TypeScript",
+    "redis": "Redis",
+    "caching": "Caching / Socket Adapter",
+    "mongodb": "MongoDB",
+    "recursive": "Rekursiv Aggregering",
+    "monorepo": "Monorepo Struktur"
+  },
+  "Metadata": {
+    "title": "Portfölj 2025 | Mikael Sundh",
+    "description": "Portfölj för Fullstack & Blockchain Ingenjör"
   },
   "Terminal": {
     "welcome_os": "MIKAEL_OS v2.0.4 [Protected Mode]",

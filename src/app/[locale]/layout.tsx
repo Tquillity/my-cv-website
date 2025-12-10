@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-import { getMessages } from "next-intl/server";
+import { getMessages, getTranslations } from "next-intl/server";
 import { Providers } from "@/components/providers";
 import { FloatingNavbar } from "@/components/ui/floating-navbar";
 import { Footer } from "@/components/ui/footer";
@@ -13,11 +13,16 @@ import "@/styles/globals.css";
 
 const inter = Inter({ subsets: ["latin"] });
 
-export const metadata: Metadata = {
-  title: "Portfolio 2025",
-  description: "My Portfolio",
-  // Favicon is managed dynamically by FaviconManager component based on theme
-};
+// UPDATED: Dynamic metadata generation
+export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
+  const { locale } = await params;
+  const t = await getTranslations({ locale, namespace: "Metadata" });
+
+  return {
+    title: t("title"),
+    description: t("description"),
+  };
+}
 
 export default async function RootLayout({
   children,

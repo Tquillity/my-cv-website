@@ -144,10 +144,10 @@ export const AboutPageContent: React.FC<AboutPageProps> = ({ education, experien
             <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-primary to-transparent opacity-50" />
             <div className="flex items-center gap-3 mb-4">
               <User className="w-6 h-6 text-primary" />
-              <h2 className="text-2xl font-semibold text-foreground">Technical Objective</h2>
+              <h2 className="text-2xl font-semibold text-foreground">{t('technical_objective')}</h2>
             </div>
             <p className="text-lg leading-relaxed text-muted-foreground font-light">
-              {profile?.bio || "Loading bio..."}
+              {profile?.bio || t('bio_loading')}
             </p>
           </BentoCard>
 

@@ -32,9 +32,15 @@
     "view_full_source": "View full source",
     "click_to_expand": "Click to expand",
     "download_linux": "Download for Linux (RPM)",
+    "download_linux_desc": "Fedora, RHEL, CentOS",
     "download_windows": "Download for Windows",
+    "download_windows_desc": "Windows 10/11 (Installer)",
     "coming_soon": "Coming Soon",
-    "software_tag": "Downloadable"
+    "software_tag": "Downloadable",
+    "legend_title": "Technology Categories",
+    "legend_software": "Software Product",
+    "legend_stack": "Tech Stack",
+    "legend_unique": "Unique Feature / Skill"
   },
   "AboutPage": {
     "title": "About Me",
@@ -44,6 +50,8 @@
     "cover_letter_placeholder": "I am a builder at heart. With a B.Sc. in Space Engineering and over a decade of experience in technical project management—ranging from seismic operations at sea to coordinating EU space funding at Vinnova—I have always been fascinated by complex systems.\n\nIn 2023, I pivoted fully to Software Development. I don't just write code; I apply an engineering mindset to modern web development. I am an 'AI-First' developer, utilizing LLMs and tools like Cursor daily to accelerate workflows, generate robust testing suites, and architect scalable solutions faster than traditional methods allow.\n\nBeyond the screen, I am driven by curiosity and discipline. I apply the same optimization mindset to my health and training as I do to my code. I am a history buff, an avid gamer, and an outdoorsman who finds clarity in nature—whether camping or hunting. In both work and life, I value authenticity and deep connections over transactional interactions.",
     "intro": "I am a passionate Fullstack & Blockchain Engineer dedicated to building scalable, user-centric applications. With a strong foundation in modern web technologies and decentralized systems, I strive to create digital experiences that make a difference.",
     "experience_section": "Work Experience",
+    "technical_objective": "Technical Objective",
+    "bio_loading": "Loading bio...",
     "tech_stack": "Tech Stack",
     "languages": "Languages",
     "education": "Education",
@@ -75,6 +83,22 @@
     "select_atmosphere_network": "Network",
     "select_atmosphere_nebula": "Nebula",
     "select_atmosphere_deep_space": "Deep Space"
+  },
+  "ArchitectureDiagram": {
+    "chrome_extension": "Chrome Extension",
+    "content_script": "Content Script / Iframe Injection",
+    "websockets": "WebSockets / HTTP",
+    "nodejs_api": "Node.js API",
+    "express_ts": "Express / TypeScript",
+    "redis": "Redis",
+    "caching": "Caching / Socket Adapter",
+    "mongodb": "MongoDB",
+    "recursive": "Recursive Aggregation",
+    "monorepo": "Monorepo Structure"
+  },
+  "Metadata": {
+    "title": "Portfolio 2025 | Mikael Sundh",
+    "description": "Fullstack & Blockchain Engineer Portfolio"
   },
   "Terminal": {
     "welcome_os": "MIKAEL_OS v2.0.4 [Protected Mode]",

@@ -2,8 +2,11 @@
 
 import { motion } from "framer-motion";
 import { Database, Server, Globe, Cpu, Layers } from "lucide-react";
+import { useTranslations } from "next-intl";
 
 export const OmniCommentArchitecture = () => {
+  const t = useTranslations("ArchitectureDiagram");
+  
   return (
     <div className="w-full p-4 bg-slate-950 rounded-xl border border-slate-800 my-6 overflow-x-auto">
       <div className="min-w-[600px] flex flex-col gap-8 relative">
@@ -12,14 +15,14 @@ export const OmniCommentArchitecture = () => {
         <div className="flex justify-between items-center relative z-10">
           <ArchitectureNode
             icon={<Globe className="text-blue-400" />}
-            title="Chrome Extension"
-            sub="Content Script / Iframe Injection"
+            title={t('chrome_extension')}
+            sub={t('content_script')}
           />
-          <ConnectionLine label="WebSockets / HTTP" />
+          <ConnectionLine label={t('websockets')} />
           <ArchitectureNode
             icon={<Server className="text-green-400" />}
-            title="Node.js API"
-            sub="Express / TypeScript"
+            title={t('nodejs_api')}
+            sub={t('express_ts')}
           />
         </div>
 
@@ -29,8 +32,8 @@ export const OmniCommentArchitecture = () => {
             <div className="h-8 w-0.5 bg-slate-700"></div>
             <ArchitectureNode
               icon={<Cpu className="text-orange-400" />}
-              title="Redis"
-              sub="Caching / Socket Adapter"
+              title={t('redis')}
+              sub={t('caching')}
             />
           </div>
 
@@ -38,8 +41,8 @@ export const OmniCommentArchitecture = () => {
             <div className="h-8 w-0.5 bg-slate-700"></div>
             <ArchitectureNode
               icon={<Database className="text-purple-400" />}
-              title="MongoDB"
-              sub="Recursive Aggregation"
+              title={t('mongodb')}
+              sub={t('recursive')}
             />
           </div>
         </div>
@@ -48,7 +51,7 @@ export const OmniCommentArchitecture = () => {
         <div className="absolute top-0 right-0 bg-slate-900/80 p-2 rounded border border-slate-800 text-xs text-slate-400">
           <div className="flex items-center gap-2">
             <Layers className="w-3 h-3" />
-            <span>Monorepo Structure</span>
+            <span>{t('monorepo')}</span>
           </div>
         </div>
       </div>

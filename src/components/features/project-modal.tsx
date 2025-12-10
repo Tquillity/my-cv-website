@@ -282,19 +282,19 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({ selectedProject, ini
                           {hasSoftware && (
                             <div className="flex items-center gap-1.5">
                               <span className="w-2 h-2 rounded-full bg-primary border border-primary" />
-                              <span>Software Product</span>
+                              <span>{t('legend_software')}</span>
                             </div>
                           )}
                           {hasTechStack && (
                             <div className="flex items-center gap-1.5">
                               <span className="w-2 h-2 rounded-full bg-secondary border border-border" />
-                              <span>Tech Stack</span>
+                              <span>{t('legend_stack')}</span>
                             </div>
                           )}
                           {hasUnique && (
                             <div className="flex items-center gap-1.5">
                               <span className="w-2 h-2 rounded-full bg-indigo-500/20 border border-indigo-500/50" />
-                              <span>Unique Feature / Skill</span>
+                              <span>{t('legend_unique')}</span>
                             </div>
                           )}
                         </div>
@@ -409,7 +409,7 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({ selectedProject, ini
                            </div>
                            <div>
                              <h4 className="font-bold text-lg">Linux (RPM)</h4>
-                             <p className="text-sm text-muted-foreground">Fedora, RHEL, CentOS</p>
+                             <p className="text-sm text-muted-foreground">{t('download_linux_desc')}</p>
                            </div>
                            <a 
                              href={selectedProject.downloads.linux} 
@@ -430,7 +430,7 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({ selectedProject, ini
                            </div>
                            <div>
                              <h4 className="font-bold text-lg">Windows</h4>
-                             <p className="text-sm text-muted-foreground">Windows 10/11 (Installer)</p>
+                             <p className="text-sm text-muted-foreground">{t('download_windows_desc')}</p>
                            </div>
                            {isWindowsReady ? (
                              <a 
