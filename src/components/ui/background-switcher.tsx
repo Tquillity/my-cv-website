@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { ChevronDown, Stars, Network, Cloud, Sparkles } from "lucide-react";
+import { ChevronDown, Stars, Network, Cloud, Sparkles, Orbit, Zap } from "lucide-react";
 import { useBackground } from "@/lib/background-context";
 import { cn } from "@/lib/utils";
 import { useTranslations } from "next-intl";
@@ -11,7 +11,9 @@ const variants = [
   { id: "stars", name: "Stars", icon: Stars },
   { id: "network", name: "Network", icon: Network },
   { id: "nebula", name: "Nebula", icon: Cloud },
-  { id: "deep_space", name: "Deep Space", icon: Sparkles },
+  { id: "space", name: "Space", icon: Sparkles },
+  { id: "galaxy", name: "Galaxy", icon: Orbit },
+  { id: "aurora", name: "Aurora", icon: Zap },
 ];
 
 export const BackgroundSwitcher = () => {
@@ -61,7 +63,7 @@ export const BackgroundSwitcher = () => {
             initial={{ opacity: 0, y: -10, scale: 0.95 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: -10, scale: 0.95 }}
-            className="absolute top-full mt-2 right-0 min-w-[160px] bg-popover backdrop-blur-lg border border-border rounded-lg shadow-xl z-50"
+            className="absolute top-full mt-2 right-0 min-w-[160px] bg-popover backdrop-blur-lg border border-border rounded-lg shadow-xl z-50 max-h-[400px] overflow-y-auto"
             style={{ backgroundColor: 'hsl(var(--popover) / 0.98)' }}
           >
             {variants.map((v) => {
