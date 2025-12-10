@@ -82,7 +82,11 @@
     "select_atmosphere_stars": "Stjärnor",
     "select_atmosphere_network": "Nätverk",
     "select_atmosphere_nebula": "Nebulosa",
-    "select_atmosphere_deep_space": "Djup Rymd"
+    "select_atmosphere_deep_space": "Djup Rymd",
+    "theme_light": "Ljus",
+    "theme_dark": "Mörk",
+    "theme_middle": "Mellan",
+    "toggle_theme": "Växla tema"
   },
   "ArchitectureDiagram": {
     "chrome_extension": "Chrome Tillägg",

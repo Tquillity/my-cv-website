@@ -83,16 +83,19 @@
   ],
   "skills": [
     "HTML/XML",
-    "CSS/SASS/Tailwind",
-    "JavaScript/TypeScript",
-    "React/Next.js",
-    "Node.js/Express/MongoDB",
-    "Python/Tkinter",
-    "Three.js/R3F",
+    "CSS/SASS/Tailwind/Framer Motion",
+    "JavaScript/TypeScript (Zod)",
+    "React 19/Next.js 16 (Server Actions)",
+    "AI-teknik (LLM, RAG, Groq)",
+    "Node.js/Express/MongoDB/Redis",
+    "Tillståndshantering (Zustand, TanStack)",
+    "Realtid (Socket.IO, WebSockets)",
+    "Chrome-tillägg (MV3) & PWA",
+    "Python/Tkinter/Trådhantering",
+    "Three.js/R3F/WebGL",
     "Solidity/Smarta kontrakt/Polygon",
-    "Git/GitHub",
-    "Docker/Cloud (Render, AWS)",
-    "Sanity CMS"
+    "DevOps (Docker, AWS, GitHub Actions)",
+    "Testning (Vitest, Playwright)"
   ],
   "languages": [
     {

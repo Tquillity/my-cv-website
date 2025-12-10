@@ -112,7 +112,7 @@ export const AIChat: React.FC<AIChatProps> = ({ className }) => {
             initial={{ opacity: 0, y: 20, scale: 0.95 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 20, scale: 0.95 }}
-            className="fixed bottom-24 right-6 w-80 sm:w-96 h-[500px] bg-background/80 backdrop-blur-lg border rounded-2xl shadow-2xl z-50 flex flex-col overflow-hidden"
+            className="fixed bottom-24 right-6 w-80 sm:w-96 h-[500px] bg-background sm:bg-background/80 sm:backdrop-blur-lg border rounded-2xl shadow-2xl z-50 flex flex-col overflow-hidden"
           >
             <div className="p-4 border-b bg-primary/5 flex items-center gap-2">
               <Bot className="w-5 h-5 text-primary" />
