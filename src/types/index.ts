@@ -27,7 +27,6 @@ export interface CaseStudy {
   codeSnippets: CodeSnippet[];
 }
 
-// NEW INTERFACE
 export interface Tag {
   name: string;
   description?: string; // Optional description for the tooltip
@@ -46,9 +45,7 @@ export interface Project {
   githubUrl?: string;
   liveUrl?: string;
   publishedAt: string;
-  // NEW FIELD
   caseStudy?: CaseStudy;
-  // NEW FIELD
   downloads?: {
     linux?: string;
     windows?: string;

@@ -58,6 +58,8 @@ export const Footer = () => {
               width={160}
               height={160}
               className="w-auto h-8 sm:h-9 object-contain"
+              loading="eager"
+              priority
             />
           </Link>
 

@@ -17,9 +17,7 @@ export default getRequestConfig(async ({ requestLocale }) => {
 
   return {
     locale,
-    // Import the messages dynamically
     messages: (await import(`../../messages/${locale}.json`)).default,
-    // CRITICAL: Explicitly set a timeZone to fix the ENVIRONMENT_FALLBACK error
     timeZone: 'Europe/Stockholm' 
   };
 });

@@ -13,7 +13,6 @@ import "@/styles/globals.css";
 
 const inter = Inter({ subsets: ["latin"] });
 
-// UPDATED: Dynamic metadata generation
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
   const { locale } = await params;
   const t = await getTranslations({ locale, namespace: "Metadata" });
@@ -36,6 +35,30 @@ export default async function RootLayout({
 
   return (
     <html lang={locale} suppressHydrationWarning>
+      <head>
+        {/* Suppress dev-only CSS preload warning (harmless Next.js optimization artifact) */}
+        {process.env.NODE_ENV === 'development' && (
+          <script
+            dangerouslySetInnerHTML={{
+              __html: `
+                (function() {
+                  const originalWarn = console.warn;
+                  console.warn = function(...args) {
+                    if (
+                      typeof args[0] === 'string' &&
+                      args[0].includes('preloaded using link preload but not used')
+                    ) {
+                      // Suppress this specific dev-only warning
+                      return;
+                    }
+                    originalWarn.apply(console, args);
+                  };
+                })();
+              `,
+            }}
+          />
+        )}
+      </head>
       <body className={inter.className}>
         <Providers locale={locale} messages={messages}>
           <TerminalProvider>

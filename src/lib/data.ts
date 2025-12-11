@@ -8,7 +8,6 @@ const normalizeTags = (tags: string[] = [], languages: string[] = []): Tag[] => 
   const uniqueNames = Array.from(new Set([...tags, ...languages]));
   return uniqueNames.map(name => ({
     name,
-    // You can add logic here later to map specific descriptions based on name if using mock data
     description: undefined
   }));
 };
@@ -23,11 +22,9 @@ const MOCK_PROJECTS: Project[] = portfolioData.projects.map((p: any) => ({
     img.startsWith('/') ? img : `/${img}`
   ),
   description: p.description,
-  // UPDATED: Use helper
   tags: normalizeTags(p.tags, p.languages),
   githubUrl: p.githubRepo,
   publishedAt: p.startDate,
-  // NEW: Map the caseStudy object directly
   caseStudy: p.caseStudy ? {
     problem: p.caseStudy.problem,
     solution: p.caseStudy.solution,
@@ -35,7 +32,6 @@ const MOCK_PROJECTS: Project[] = portfolioData.projects.map((p: any) => ({
     technicalChallenges: p.caseStudy.technicalChallenges,
     codeSnippets: p.caseStudy.codeSnippets
   } : undefined,
-  // NEW: Map downloads
   downloads: p.downloads
 }));
 
@@ -69,31 +65,25 @@ const MOCK_PROFILE: SkillSet = {
 };
 
 export async function getProjects(): Promise<Project[]> {
-  // Use Sanity unless Project ID is completely missing from env
-  
   if (!process.env.NEXT_PUBLIC_SANITY_PROJECT_ID) {
-    console.log("⚠️ [DATA] No Project ID. Using MOCK data.");
     return MOCK_PROJECTS;
   }
 
   try {
-    // Fetch from Sanity, ordered by date
     const data = await client.fetch(
       `*[_type == "project"] | order(publishedAt desc)`,
       {},
       { next: { revalidate: 3600 } }
     );
-    console.log(`✅ [DATA] Successfully fetched ${data.length} Projects from Sanity.`);
     return data;
   } catch (error) {
-    console.error("❌ [DATA] Sanity Fetch Failed. Using MOCK data.", error);
+    console.error("Sanity fetch failed for projects, using mock data.", error);
     return MOCK_PROJECTS;
   }
 }
 
 export async function getExperiences(): Promise<Experience[]> {
   try {
-    // Force local data to ensure dates are correct until Sanity is updated
     const data = await client.fetch(
       `*[_type == "experience"] | order(startDate desc) {
       ...,
@@ -103,13 +93,11 @@ export async function getExperiences(): Promise<Experience[]> {
       { next: { revalidate: 3600 } }
     );
     if (data && data.length > 0) {
-      console.log(`✅ [DATA] Successfully fetched ${data.length} Experiences from Sanity.`);
       return data;
     }
-    console.log("⚠️ [DATA] Forcing local experience data to ensure correct dates.");
     return MOCK_EXPERIENCE;
   } catch (error) {
-    console.error("❌ [DATA] Sanity Fetch Failed. Using MOCK data.", error);
+    console.error("Sanity fetch failed for experiences, using mock data.", error);
     return MOCK_EXPERIENCE;
   }
 }
@@ -125,13 +113,11 @@ export async function getEducation(): Promise<Education[]> {
       { next: { revalidate: 3600 } }
     );
     if (data && data.length > 0) {
-      console.log(`✅ [DATA] Fetched ${data.length} Education entries from Sanity.`);
       return data;
     }
-    console.log("⚠️ [DATA] Sanity Education empty. Using local data.");
     return MOCK_EDUCATION;
   } catch (error) {
-    console.error("❌ [DATA] Failed to fetch Education:", error);
+    console.error("Sanity fetch failed for education, using mock data.", error);
     return MOCK_EDUCATION;
   }
 }
@@ -144,13 +130,11 @@ export async function getProfile(): Promise<SkillSet | null> {
       { next: { revalidate: 3600 } }
     );
     if (!data) {
-        console.log("⚠️ [DATA] Sanity Profile empty. Using local data.");
         return MOCK_PROFILE;
     }
-    console.log(`✅ [DATA] Fetched Profile/Skills.`);
     return data;
   } catch (error) {
-    console.error("❌ [DATA] Failed to fetch Profile:", error);
+    console.error("Sanity fetch failed for profile, using mock data.", error);
     return MOCK_PROFILE;
   }
 }

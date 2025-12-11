@@ -6,6 +6,8 @@ const withNextIntl = createNextIntlPlugin('./src/i18n/request.ts');
 const nextConfig = {
   reactCompiler: true, // Enable React 19 Compiler (moved from experimental)
   images: {
+    // Allow quality={100} in the Lightbox for high-fidelity images
+    qualities: [75, 100],
     remotePatterns: [
       {
         protocol: 'https',
@@ -14,6 +16,11 @@ const nextConfig = {
         pathname: '/**',
       },
     ],
+  },
+  // Optimize dev server behavior
+  onDemandEntries: {
+    maxInactiveAge: 25 * 1000,
+    pagesBufferLength: 2,
   },
 };
 

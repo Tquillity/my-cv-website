@@ -148,10 +148,7 @@ export const CyberRun = ({ onExit }: { onExit: () => void }) => {
               w: 20,
               h: 40,
               type: 'back_runner',
-              vx: gameSpeed * 0.5 // Catches up slowly (relative speed) or just positive speed
-              // Note: Since world moves left at gameSpeed, an object with vx needs to overcome that to move right?
-              // Wait, our rendering logic subtracts gameSpeed for standard objects. 
-              // Let's standardize: We will update x by vx in the loop.
+              vx: gameSpeed * 0.5
           });
       }
 

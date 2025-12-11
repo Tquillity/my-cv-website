@@ -34,7 +34,7 @@ const EducationCard = ({ edu, t }: { edu: Education; t: any }) => {
       className={`p-4 rounded-xl border border-border/50 transition-colors duration-300 cursor-default relative overflow-hidden ${
         isHovered 
           ? "bg-card border-primary/30 shadow-2xl ring-1 ring-primary/20 z-10" 
-          : "bg-card/40 backdrop-blur-sm hover:border-border/80 z-0" // UPDATED: Semantic colors
+          : "bg-card/40 backdrop-blur-sm hover:border-border/80 z-0"
       }`}
     >
       <motion.div layout="position" className="flex justify-between items-start">

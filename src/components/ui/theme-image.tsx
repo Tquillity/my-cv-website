@@ -9,9 +9,11 @@ interface ThemeImageProps extends Omit<ImageProps, "src"> {
   srcDark: string;
   srcMiddle: string;
   alt: string;
+  loading?: "lazy" | "eager";
+  priority?: boolean;
 }
 
-export const ThemeImage = ({ srcLight, srcDark, srcMiddle, alt, ...imageProps }: ThemeImageProps) => {
+export const ThemeImage = ({ srcLight, srcDark, srcMiddle, alt, loading, priority, ...imageProps }: ThemeImageProps) => {
   const { resolvedTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
 
@@ -42,5 +44,5 @@ export const ThemeImage = ({ srcLight, srcDark, srcMiddle, alt, ...imageProps }:
 
   const src = imageMap[resolvedTheme || "light"] || srcLight;
 
-  return <Image src={src} alt={alt} {...imageProps} />;
+  return <Image src={src} alt={alt} loading={loading} priority={priority} {...imageProps} />;
 };

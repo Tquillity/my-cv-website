@@ -12,7 +12,7 @@ import { SimpleTooltip } from "@/components/ui/simple-tooltip";
 
 interface ProjectModalProps {
   selectedProject: Project | null;
-  initialTab?: "overview" | "architecture" | "code" | "downloads"; // NEW PROP
+  initialTab?: "overview" | "architecture" | "code" | "downloads";
   onClose: () => void;
 }
 
@@ -118,7 +118,6 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({ selectedProject, ini
           <div className="fixed inset-0 z-50 flex items-center justify-center p-4 pointer-events-none">
             <motion.div
               layoutId={selectedProject._id}
-              // UPDATE: Added fixed height (h-[85vh]) to prevent resizing jumping between tabs
               className="w-full max-w-5xl bg-background rounded-2xl overflow-hidden shadow-2xl pointer-events-auto h-[85vh] flex flex-col border border-border custom-scrollbar"
             >
               {/* Header Image Area with Carousel */}
@@ -137,6 +136,7 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({ selectedProject, ini
                       src={imageUrl}
                       alt={`${selectedProject.title} - Image ${currentImageIndex + 1}`}
                       fill
+                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 90vw, 1000px"
                       className="object-cover object-top"
                     />
                     {/* Click indicator overlay */}
@@ -485,13 +485,15 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({ selectedProject, ini
 
                 {/* Main Lightbox Image Container */}
                 <div
-                  className="relative w-auto h-auto max-w-[95vw] max-h-[90vh] flex items-center justify-center"
+                  className="relative w-full h-full max-w-[95vw] max-h-[90vh] flex items-center justify-center"
                   onClick={(e) => e.stopPropagation()} // Clicking image doesn't close
                 >
                   <Image
                     src={lightboxImageUrl}
                     alt={`${selectedProject.title} - Image ${currentImageIndex + 1}`}
-                    className="object-contain max-h-[90vh] w-auto h-auto"
+                    fill
+                    sizes="95vw"
+                    className="object-contain"
                     quality={100}
                     priority
                   />

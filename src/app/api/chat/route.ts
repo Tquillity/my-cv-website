@@ -3,9 +3,8 @@ import { getPortfolioContext } from "@/lib/ai-context";
 export const maxDuration = 30;
 
 export async function POST(req: Request) {
-  // 1. Validate Environment
   if (!process.env.GROQ_API_KEY) {
-    console.error("❌ Missing GROQ_API_KEY");
+    console.error("Missing GROQ_API_KEY");
     return new Response(JSON.stringify({ error: "Server misconfiguration: Missing API Key" }), { status: 500 });
   }
 
@@ -13,7 +12,6 @@ export async function POST(req: Request) {
     const { messages } = await req.json();
     const context = await getPortfolioContext();
 
-    // 2. Construct System Prompt
     const systemPrompt = `
       You are an AI assistant representing Mikael Sundh. You are helpful, professional, and friendly.
 
@@ -35,11 +33,8 @@ export async function POST(req: Request) {
       - Keep responses concise and engaging.
     `;
 
-    // 3. Prepare Payload
-    // Ensure we don't send duplicate system messages if the client sends them
     const userMessages = messages.filter((m: any) => m.role !== 'system');
     
-    // UPDATED: Switched to Llama 3.3 (70b) for better reasoning and current support
     const payload = {
       model: "llama-3.3-70b-versatile",
       messages: [
@@ -51,9 +46,8 @@ export async function POST(req: Request) {
       stream: false 
     };
 
-    console.log(`🚀 Sending Chat Request to Groq (Model: ${payload.model})`);
+    console.log(`Chat request to Groq (Model: ${payload.model})`);
 
-    // 4. Call API
     const response = await fetch("https://api.groq.com/openai/v1/chat/completions", {
       method: "POST",
       headers: {
@@ -63,10 +57,9 @@ export async function POST(req: Request) {
       body: JSON.stringify(payload),
     });
 
-    // 5. Handle Errors (The Critical Fix)
     if (!response.ok) {
       const errorBody = await response.text();
-      console.error(`❌ Groq API Error (${response.status}):`, errorBody);
+      console.error(`Groq API error (${response.status}):`, errorBody);
       throw new Error(`Groq API error: ${response.status} - ${errorBody}`);
     }
 
@@ -78,7 +71,7 @@ export async function POST(req: Request) {
     });
 
   } catch (error: any) {
-    console.error("❌ AI Route Error:", error);
+    console.error("AI route error:", error);
     return new Response(JSON.stringify({ error: error.message || "Error processing AI request" }), { status: 500 });
   }
 }

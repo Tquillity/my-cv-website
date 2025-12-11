@@ -14,7 +14,7 @@ export const BackgroundDimmer = () => {
     <div
       className={cn(
         "fixed inset-0 pointer-events-none transition-colors duration-700 ease-in-out -z-[5]",
-        isHome ? "bg-background/0" : "bg-background/80" // UPDATED: Semantic background color
+        isHome ? "bg-background/0" : "bg-background/80"
       )}
     />
   );
