@@ -2,7 +2,7 @@
 
 import React, { createContext, useContext, useState, useEffect } from "react";
 
-export type BackgroundType = "stars" | "space" | "network" | "nebula" | "galaxy" | "aurora";
+export type BackgroundType = "stars" | "space" | "nebula" | "aurora";
 
 type BackgroundContextType = {
   variant: BackgroundType;
@@ -17,7 +17,7 @@ export const BackgroundProvider = ({ children }: { children: React.ReactNode }) 
   // Simple persistence using localStorage
   useEffect(() => {
     const saved = localStorage.getItem("background-variant") as BackgroundType;
-    if (saved && ["stars", "space", "network", "nebula", "galaxy", "aurora"].includes(saved)) {
+    if (saved && ["stars", "space", "nebula", "aurora"].includes(saved)) {
       setVariant(saved);
     }
   }, []);

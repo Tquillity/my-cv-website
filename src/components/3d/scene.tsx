@@ -6,9 +6,7 @@ import { useTheme } from "next-themes";
 import { useBackground, BackgroundType } from "@/lib/background-context";
 import { StarVariant } from "./variants/star-variant";
 import { SparkleVariant } from "./variants/sparkle-variant";
-import { NetworkVariant } from "./variants/network-variant";
 import { NebulaVariant } from "./variants/nebula-variant";
-import { GalaxyVariant } from "./variants/galaxy-variant";
 import { AuroraVariant } from "./variants/aurora-variant";
 import { PerspectiveCamera } from "three";
 
@@ -40,7 +38,6 @@ const THEME_CONFIG = {
     nebulaColor: "#64748b", // Darker grey clouds
     nebulaDensity: 0.6,
     starOpacity: 1.0, // Full opacity for maximum visibility
-    galaxyColor: "#4c1d95", // Darker purple for light mode
     auroraColor: "#059669", // Darker green for light mode
   },
   middle: {
@@ -48,7 +45,6 @@ const THEME_CONFIG = {
     nebulaColor: "#475569", // Darker Slate clouds
     nebulaDensity: 0.8, // +30% Clouds
     starOpacity: 1,
-    galaxyColor: "#7c3aed", // Medium purple
     auroraColor: "#10b981", // Medium green
   },
   dark: {
@@ -56,7 +52,6 @@ const THEME_CONFIG = {
     nebulaColor: "#ffffff", // White Clouds
     nebulaDensity: 0.4,
     starOpacity: 0.6,
-    galaxyColor: "#a78bfa", // Lighter purple
     auroraColor: "#34d399", // Lighter green
   }
 };
@@ -65,17 +60,13 @@ const BackgroundContent = ({ variant, config, currentTheme }: { variant: Backgro
   switch (variant) {
     case "stars":
       return <StarVariant color={config.color} opacity={config.starOpacity} />;
-    case "network":
-      return <NetworkVariant color={config.color} />;
     case "nebula":
       return <NebulaVariant color={config.nebulaColor} density={config.nebulaDensity} />;
-    case "galaxy":
-      return <GalaxyVariant color={config.galaxyColor} opacity={config.starOpacity} />;
     case "aurora":
       return <AuroraVariant theme={currentTheme} />;
     case "space":
     default:
-      return <SparkleVariant color={config.color} opacity={config.starOpacity} />;
+      return <SparkleVariant color={config.color} opacity={0.6} />;
   }
 };
 

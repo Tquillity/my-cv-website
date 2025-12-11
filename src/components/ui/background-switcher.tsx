@@ -2,17 +2,15 @@
 
 import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { ChevronDown, Stars, Network, Cloud, Sparkles, Orbit, Zap } from "lucide-react";
+import { ChevronDown, Stars, Cloud, Sparkles, Zap } from "lucide-react";
 import { useBackground } from "@/lib/background-context";
 import { cn } from "@/lib/utils";
 import { useTranslations } from "next-intl";
 
 const variants = [
   { id: "stars", name: "Stars", icon: Stars },
-  { id: "network", name: "Network", icon: Network },
   { id: "nebula", name: "Nebula", icon: Cloud },
   { id: "space", name: "Space", icon: Sparkles },
-  { id: "galaxy", name: "Galaxy", icon: Orbit },
   { id: "aurora", name: "Aurora", icon: Zap },
 ];
 

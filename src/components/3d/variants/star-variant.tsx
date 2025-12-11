@@ -51,10 +51,11 @@ export const StarVariant: React.FC<{ color?: string; opacity?: number }> = ({ co
         <PointMaterial
           transparent
           color={starColor}
-          size={1.2}
+          size={0.08}
           sizeAttenuation={true}
           opacity={opacity}
           depthWrite={false}
+          blending={THREE.AdditiveBlending}
         />
       </Points>
     </group>
