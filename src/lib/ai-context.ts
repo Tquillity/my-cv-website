@@ -69,9 +69,17 @@ PERSONAL FACTS & TRAITS:
 `;
 
 export async function getPortfolioContext(): Promise<string> {
+  // Check if Sanity is offline or using mock data
+  const isUsingMockData = !process.env.NEXT_PUBLIC_SANITY_PROJECT_ID;
+  
   const experiences = await getExperiences();
   const projects = await getProjects();
   const education = await getEducation();
+  
+  // Prepend warning if using mock data
+  const mockWarning = isUsingMockData 
+    ? "SYSTEM NOTE: The live database is currently unreachable. The following data is MOCK data for demonstration purposes.\n\n"
+    : "";
 
   // 1. Enhanced Experience Mapping
   const experienceText = experiences
@@ -126,7 +134,7 @@ export async function getPortfolioContext(): Promise<string> {
     .join("\n");
 
   return `
-    ${PERSONAL_NARRATIVE}
+    ${mockWarning}${PERSONAL_NARRATIVE}
 
     WORK EXPERIENCE:
 

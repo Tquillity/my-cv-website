@@ -12,7 +12,7 @@ type BackgroundContextType = {
 const BackgroundContext = createContext<BackgroundContextType | undefined>(undefined);
 
 export const BackgroundProvider = ({ children }: { children: React.ReactNode }) => {
-  const [variant, setVariant] = useState<BackgroundType>("space");
+  const [variant, setVariant] = useState<BackgroundType>("nebula");
 
   // Simple persistence using localStorage
   useEffect(() => {

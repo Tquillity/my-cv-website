@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useMemo } from "react";
+import { useRef, useMemo, useState, useEffect } from "react";
 import { useFrame } from "@react-three/fiber";
 import { Points, PointMaterial } from "@react-three/drei";
 import { useTheme } from "next-themes";
@@ -9,6 +9,11 @@ import * as THREE from "three";
 export const StarVariant: React.FC<{ color?: string; opacity?: number }> = ({ color = "#ffffff", opacity = 1 }) => {
   const ref = useRef<any>(null);
   const { resolvedTheme } = useTheme();
+  const [isMounted, setIsMounted] = useState(false);
+  
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
   
   const prefersReducedMotion = useMemo(() => {
     if (typeof window === 'undefined') return false;
@@ -19,11 +24,14 @@ export const StarVariant: React.FC<{ color?: string; opacity?: number }> = ({ co
   const isLight = resolvedTheme === "light";
   const starColor = isLight ? "#1f2937" : color;
 
-  // Generate star positions
+  // Generate star positions - use seeded approach or generate once
   const positions = useMemo(() => {
+    if (!isMounted) return new Float32Array(0);
+    
     const count = 6000;
     const pos = new Float32Array(count * 3);
     
+    // Use a seeded random or generate once on mount
     for (let i = 0; i < count; i++) {
       const i3 = i * 3;
       const radius = Math.random() * 120;
@@ -36,7 +44,9 @@ export const StarVariant: React.FC<{ color?: string; opacity?: number }> = ({ co
     }
     
     return pos;
-  }, []);
+  }, [isMounted]);
+  
+  if (!isMounted) return null;
 
   useFrame((state, delta) => {
     if (ref.current && !prefersReducedMotion) {

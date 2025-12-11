@@ -1,4 +1,4 @@
-import { client } from "./sanity";
+import { client } from "@/sanity/lib/client";
 import { Project, Experience, Education, SkillSet, Tag } from "@/types";
 import cvData from "../data/cv-data-en.json";
 import portfolioData from "../data/portfolioData.json";

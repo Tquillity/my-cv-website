@@ -147,6 +147,16 @@
     "boot_line2": "Copyright (C) 1982 Mikael Corp",
     "boot_line3": "Checking Memory... 640KB OK",
     "boot_line4": "Loading Kernel...",
-    "toggle_terminal": "Toggle Terminal Mode"
+    "toggle_terminal": "Toggle Terminal Mode",
+    "matrix_enabled": "Injecting visual code...",
+    "matrix_disabled": "Disabling visual overlay...",
+    "access_denied": "Password for user 'guest': *********\nAccess Denied.",
+    "coin_heads": "HEADS",
+    "coin_tails": "TAILS",
+    "coin_flipping": "Flipping coin...",
+    "projects_table": "+----------------------+-------------------+-----------------------+\n| PROJECT NAME         | STACK             | STATUS                |\n+----------------------+-------------------+-----------------------+\n| My CV Website        | Next.js, 3D, AI   | [Online]              |\n| OmniComment          | React, Blockchain | [Archived]            |\n| Smart Wallet         | Solidity, Web3    | [Deployed]            |\n+----------------------+-------------------+-----------------------+\nType 'cat [project_name]' for details.",
+    "rm_rf_error": "CRITICAL ERROR: SYSTEM DELETION PREVENTED. NICE TRY.",
+    "sudo_sandwich": "sudo: User is not in the sudoers file. Go make it yourself.",
+    "godmode_unlocked": "God Mode Unlocked: Just kidding, you are still a guest."
   }
 }

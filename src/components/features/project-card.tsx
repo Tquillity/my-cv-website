@@ -3,7 +3,7 @@
 import { motion } from "framer-motion";
 import Image from "next/image";
 import { Project } from "@/types";
-import { urlFor } from "@/lib/sanity";
+import { urlFor } from "@/sanity/lib/image";
 import { useTranslations } from "next-intl";
 import { Download } from "lucide-react";
 import { SimpleTooltip } from "@/components/ui/simple-tooltip"; // Import
@@ -53,7 +53,7 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ project, onClick, onDo
           src={imageUrl}
           alt={project.title}
           fill
-          // Updated fit to be cover but aligned to top to show headers/faces better
+          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
           className="object-cover object-top transition-transform duration-500 group-hover:scale-105"
         />
         {isDownloadable && (

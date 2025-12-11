@@ -252,16 +252,7 @@ export const TerminalModal = ({ locale }: { locale: string }) => {
       case cmd === "projects":
         output = (
             <div className="whitespace-pre font-mono text-xs sm:text-sm overflow-x-auto text-green-300">
-{`
-+----------------------+-------------------+-----------------------+
-| PROJECT NAME         | STACK             | STATUS                |
-+----------------------+-------------------+-----------------------+
-| My CV Website        | Next.js, 3D, AI   | [Online]              |
-| OmniComment          | React, Blockchain | [Archived]            |
-| Smart Wallet         | Solidity, Web3    | [Deployed]            |
-+----------------------+-------------------+-----------------------+
-Type 'cat [project_name]' for details.
-`}
+{t('projects_table')}
             </div>
         );
         break;
@@ -334,18 +325,18 @@ Type 'cat [project_name]' for details.
 
         if (cmd === "sudo matrix") {
             setMatrixMode(prev => !prev);
-            output = matrixMode ? "Disabling visual overlay..." : "Injecting visual code...";
+            output = matrixMode ? t('matrix_disabled') : t('matrix_enabled');
             style = "success";
         } else if (cmd.includes("rm -rf")) {
-            output = "CRITICAL ERROR: SYSTEM DELETION PREVENTED. NICE TRY.";
+            output = t('rm_rf_error');
             style = "error";
         } else if (cmd.includes("make me a sandwich")) {
-            output = "sudo: User is not in the sudoers file. Go make it yourself.";
+            output = t('sudo_sandwich');
             style = "warning";
         } else if (cmd === "sudo coin") {
             // Coin Egg
-            const result = Math.random() > 0.5 ? "HEADS" : "TAILS";
-            output = `Flipping coin... ${result}`;
+            const result = Math.random() > 0.5 ? t('coin_heads') : t('coin_tails');
+            output = `${t('coin_flipping')} ${result}`;
             style = "success";
         } else if (cmd === "sudo system_override") {
             if(isRoot) {
@@ -356,10 +347,10 @@ Type 'cat [project_name]' for details.
                  style = "success";
             }
         } else if (cmd.includes("godmode")) {
-            output = "God Mode Unlocked: Just kidding, you are still a guest.";
+            output = t('godmode_unlocked');
             style = "success";
         } else {
-            output = `Password for user 'guest': *********\nAccess Denied.`;
+            output = t('access_denied');
             style = "error";
         }
         break;

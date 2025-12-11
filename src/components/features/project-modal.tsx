@@ -4,7 +4,7 @@ import { useState, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
 import { Project, SanityImage } from "@/types";
-import { urlFor } from "@/lib/sanity";
+import { urlFor } from "@/sanity/lib/image";
 import { X, Github, Code2, Network, BookOpen, ChevronLeft, ChevronRight, Download, HardDrive, ExternalLink } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { OmniCommentArchitecture } from "./architecture-diagram";
