@@ -570,6 +570,8 @@ export const TerminalModal = ({ locale }: { locale: string }) => {
 
                                         {/* Hidden Real Input */}
                                         <input
+                                            id="terminal-input"
+                                            name="terminal-command"
                                             ref={inputRef}
                                             value={input}
                                             onChange={(e) => {
