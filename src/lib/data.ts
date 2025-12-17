@@ -24,6 +24,7 @@ const MOCK_PROJECTS: Project[] = portfolioData.projects.map((p: any) => ({
   description: p.description,
   tags: normalizeTags(p.tags, p.languages),
   githubUrl: p.githubRepo,
+  liveUrl: p.liveUrl || p.liveVersion,
   publishedAt: p.startDate,
   caseStudy: p.caseStudy ? {
     problem: p.caseStudy.problem,
@@ -75,7 +76,11 @@ export async function getProjects(): Promise<Project[]> {
       {},
       { next: { revalidate: 3600 } }
     );
-    return data;
+    // Normalize liveUrl fallback for UI (support legacy liveVersion/live fields)
+    return data.map((p: any) => ({
+      ...p,
+      liveUrl: p.liveUrl || p.liveVersion || p.live || (p.live && p.live.url),
+    }));
   } catch (error) {
     console.error("Sanity fetch failed for projects, using mock data.", error);
     return MOCK_PROJECTS;

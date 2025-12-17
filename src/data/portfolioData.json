@@ -356,6 +356,7 @@
       "status": "Live",
       "githubRepo": "https://github.com/Tquillity/PomoZen",
       "liveVersion": "https://pomozen.online",
+      "liveUrl": "https://pomozen.online",
       "startDate": "2025-12-01",
       "lastUpdated": "2025-12-20",
       "tags": [

@@ -141,26 +141,30 @@ async function migrate() {
         }));
       }
 
-      // Prepare document data
+      // Prepare document data for creation
       const doc = {
         _type: 'project',
         title: project.name,
         slug: { _type: 'slug', current: project.name.toLowerCase().replace(/\s+/g, '-') },
         description: project.description,
-        // UPDATED: Send tag objects
         tags: tagObjects,
         githubUrl: project.githubRepo,
+        liveUrl: project.liveUrl || project.liveVersion,
         publishedAt: project.startDate,
-        downloads: project.downloads, // Add downloads field
+        downloads: project.downloads,
         ...(caseStudyData && { caseStudy: caseStudyData }),
-        // Update images if we have new ones
         ...(mainImageAssetId && { mainImage: { _type: 'image', asset: { _type: 'reference', _ref: mainImageAssetId } } }),
         ...(additionalImageAssets.length > 0 && { additionalImages: additionalImageAssets })
       };
 
       if (existing) {
-        console.log(`   -> Found existing (ID: ${existing._id}). Patching...`);
-        await client.patch(existing._id).set(doc).commit();
+        console.log(`   -> Found existing (ID: ${existing._id}). Patching liveUrl only...`);
+        const liveUrlValue = project.liveUrl || project.liveVersion;
+        if (liveUrlValue) {
+          await client.patch(existing._id).set({ liveUrl: liveUrlValue }).commit();
+        } else {
+          console.log("   -> No liveUrl/liveVersion found, skipping patch.");
+        }
       } else {
         console.log(`   -> Not found. Creating new entry...`);
         await client.create(doc);

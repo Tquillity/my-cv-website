@@ -5,7 +5,7 @@ import Image from "next/image";
 import { Project } from "@/types";
 import { urlFor } from "@/sanity/lib/image";
 import { useTranslations } from "next-intl";
-import { Download } from "lucide-react";
+import { Download, Globe } from "lucide-react";
 import { SimpleTooltip } from "@/components/ui/simple-tooltip"; // Import
 
 interface ProjectCardProps {
@@ -30,6 +30,7 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ project, onClick, onDo
       : "/images/comingsoon.png");
 
   const isDownloadable = !!project.downloads;
+  const liveHref = project.liveUrl || (project as any).liveVersion;
 
   const getTagStyles = (tag: string) => {
     if (tag === "Software") {
@@ -75,7 +76,22 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ project, onClick, onDo
         )}
       </div>
       <div className="p-5 flex flex-col flex-1 gap-3">
-        <h3 className="font-semibold text-xl">{project.title}</h3>
+        <div className="flex justify-between items-start gap-2">
+          <h3 className="font-semibold text-xl leading-tight">{project.title}</h3>
+          {liveHref && (
+            <a
+              href={liveHref}
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={(e) => e.stopPropagation()}
+              className="text-primary transition-colors p-1 -mt-1 -mr-1 rounded-md bg-primary/10 hover:bg-primary/20"
+              title={t('live_demo')}
+              aria-label={t('live_demo')}
+            >
+              <Globe className="w-5 h-5" />
+            </a>
+          )}
+        </div>
         <div className="flex flex-wrap gap-2">
           {project.tags?.length > 0 ? (
             project.tags.map((tagObj) => (
