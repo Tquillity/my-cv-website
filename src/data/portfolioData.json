@@ -417,20 +417,30 @@
         },
         "technicalChallenges": [
           {
-            "title": "Main Thread Throttling",
-            "description": "Browsers throttle `setInterval` on the main thread when tabs are inactive. To solve this, I moved the timer logic to a dedicated Web Worker and communicated via `postMessage` (wrapped in Comlink) to keep the UI in sync without drift."
+            "title": "Main Thread Throttling & Drift",
+            "description": "Browsers throttle `setInterval` on the main thread when tabs are inactive. I moved the timer logic to a Web Worker and implemented a self-correcting drift algorithm that calculates the delta between the expected time and actual execution time on every tick."
+          },
+          {
+            "title": "Defense in Depth (Security vs. Revenue)",
+            "description": "The third-party ad provider required `unsafe-eval` and cookie access, which clashed with my Strict CSP. The browser warns that my iframe sandbox allows `same-origin` access, but this is intentional. I implemented a 'Privilege Separation' architecture: the ad runs in a containment zone with a loose CSP, while the main application enforces a Strict CSP."
           },
           {
             "title": "Audio Policy Compliance",
-            "description": "Browsers block autoplaying audio. I implemented an `AudioUnlocker` component that captures the first user interaction to unlock the AudioContext globally, allowing the alarm and ambient 'Zen Mode' sounds to play reliably."
+            "description": "Browsers block autoplaying audio. I implemented a state-based unlock pattern in the main `App` component that captures the first user interaction to unlock the AudioContext globally, allowing the alarm and ambient 'Zen Mode' sounds to play reliably."
           }
         ],
         "codeSnippets": [
           {
-            "title": "Web Worker Timer (Drift Prevention)",
+            "title": "Web Worker (Drift Correction)",
             "language": "TypeScript",
-            "description": "The timer logic runs in a separate thread, exposed via Comlink, ensuring precision regardless of UI load or tab visibility.",
-            "code": "import * as Comlink from 'comlink';\n\nlet intervalId: number | null = null;\n\nconst api = {\n  start(callback) {\n    if (intervalId) return;\n    // The worker runs independent of the main thread's event loop\n    intervalId = self.setInterval(() => {\n      callback(0); // Pulse sent to main thread\n    }, 1000);\n  },\n  pause() {\n    if (intervalId) {\n      self.clearInterval(intervalId);\n      intervalId = null;\n    }\n  }\n};\n\nComlink.expose(api);"
+            "description": "Instead of a simple interval, the worker calculates the 'drift' (latency) on every tick and adjusts the next timeout duration to compensate, ensuring perfect accuracy over time.",
+            "code": "const tick = () => {\n  const now = Date.now();\n  const drift = now - expectedTime;\n  \n  // Adjust next tick based on drift\n  if (drift > 1000) {\n    expectedTime = now + 1000;\n    callback(elapsedSeconds);\n  } else {\n    callback(elapsedSeconds);\n    expectedTime += 1000;\n  }\n  \n  // Recursively schedule next tick\n  timerId = self.setTimeout(tick, Math.max(0, 1000 - drift));\n};"
+          },
+          {
+            "title": "AdContainer.tsx (The Containment Zone)",
+            "language": "tsx",
+            "description": "We grant `allow-same-origin` to prevent the ad script from crashing (cookie access), but isolate it in an iframe with a specific permissive CSP, while the parent app remains strict.",
+            "code": "export const AdContainer = () => {\n  return (\n    <iframe \n      title=\"Advertisement\"\n      src={`/pomo-ads.html?key=${encodeURIComponent(adKey)}`}\n      sandbox=\"allow-scripts allow-popups allow-same-origin\"\n      loading=\"lazy\"\n    />\n  );\n};"
           },
           {
             "title": "Zustand Persistence & Logic",

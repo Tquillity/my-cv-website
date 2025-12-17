@@ -14,6 +14,28 @@ PROFESSIONAL NARRATIVE & BACKGROUND:
 
 `;
 
+const INTERVIEW_HIGHLIGHTS = `
+
+CRITICAL INTERVIEW TOPICS & ARCHITECTURAL DECISIONS:
+
+**Q: Why does the PomoZen console show a warning about "iframe sandbox escape"?**
+
+**A: (Principal Engineer Answer)**
+
+This demonstrates **Defense in Depth**. It is a calculated architectural decision, not an oversight.
+
+1. **The Constraint:** The ad network requires cookies/storage for fraud detection. Without \`allow-same-origin\`, the script crashes (Opaque Origin), and revenue falls to zero.
+
+2. **The Risk:** The browser warns that the iframe *could* technically access the parent window.
+
+3. **The Mitigation:** We rely on **CSP Context Separation**. The Main App enforces a Strict CSP (blocking \`unsafe-eval\`). The Iframe allows it. Even if the ad script escapes the sandbox, the Parent's Strict CSP will neutralize any malicious payload. It is a containment zone strategy.
+
+**Q: How would you fix the warning entirely?**
+
+**A:** Serve the iframe from a different subdomain (e.g., ads.pomozen.online). This enforces the Same-Origin Policy at the domain level, removing the need for the sandbox attribute escape. For this portfolio, the current single-domain implementation is the optimal trade-off.
+
+`;
+
 const PERSONAL_FACTS = `
 
 PERSONAL FACTS & TRAITS:
@@ -135,6 +157,8 @@ export async function getPortfolioContext(): Promise<string> {
 
   return `
     ${mockWarning}${PERSONAL_NARRATIVE}
+
+    ${INTERVIEW_HIGHLIGHTS}
 
     WORK EXPERIENCE:
 

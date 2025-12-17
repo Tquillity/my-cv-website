@@ -302,13 +302,13 @@ export const TerminalModal = ({ locale }: { locale: string }) => {
         setInput("");
         return;
       case cmd === "nuke":
-        setJokeContent({ title: "Duke Nukem Forever", body: "😂 😂 😂" });
+        setJokeContent({ title: t('duke_nukem'), body: "😂 😂 😂" });
         setShowJokeModal(true);
         setTimeout(() => setShowJokeModal(false), 3000);
         setInput("");
         return;
       case cmd === "hl3":
-        setJokeContent({ title: "Half-Life 3", body: "😂 😂 😂" });
+        setJokeContent({ title: t('half_life_3'), body: "😂 😂 😂" });
         setShowJokeModal(true);
         setTimeout(() => setShowJokeModal(false), 3000);
         setInput("");
@@ -362,7 +362,7 @@ export const TerminalModal = ({ locale }: { locale: string }) => {
          break;
 
       default:
-        output = `Command not found: ${rawCmd}`;
+        output = `${t('command_not_found')}: ${rawCmd}`;
         style = "error";
     }
 
@@ -485,7 +485,7 @@ export const TerminalModal = ({ locale }: { locale: string }) => {
                     <div className="flex items-center gap-2">
                          {gameState !== "NONE" ? <Gamepad2 className="w-4 h-4 text-green-300 animate-pulse" /> : <TerminalIcon className="w-4 h-4" />}
                         <span className="font-bold tracking-wider">
-                             {gameState === "NONE" ? "MIKAEL_OS_TERMINAL" : `PLAYING: ${gameState}`}
+                             {gameState === "NONE" ? t('terminal_title') : `${t('playing')} ${gameState}`}
                         </span>
                     </div>
                     <div className="flex gap-4">

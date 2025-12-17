@@ -34,7 +34,7 @@ const CameraResizer = () => {
 // Advanced theme configuration for 3D elements
 const THEME_CONFIG = {
   light: {
-    color: "#0f172a", // Much darker slate for better contrast on light backgrounds
+    color: "#1f2937", // Dark grey for light mode stars
     nebulaColor: "#64748b", // Darker grey clouds
     nebulaDensity: 0.6,
     starOpacity: 1.0, // Full opacity for maximum visibility

@@ -158,7 +158,7 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({ selectedProject, ini
                         prevImage();
                       }}
                       className="absolute left-4 top-1/2 -translate-y-1/2 p-2 rounded-full bg-black/50 text-white backdrop-blur-sm hover:bg-black/70 transition-colors z-20 opacity-0 group-hover:opacity-100"
-                      aria-label="Previous image"
+                      aria-label={t('previous_image')}
                     >
                       <ChevronLeft className="w-5 h-5" />
                     </button>
@@ -168,7 +168,7 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({ selectedProject, ini
                         nextImage();
                       }}
                       className="absolute right-4 top-1/2 -translate-y-1/2 p-2 rounded-full bg-black/50 text-white backdrop-blur-sm hover:bg-black/70 transition-colors z-20 opacity-0 group-hover:opacity-100"
-                      aria-label="Next image"
+                      aria-label={t('next_image')}
                     >
                       <ChevronRight className="w-5 h-5" />
                     </button>
@@ -187,7 +187,7 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({ selectedProject, ini
                               ? "bg-white w-6"
                               : "bg-white/50 hover:bg-white/75"
                           }`}
-                          aria-label={`Go to image ${idx + 1}`}
+                          aria-label={`${t('go_to_image')} ${idx + 1}`}
                         />
                       ))}
                     </div>
@@ -200,7 +200,7 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({ selectedProject, ini
                     onClose();
                   }}
                   className="absolute top-4 right-4 p-2 rounded-full bg-black/50 text-white backdrop-blur-sm hover:bg-black/70 transition-colors z-10"
-                  aria-label="Close modal"
+                  aria-label={t('close_modal')}
                 >
                   <X className="w-5 h-5" />
                 </button>
@@ -478,7 +478,7 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({ selectedProject, ini
                     setIsLightboxOpen(false);
                   }}
                   className="absolute top-6 right-6 p-3 rounded-full bg-white/10 hover:bg-white/20 text-white transition-colors z-[70] cursor-pointer"
-                  aria-label="Close lightbox"
+                  aria-label={t('close_lightbox')}
                 >
                   <X className="w-8 h-8" />
                 </button>
@@ -508,7 +508,7 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({ selectedProject, ini
                         prevImage();
                       }}
                       className="absolute left-6 top-1/2 -translate-y-1/2 p-4 rounded-full bg-white/10 hover:bg-white/20 text-white transition-colors z-70"
-                      aria-label="Previous image"
+                      aria-label={t('previous_image')}
                     >
                       <ChevronLeft className="w-10 h-10" />
                     </button>
@@ -518,7 +518,7 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({ selectedProject, ini
                         nextImage();
                       }}
                       className="absolute right-6 top-1/2 -translate-y-1/2 p-4 rounded-full bg-white/10 hover:bg-white/20 text-white transition-colors z-70"
-                      aria-label="Next image"
+                      aria-label={t('next_image')}
                     >
                       <ChevronRight className="w-10 h-10" />
                     </button>

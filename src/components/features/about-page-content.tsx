@@ -105,7 +105,7 @@ export const AboutPageContent: React.FC<AboutPageProps> = ({ education, experien
               {activeTab === 'cv' ? t('tab_cv') : t('tab_cover_letter')}
             </h1>
             <p className="text-muted-foreground mt-2">
-              {t('subtitle') || "My journey, skills, and experience."}
+              {t('subtitle')}
             </p>
           </div>
         </div>
