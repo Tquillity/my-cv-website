@@ -8,6 +8,7 @@ import { useTranslations } from "next-intl";
 import { Download, Globe } from "lucide-react";
 import { SimpleTooltip } from "@/components/ui/simple-tooltip"; // Import
 import { ThemeImage } from "@/components/ui/theme-image";
+import { ProjectPlaceholder } from "@/components/ui/project-placeholder";
 
 interface ProjectCardProps {
   project: Project;
@@ -34,6 +35,9 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ project, onClick, onDo
   const isDownloadable = !!project.downloads;
   const liveHref = project.liveUrl || (project as any).liveVersion;
   const isCV = project.title === "My CV Website";
+  const shouldShowPlaceholder = !project.mainImage || 
+    imageUrl === "/images/comingsoon.png" || 
+    (typeof imageUrl === "string" && imageUrl.includes("comingsoon"));
 
   const getTagStyles = (tag: string) => {
     if (tag === "Software") {
@@ -52,27 +56,29 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ project, onClick, onDo
       onClick={onClick}
       className="group cursor-pointer rounded-xl bg-card text-card-foreground shadow-sm border border-border/60 overflow-hidden hover:shadow-lg transition-all flex flex-col h-full hover:-translate-y-1 duration-300"
     >
-      <div className="relative h-48 w-full overflow-hidden bg-muted/30 flex items-center justify-center">
+      <div className="relative aspect-[3/2] w-full overflow-hidden bg-muted/30 flex items-center justify-center border-b border-border/50">
         {isCV ? (
-          <div className="w-full h-full p-10 flex items-center justify-center">
+          <div className="w-full h-full p-6 flex items-center justify-center bg-card/20">
             <ThemeImage
-              srcLight="/logos/logo-black.png"
-              srcDark="/logos/logo-white.png"
-              srcMiddle="/logos/logo-gold.png"
+              srcLight="/logos/logo-black-card.png"
+              srcDark="/logos/logo-white-card.png"
+              srcMiddle="/logos/logo-gold-card.png"
               alt="Mikael Sundh Logo"
-              width={400}
-              height={400}
-              className="object-contain w-full h-full transition-transform duration-500 group-hover:scale-110"
-              priority={false}
+              width={1200}
+              height={800}
+              className="object-contain w-full h-full transition-transform duration-500 group-hover:scale-105"
+              priority={true}
             />
           </div>
+        ) : shouldShowPlaceholder ? (
+          <ProjectPlaceholder />
         ) : (
           <Image
             src={imageUrl}
             alt={project.title}
             fill
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-            className="object-contain p-6 transition-transform duration-500 group-hover:scale-105"
+            className="object-cover transition-transform duration-500 group-hover:scale-105"
             loading="lazy"
           />
         )}

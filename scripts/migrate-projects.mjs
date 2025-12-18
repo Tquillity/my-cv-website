@@ -39,12 +39,14 @@ async function migrate() {
 
       // 1. Handle Main Image
       let mainImageAssetId = null;
-      if (project.image) {
+      const isPlaceholder = !project.image || project.image.includes('comingsoon');
+
+      if (!isPlaceholder) {
         const cleanPath = project.image.startsWith('/') ? project.image.slice(1) : project.image;
         const imagePath = path.join(__dirname, '../public', cleanPath);
         
         if (fs.existsSync(imagePath)) {
-          console.log(`   -> Uploading Main Image: ${cleanPath}`);
+          console.log(`   -> Uploading High-Res Asset: ${cleanPath}`);
           try {
             const asset = await client.assets.upload('image', fs.createReadStream(imagePath), {
               filename: path.basename(imagePath)
@@ -52,17 +54,22 @@ async function migrate() {
             mainImageAssetId = asset._id;
             console.log(`   -> Main Image uploaded (ID: ${asset._id})`);
           } catch (err) {
-            console.error(`   -> Failed to upload main image: ${err.message}`);
+            console.error(`   -> Asset upload failed: ${err.message}`);
           }
         } else {
-          console.log(`   -> Main image file not found at: ${imagePath}`);
+          console.log(`   -> Skipping: File not found at ${imagePath}`);
         }
+      } else {
+        console.log(`   -> Skipping Image: Project is using Dynamic Placeholder.`);
       }
 
       // 2. Handle Additional Images
       let additionalImageAssets = [];
       if (project.additionalImages && project.additionalImages.length > 0) {
         for (const img of project.additionalImages) {
+          const isImgPlaceholder = !img || img.includes('comingsoon');
+          if (isImgPlaceholder) continue;
+
           const cleanPath = img.startsWith('/') ? img.slice(1) : img;
           const imagePath = path.join(__dirname, '../public', cleanPath);
           if (fs.existsSync(imagePath)) {
@@ -142,6 +149,7 @@ async function migrate() {
       }
 
       // Prepare document data for creation
+      const liveUrlValue = project.liveUrl || project.liveVersion;
       const doc = {
         _type: 'project',
         title: project.name,
@@ -149,7 +157,7 @@ async function migrate() {
         description: project.description,
         tags: tagObjects,
         githubUrl: project.githubRepo,
-        liveUrl: project.liveUrl || project.liveVersion,
+        liveUrl: liveUrlValue,
         publishedAt: project.startDate,
         downloads: project.downloads,
         ...(caseStudyData && { caseStudy: caseStudyData }),
@@ -159,7 +167,6 @@ async function migrate() {
 
       if (existing) {
         console.log(`   -> Found existing (ID: ${existing._id}). Checking for updates...`);
-        const liveUrlValue = project.liveUrl || project.liveVersion;
         await client.patch(existing._id).set({
           liveUrl: liveUrlValue,
           tags: tagObjects,

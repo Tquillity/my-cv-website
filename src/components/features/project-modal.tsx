@@ -123,7 +123,7 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({ selectedProject, ini
               className="w-full max-w-5xl bg-background rounded-2xl overflow-hidden shadow-2xl pointer-events-auto h-[85vh] flex flex-col border border-border custom-scrollbar"
             >
               {/* Header Image Area with Carousel */}
-              <div className="relative h-48 sm:h-64 w-full shrink-0 group bg-muted/20">
+              <div className="relative aspect-[3/2] min-h-[16rem] sm:min-h-[20rem] w-full shrink-0 group bg-muted/20">
                 <AnimatePresence mode="wait">
                   <motion.div
                     key={currentImageIndex}
@@ -135,15 +135,15 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({ selectedProject, ini
                     onClick={() => setIsLightboxOpen(true)}
                   >
                     {isCV && currentImageIndex === 0 ? (
-                      <div className="w-full h-full p-8">
+                      <div className="w-full h-full p-8 flex items-center justify-center">
                         <ThemeImage
-                          srcLight="/logos/logo-black.png"
-                          srcDark="/logos/logo-white.png"
-                          srcMiddle="/logos/logo-gold.png"
+                          srcLight="/logos/logo-black-card.png"
+                          srcDark="/logos/logo-white-card.png"
+                          srcMiddle="/logos/logo-gold-card.png"
                           alt="Mikael Sundh Logo"
-                          width={600}
-                          height={400}
-                          className="object-contain w-full h-full"
+                          width={1200}
+                          height={800}
+                          className="object-contain w-full h-full transition-transform duration-500 hover:scale-105"
                           priority
                         />
                       </div>
@@ -153,7 +153,7 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({ selectedProject, ini
                         alt={`${selectedProject.title} - Image ${currentImageIndex + 1}`}
                         fill
                         sizes="(max-width: 768px) 100vw, (max-width: 1200px) 90vw, 1000px"
-                        className="object-contain p-4 sm:p-6"
+                        className="object-cover"
                       />
                     )}
                     {/* Click indicator overlay */}

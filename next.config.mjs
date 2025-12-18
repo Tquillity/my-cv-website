@@ -6,6 +6,7 @@ const withNextIntl = createNextIntlPlugin('./src/i18n/request.ts');
 const nextConfig = {
   reactCompiler: true, // Enable React 19 Compiler (moved from experimental)
   images: {
+    formats: ['image/avif', 'image/webp'],
     // Allow quality={100} in the Lightbox for high-fidelity images
     qualities: [75, 100],
     remotePatterns: [
