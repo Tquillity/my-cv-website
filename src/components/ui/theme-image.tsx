@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import Image, { ImageProps } from "next/image";
 import { useTheme } from "next-themes";
+import { cn } from "@/lib/utils";
 
 interface ThemeImageProps extends Omit<ImageProps, "src"> {
   srcLight: string;
@@ -23,15 +24,9 @@ export const ThemeImage = ({ srcLight, srcDark, srcMiddle, alt, loading, priorit
   }, []);
 
   if (!mounted) {
-    // Return a placeholder with the same dimensions to prevent layout shift
+    // Return a placeholder that fills the container to prevent layout shift
     return (
-      <div 
-        style={{ 
-          width: imageProps.width || "32px", 
-          height: imageProps.height || "32px" 
-        }}
-        className={imageProps.className}
-      />
+      <div className={cn("w-full h-full bg-muted/10 animate-pulse", imageProps.className)} />
     );
   }
 

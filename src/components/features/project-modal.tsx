@@ -84,7 +84,7 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({ selectedProject, ini
   const hasMultipleImages = allImages.length > 1;
   const hasDownloads = !!selectedProject.downloads;
   const isPrivateRepo = !selectedProject.githubUrl;
-  const isCV = selectedProject.title === "My CV Website";
+  const isCV = selectedProject.slug?.current === "my-cv-website";
 
   const nextImage = () => {
     setCurrentImageIndex((prev) => (prev + 1) % allImages.length);

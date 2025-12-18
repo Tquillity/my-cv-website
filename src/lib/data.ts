@@ -23,7 +23,10 @@ const mapLocalProjects = (locale: string): Project[] => {
   return data.projects.map((p: any) => ({
     _id: String(p.id),
     title: p.name,
-    slug: { current: p.name.toLowerCase().replace(/\s+/g, '-') },
+    // ID 1 is always my-cv-website for code logic consistency regardless of locale
+    slug: { 
+      current: p.id === 1 ? "my-cv-website" : p.name.toLowerCase().replace(/\s+/g, '-') 
+    },
     mainImage: p.image ? (p.image.startsWith('/') ? p.image : `/${p.image}`) : "",
     additionalImages: (p.additionalImages || []).map((img: string) => 
       img.startsWith('/') ? img : `/${img}`

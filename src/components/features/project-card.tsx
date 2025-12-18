@@ -34,7 +34,7 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ project, onClick, onDo
 
   const isDownloadable = !!project.downloads;
   const liveHref = project.liveUrl || (project as any).liveVersion;
-  const isCV = project.title === "My CV Website";
+  const isCV = project.slug?.current === "my-cv-website";
   const shouldShowPlaceholder = !project.mainImage || 
     imageUrl === "/images/comingsoon.png" || 
     (typeof imageUrl === "string" && imageUrl.includes("comingsoon"));
@@ -58,7 +58,7 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ project, onClick, onDo
     >
       <div className="relative aspect-[3/2] w-full overflow-hidden bg-muted/30 flex items-center justify-center border-b border-border/50">
         {isCV ? (
-          <div className="w-full h-full p-6 flex items-center justify-center bg-card/20">
+          <div className="w-full h-full p-6 sm:p-10 flex items-center justify-center bg-card/20">
             <ThemeImage
               srcLight="/logos/logo-black-card.png"
               srcDark="/logos/logo-white-card.png"
