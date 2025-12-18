@@ -12,6 +12,11 @@ const getCvData = (locale: string) => (locale === "sv" ? cvDataSv : cvDataEn);
 const getLegacyData = (locale: string) => (locale === "sv" ? legacySv : legacyEn);
 const getPortfolioData = (locale: string) => (locale === "sv" ? portfolioDataSv : portfolioDataEn);
 
+// Helper to select localized value from Sanity data
+const getLocalizedValue = (en: string | undefined, sv: string | undefined, locale: string): string => {
+  return (locale === 'sv' && sv) ? sv : (en || "");
+};
+
 // Local Data (offline fallback) - locale-aware
 const mapLocalProjects = (locale: string): Project[] => {
   const data = getPortfolioData(locale);
@@ -85,13 +90,22 @@ export async function getProjects(locale: string = "en"): Promise<Project[]> {
         {},
         { next: { revalidate: 3600 } }
       );
-      // If Sanity has data, return it (normalize liveUrl fallback)
+      // If Sanity has data, return it (normalize liveUrl fallback and apply localization)
       if (data && data.length > 0) {
         return data.map((p: any) => {
           const liveObjUrl = typeof p.live === 'object' && p.live !== null ? p.live.url : undefined;
           return {
             ...p,
+            // Dynamic localization mapping
+            title: getLocalizedValue(p.title, p.title_sv, locale),
+            description: getLocalizedValue(p.description, p.description_sv, locale),
             liveUrl: p.liveUrl || p.liveVersion || liveObjUrl,
+            // Localize case study if it exists
+            caseStudy: p.caseStudy ? {
+              ...p.caseStudy,
+              problem: getLocalizedValue(p.caseStudy.problem, p.caseStudy.problem_sv, locale),
+              solution: getLocalizedValue(p.caseStudy.solution, p.caseStudy.solution_sv, locale),
+            } : undefined,
           };
         });
       }
@@ -142,8 +156,15 @@ export async function getExperiences(locale: string = "en"): Promise<Experience[
     return [...primaryLocal, ...legacyData];
   }
 
+  // Apply localization to Sanity data and merge with legacy
+  const localizedSanityData = sanityData.map((exp: any) => ({
+    ...exp,
+    title: getLocalizedValue(exp.title, exp.title_sv, locale),
+    description: getLocalizedValue(exp.description, exp.description_sv, locale),
+  }));
+
   // Merge Sanity (Primary) + Local Legacy (Secondary)
-  return [...sanityData, ...legacyData];
+  return [...localizedSanityData, ...legacyData];
 }
 
 export async function getEducation(locale: string = "en"): Promise<Education[]> {
@@ -157,7 +178,12 @@ export async function getEducation(locale: string = "en"): Promise<Education[]> 
       { next: { revalidate: 3600 } }
     );
     if (data && data.length > 0) {
-      return data;
+      // Apply localization to Sanity data
+      return data.map((edu: any) => ({
+        ...edu,
+        degree: getLocalizedValue(edu.degree, edu.degree_sv, locale),
+        description: getLocalizedValue(edu.description, edu.description_sv, locale),
+      }));
     }
     return mapEducation(locale);
   } catch (error) {
@@ -176,7 +202,11 @@ export async function getProfile(locale: string = "en"): Promise<SkillSet | null
     if (!data) {
         return mapProfile(locale);
     }
-    return data;
+    // Apply localization to Sanity data
+    return {
+      ...data,
+      bio: getLocalizedValue(data.bio, data.bio_sv, locale),
+    };
   } catch (error) {
     console.error("Sanity fetch failed for profile, using mock data.", error);
     return mapProfile(locale);

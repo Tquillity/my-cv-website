@@ -11,6 +11,11 @@ export default defineType({
       type: "string",
     }),
     defineField({
+      name: "title_sv",
+      title: "Title (Swedish)",
+      type: "string",
+    }),
+    defineField({
       name: "slug",
       title: "Slug",
       type: "slug",
@@ -103,8 +108,20 @@ export default defineType({
           rows: 3,
         }),
         defineField({
+          name: "problem_sv",
+          title: "The Problem (Swedish)",
+          type: "text",
+          rows: 3,
+        }),
+        defineField({
           name: "solution",
           title: "The Solution",
+          type: "text",
+          rows: 3,
+        }),
+        defineField({
+          name: "solution_sv",
+          title: "The Solution (Swedish)",
           type: "text",
           rows: 3,
         }),

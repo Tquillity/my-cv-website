@@ -16,6 +16,11 @@ export default defineType({
       type: "string",
     }),
     defineField({
+      name: "title_sv",
+      title: "Job Title (Swedish)",
+      type: "string",
+    }),
+    defineField({
       name: "startDate",
       title: "Start Date",
       type: "date",
@@ -40,6 +45,11 @@ export default defineType({
     defineField({
       name: "description",
       title: "Description",
+      type: "text",
+    }),
+    defineField({
+      name: "description_sv",
+      title: "Description (Swedish)",
       type: "text",
     }),
     defineField({

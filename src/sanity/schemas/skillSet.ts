@@ -17,6 +17,11 @@ export default defineType({
       type: "text",
     }),
     defineField({
+      name: "bio_sv",
+      title: "Professional Bio/Objective (Swedish)",
+      type: "text",
+    }),
+    defineField({
       name: "skills",
       title: "Technical Skills",
       type: "array",

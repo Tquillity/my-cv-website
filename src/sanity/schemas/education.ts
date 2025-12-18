@@ -18,6 +18,11 @@ export default defineType({
       validation: (Rule) => Rule.required(),
     }),
     defineField({
+      name: "degree_sv",
+      title: "Degree (Swedish)",
+      type: "string",
+    }),
+    defineField({
       name: "isProminent",
       title: "Prominent / Highlight",
       type: "boolean",
@@ -37,6 +42,11 @@ export default defineType({
     defineField({
       name: "description",
       title: "Description",
+      type: "text",
+    }),
+    defineField({
+      name: "description_sv",
+      title: "Description (Swedish)",
       type: "text",
     }),
   ],
