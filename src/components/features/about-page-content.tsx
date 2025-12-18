@@ -83,6 +83,7 @@ const TabButton = ({ active, onClick, icon, label }: { active: boolean, onClick:
 
 export const AboutPageContent: React.FC<AboutPageProps> = ({ education, experience, profile }) => {
   const t = useTranslations("AboutPage");
+  const t_lang = useTranslations("Languages");
   const [activeTab, setActiveTab] = useState<'cv' | 'cover_letter'>('cv');
   const [showLegacy, setShowLegacy] = useState(false);
 
@@ -161,8 +162,12 @@ export const AboutPageContent: React.FC<AboutPageProps> = ({ education, experien
               {profile?.languages?.map((lang, index) => (
                 <div key={lang.language} className="space-y-2">
                   <div className="flex justify-between text-sm">
-                    <span className="font-medium text-foreground">{lang.language}</span>
-                    <span className="text-muted-foreground text-xs uppercase tracking-wider">{lang.proficiency}</span>
+                    <span className="font-medium text-foreground">
+                      {t_lang.has(lang.language) ? t_lang(lang.language) : lang.language}
+                    </span>
+                    <span className="text-muted-foreground text-xs uppercase tracking-wider">
+                      {t_lang.has(lang.proficiency) ? t_lang(lang.proficiency) : lang.proficiency}
+                    </span>
                   </div>
                   <div className="h-1.5 w-full bg-secondary rounded-full overflow-hidden">
                     <motion.div
@@ -170,7 +175,7 @@ export const AboutPageContent: React.FC<AboutPageProps> = ({ education, experien
                       whileInView={{ 
                         width: 
                           lang.proficiency === "Native" || lang.proficiency === "Modersmål" ? "100%" : 
-                          lang.proficiency === "Poor" || lang.proficiency === "Dålig" ? "15%" : 
+                          lang.proficiency === "Poor" || lang.proficiency === "Dålig" || lang.proficiency === "Grundläggande" ? "15%" : 
                           "90%" 
                       }}
                       transition={{ duration: 1, delay: 0.2 + (index * 0.1) }}

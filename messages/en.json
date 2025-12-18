@@ -187,5 +187,13 @@
     "close_modal": "Close modal",
     "close_lightbox": "Close lightbox",
     "go_to_image": "Go to image"
+  },
+  "Languages": {
+    "Swedish": "Swedish",
+    "English": "English",
+    "German": "German",
+    "Native": "Native",
+    "Fluent": "Fluent",
+    "Poor": "Basic"
   }
 }

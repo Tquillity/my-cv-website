@@ -186,6 +186,14 @@
     "next_image": "Next image",
     "close_modal": "Close modal",
     "close_lightbox": "Close lightbox",
-    "go_to_image": "Go to image"
+    "go_to_image": "Gå till bild"
+  },
+  "Languages": {
+    "Swedish": "Svenska",
+    "English": "Engelska",
+    "German": "Tyska",
+    "Native": "Modersmål",
+    "Fluent": "Flytande",
+    "Poor": "Grundläggande"
   }
 }

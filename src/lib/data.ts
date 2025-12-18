@@ -141,7 +141,8 @@ export async function getExperiences(locale: string = "en"): Promise<Experience[
   }
 
   // Load localized legacy data (hidden by default)
-  const legacyData = getLegacyData(locale).legacyExperience.map((exp: any) => ({
+  const legacyFile = getLegacyData(locale);
+  const legacyData = legacyFile.legacyExperience.map((exp: any) => ({
     _id: exp.id,
     company: exp.company,
     title: exp.title,
@@ -160,11 +161,28 @@ export async function getExperiences(locale: string = "en"): Promise<Experience[
   }
 
   // Apply localization to Sanity data and merge with legacy
-  const localizedSanityData = sanityData.map((exp: any) => ({
-    ...exp,
-    title: getLocalizedValue(exp.title, exp.title_sv, locale),
-    description: getLocalizedValue(exp.description, exp.description_sv, locale),
-  }));
+  const localizedSanityData = sanityData.map((exp: any) => {
+    const title = getLocalizedValue(exp.title, exp.title_sv, locale);
+    const description = getLocalizedValue(exp.description, exp.description_sv, locale);
+
+    // Fallback: If Swedish title is missing in Sanity, try to find it in the local legacy file
+    if (locale === 'sv' && (!exp.title_sv || exp.title_sv === exp.title)) {
+      const localMatch = legacyFile.legacyExperience.find((l: any) => l.company === exp.company && l.startDate === exp.startDate);
+      if (localMatch) {
+        return {
+          ...exp,
+          title: localMatch.title,
+          description: localMatch.description,
+        };
+      }
+    }
+
+    return {
+      ...exp,
+      title,
+      description,
+    };
+  });
 
   // Merge Sanity (Primary) + Local Legacy (Secondary)
   return [...localizedSanityData, ...legacyData];
