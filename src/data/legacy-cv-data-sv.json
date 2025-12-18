@@ -1,0 +1,64 @@
+{
+  "legacyExperience": [
+    {
+      "id": "legacy-1",
+      "company": "Petroleum Geo-Services AS",
+      "title": "Seismisk Observatör / Tekniker",
+      "startDate": "2008-01-01",
+      "endDate": "2014-12-31",
+      "description": "Övervakade dataflöden i realtid och sensorvärden ombord på seismiska fartyg. Ansvarig för drift, reparation och underhåll av seismisk sensorutrustning, elektriska system och datornätverk.",
+      "isProminent": false,
+      "skills": ["Linux", "Elektronikreparation", "Nätverksadmin", "Offshore-verksamhet"]
+    },
+    {
+      "id": "legacy-2",
+      "company": "Reservoir Exploration Technology ASA",
+      "title": "Seismisk Observatör / Tekniker",
+      "startDate": "2007-01-01",
+      "endDate": "2008-01-01",
+      "description": "Seismisk observatör och tekniker ombord på seismiskt fartyg. Liknande ansvar som på PGS gällande dataövervakning och underhåll av utrustning.",
+      "isProminent": false,
+      "skills": ["Dataanalys", "Elektronik"]
+    },
+    {
+      "id": "legacy-3",
+      "company": "Securitas / Pengar i Sverige AB",
+      "title": "Ansvarig för Valutalager",
+      "startDate": "2001-01-01",
+      "endDate": "2004-12-31",
+      "description": "Ansvarig för mottagning och registrering av värdetransportpaket. Hanterade daglig uppräkning och registrering av kontanter från detaljhandeln. Ansvarig för underhåll av mynträkningsmaskiner.",
+      "isProminent": false,
+      "skills": ["Logistik", "Säkerhet", "Maskinunderhåll"]
+    },
+    {
+      "id": "legacy-4",
+      "company": "Livgardet K1 (Militärtjänst)",
+      "title": "Militärpolis / Sergeant",
+      "startDate": "2001-01-01",
+      "endDate": "2002-01-01",
+      "description": "10 månaders värnplikt. MP-licens erhållen efter fält- och juridikutbildning. Inkluderade 3 veckors skarp tjänstgöring i Polen för att övervaka en internationell övning. Grad: Sergeant.",
+      "isProminent": false,
+      "skills": ["Ledarskap", "Lag & Ordning", "Krishantering"]
+    },
+    {
+      "id": "legacy-5",
+      "company": "Posten / SDR",
+      "title": "Distribution & Logistik",
+      "startDate": "1995-01-01",
+      "endDate": "2000-12-31",
+      "description": "Diverse roller inklusive post- och tidningsutdelning (Posten) och reklamutdelning (Svensk Direkt Reklam). Huvudansvar för sortering och distribution i tilldelade distrikt.",
+      "isProminent": false,
+      "skills": ["Logistik", "Tidshantering"]
+    }
+  ],
+  "legacyEducation": [
+    {
+      "institution": "Saltsjöbadens Gymnasium",
+      "degree": "Naturvetenskapliga Programmet (Astronomi)",
+      "startDate": "1998-08-01",
+      "endDate": "2001-06-01",
+      "description": "Gymnasieutbildning med inriktning på naturvetenskap och astronomi.",
+      "isProminent": false
+    }
+  ]
+}

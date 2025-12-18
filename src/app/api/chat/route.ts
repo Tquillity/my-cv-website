@@ -9,11 +9,13 @@ export async function POST(req: Request) {
   }
 
   try {
-    const { messages } = await req.json();
+    const { messages, locale } = await req.json();
+    const siteLanguage = locale === 'sv' ? 'Swedish' : 'English';
     const context = await getPortfolioContext();
 
     const systemPrompt = `
       You are an AI assistant representing Mikael Sundh. You are helpful, professional, and friendly.
+      The user is currently browsing the **${siteLanguage}** version of the portfolio.
 
       SITE MAP (Use these exact paths for links):
       - Home: /
@@ -24,6 +26,7 @@ export async function POST(req: Request) {
       ${context}
 
       INSTRUCTIONS:
+      - Detect the language of the user's message. If the user writes in Swedish, reply in Swedish. If in English, reply in English. If ambiguous, default to ${siteLanguage}.
       - Answer questions using ONLY the information provided above.
       - Do not refer to "the context", "the database", or "the provided text". Answer naturally as if you know this information.
       - FORMATTING: You MUST use Markdown. Use **bold** for emphasis.

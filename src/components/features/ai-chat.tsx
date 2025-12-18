@@ -7,7 +7,7 @@ import Image from "next/image";
 import Link from "next/link";
 import ReactMarkdown from "react-markdown";
 import { cn } from "@/lib/utils";
-import { useTranslations } from "next-intl";
+import { useTranslations, useLocale } from "next-intl";
 
 interface Message {
   role: 'user' | 'assistant' | 'system';
@@ -20,6 +20,7 @@ interface AIChatProps {
 
 export const AIChat: React.FC<AIChatProps> = ({ className }) => {
   const t = useTranslations("AIChat");
+  const locale = useLocale();
   const [isOpen, setIsOpen] = useState(false);
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -76,7 +77,7 @@ export const AIChat: React.FC<AIChatProps> = ({ className }) => {
       const response = await fetch('/api/chat', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ messages: [...messages, userMsg] }),
+        body: JSON.stringify({ messages: [...messages, userMsg], locale }),
       });
 
       if (!response.ok) throw new Error('Failed');

@@ -1,113 +1,152 @@
 import { client } from "@/sanity/lib/client";
 import { Project, Experience, Education, SkillSet, Tag } from "@/types";
-import cvData from "../data/cv-data-en.json";
-import portfolioData from "../data/portfolioData.json";
+import cvDataEn from "../data/cv-data-en.json";
+import cvDataSv from "../data/cv-data-sv.json";
+import legacyEn from "../data/legacy-cv-data.json";
+import legacySv from "../data/legacy-cv-data-sv.json";
+import portfolioDataEn from "../data/portfolioData.json";
+import portfolioDataSv from "../data/portfolioData-sv.json";
 
-// Helper to convert string arrays to Tag objects
-const normalizeTags = (tags: string[] = [], languages: string[] = []): Tag[] => {
-  const uniqueNames = Array.from(new Set([...tags, ...languages]));
-  return uniqueNames.map(name => ({
-    name,
-    description: undefined
+// Helper functions to get locale-specific data
+const getCvData = (locale: string) => (locale === "sv" ? cvDataSv : cvDataEn);
+const getLegacyData = (locale: string) => (locale === "sv" ? legacySv : legacyEn);
+const getPortfolioData = (locale: string) => (locale === "sv" ? portfolioDataSv : portfolioDataEn);
+
+// Local Data (offline fallback) - locale-aware
+const mapLocalProjects = (locale: string): Project[] => {
+  const data = getPortfolioData(locale);
+  return data.projects.map((p: any) => ({
+    _id: String(p.id),
+    title: p.name,
+    slug: { current: p.name.toLowerCase().replace(/\s+/g, '-') },
+    mainImage: p.image ? (p.image.startsWith('/') ? p.image : `/${p.image}`) : "",
+    additionalImages: (p.additionalImages || []).map((img: string) => 
+      img.startsWith('/') ? img : `/${img}`
+    ),
+    description: p.description,
+    tags: (p.tags || []).map((t: any) => ({
+      name: typeof t === 'string' ? t : t.name,
+      description: typeof t === 'string' ? undefined : t.description
+    })),
+    githubUrl: p.githubRepo,
+    liveUrl: p.liveUrl || p.liveVersion,
+    publishedAt: p.startDate,
+    caseStudy: p.caseStudy ? {
+      problem: p.caseStudy.problem,
+      solution: p.caseStudy.solution,
+      architecture: p.caseStudy.architecture,
+      technicalChallenges: p.caseStudy.technicalChallenges,
+      codeSnippets: p.caseStudy.codeSnippets
+    } : undefined,
+    downloads: p.downloads
   }));
 };
 
-// Mock Data / Local Data Fallback
-const MOCK_PROJECTS: Project[] = portfolioData.projects.map((p: any) => ({
-  _id: String(p.id),
-  title: p.name,
-  slug: { current: p.name.toLowerCase().replace(/\s+/g, '-') },
-  mainImage: p.image ? (p.image.startsWith('/') ? p.image : `/${p.image}`) : "",
-  additionalImages: (p.additionalImages || []).map((img: string) => 
-    img.startsWith('/') ? img : `/${img}`
-  ),
-  description: p.description,
-  tags: normalizeTags(p.tags, p.languages),
-  githubUrl: p.githubRepo,
-  liveUrl: p.liveUrl || p.liveVersion,
-  publishedAt: p.startDate,
-  caseStudy: p.caseStudy ? {
-    problem: p.caseStudy.problem,
-    solution: p.caseStudy.solution,
-    architecture: p.caseStudy.architecture,
-    technicalChallenges: p.caseStudy.technicalChallenges,
-    codeSnippets: p.caseStudy.codeSnippets
-  } : undefined,
-  downloads: p.downloads
-}));
+const mapExperiences = (locale: string): Experience[] =>
+  getCvData(locale).experiences.map((exp: any) => ({
+    _id: String(exp.id),
+    company: exp.company,
+    title: exp.title,
+    startDate: exp.startDate || String(exp.startYear),
+    endDate: exp.endDate || String(exp.endYear),
+    isCurrent: exp.isCurrent || false,
+    isProminent: exp.isProminent ?? true,
+    description: exp.description,
+    skills: exp.skills,
+  }));
 
-const MOCK_EXPERIENCE: Experience[] = cvData.experiences.map((exp: any) => ({
-  _id: String(exp.id),
-  company: exp.company,
-  title: exp.title,
-  startDate: exp.startDate || String(exp.startYear),
-  endDate: exp.endDate || String(exp.endYear),
-  isCurrent: exp.isCurrent || false,
-  isProminent: exp.isProminent ?? true,
-  description: exp.description,
-  skills: exp.skills,
-}));
+const mapEducation = (locale: string): Education[] =>
+  getCvData(locale).education.map((edu: any, index: number) => ({
+    _id: `edu-${index}`,
+    institution: edu.institution,
+    degree: edu.degree,
+    startDate: edu.startDate || String(edu.startYear),
+    endDate: edu.endDate || String(edu.endYear),
+    isProminent: edu.isProminent ?? true,
+    description: edu.description,
+  }));
 
-const MOCK_EDUCATION: Education[] = cvData.education.map((edu: any, index: number) => ({
-  _id: `edu-${index}`,
-  institution: edu.institution,
-  degree: edu.degree,
-  startDate: edu.startDate || String(edu.startYear),
-  endDate: edu.endDate || String(edu.endYear),
-  isProminent: edu.isProminent ?? true,
-  description: edu.description,
-}));
-
-const MOCK_PROFILE: SkillSet = {
-  _id: "profile-1",
-  bio: cvData.personalInfo.objective,
-  skills: cvData.skills,
-  languages: cvData.languages,
+const mapProfile = (locale: string): SkillSet => {
+  const data = getCvData(locale);
+  return {
+    _id: "profile-1",
+    bio: data.personalInfo.objective,
+    skills: data.skills,
+    languages: data.languages,
+  };
 };
 
-export async function getProjects(): Promise<Project[]> {
-  if (!process.env.NEXT_PUBLIC_SANITY_PROJECT_ID) {
-    return MOCK_PROJECTS;
-  }
-
-  try {
-    const data = await client.fetch(
-      `*[_type == "project"] | order(publishedAt desc)`,
-      {},
-      { next: { revalidate: 3600 } }
-    );
-    // Normalize liveUrl fallback for UI (support legacy liveVersion/live fields)
-    return data.map((p: any) => ({
-      ...p,
-      liveUrl: p.liveUrl || p.liveVersion || p.live || (p.live && p.live.url),
-    }));
-  } catch (error) {
-    console.error("Sanity fetch failed for projects, using mock data.", error);
-    return MOCK_PROJECTS;
-  }
-}
-
-export async function getExperiences(): Promise<Experience[]> {
-  try {
-    const data = await client.fetch(
-      `*[_type == "experience"] | order(startDate desc) {
-      ...,
-      "isProminent": coalesce(isProminent, true)
-    }`,
-      {},
-      { next: { revalidate: 3600 } }
-    );
-    if (data && data.length > 0) {
-      return data;
+export async function getProjects(locale: string = "en"): Promise<Project[]> {
+  // Try Sanity first (production source)
+  if (process.env.NEXT_PUBLIC_SANITY_PROJECT_ID) {
+    try {
+      const data = await client.fetch(
+        `*[_type == "project"] | order(publishedAt desc)`,
+        {},
+        { next: { revalidate: 3600 } }
+      );
+      // If Sanity has data, return it (normalize liveUrl fallback)
+      if (data && data.length > 0) {
+        return data.map((p: any) => {
+          const liveObjUrl = typeof p.live === 'object' && p.live !== null ? p.live.url : undefined;
+          return {
+            ...p,
+            liveUrl: p.liveUrl || p.liveVersion || liveObjUrl,
+          };
+        });
+      }
+    } catch (error) {
+      console.warn("Sanity fetch failed, falling back to local data.", error);
     }
-    return MOCK_EXPERIENCE;
-  } catch (error) {
-    console.error("Sanity fetch failed for experiences, using mock data.", error);
-    return MOCK_EXPERIENCE;
   }
+
+  // Fallback to localized local data
+  return mapLocalProjects(locale);
 }
 
-export async function getEducation(): Promise<Education[]> {
+export async function getExperiences(locale: string = "en"): Promise<Experience[]> {
+  let sanityData: Experience[] = [];
+  
+  // Try Sanity first
+  try {
+    if (process.env.NEXT_PUBLIC_SANITY_PROJECT_ID) {
+      sanityData = await client.fetch(
+        `*[_type == "experience"] | order(startDate desc) {
+        ...,
+        "isProminent": coalesce(isProminent, true)
+      }`,
+        {},
+        { next: { revalidate: 3600 } }
+      );
+    }
+  } catch (error) {
+    console.warn("Sanity fetch failed for experiences, using local data.", error);
+  }
+
+  // Load localized legacy data (hidden by default)
+  const legacyData = getLegacyData(locale).legacyExperience.map((exp: any) => ({
+    _id: exp.id,
+    company: exp.company,
+    title: exp.title,
+    startDate: exp.startDate,
+    endDate: exp.endDate,
+    isCurrent: false,
+    isProminent: false, // Ensure hidden behind toggle
+    description: exp.description,
+    skills: exp.skills
+  }));
+
+  // If Sanity returned nothing, use localized CV data as primary
+  if (!sanityData || sanityData.length === 0) {
+    const primaryLocal = mapExperiences(locale);
+    return [...primaryLocal, ...legacyData];
+  }
+
+  // Merge Sanity (Primary) + Local Legacy (Secondary)
+  return [...sanityData, ...legacyData];
+}
+
+export async function getEducation(locale: string = "en"): Promise<Education[]> {
   try {
     const data = await client.fetch(
       `*[_type == "education"] | order(startDate desc) {
@@ -120,14 +159,14 @@ export async function getEducation(): Promise<Education[]> {
     if (data && data.length > 0) {
       return data;
     }
-    return MOCK_EDUCATION;
+    return mapEducation(locale);
   } catch (error) {
     console.error("Sanity fetch failed for education, using mock data.", error);
-    return MOCK_EDUCATION;
+    return mapEducation(locale);
   }
 }
 
-export async function getProfile(): Promise<SkillSet | null> {
+export async function getProfile(locale: string = "en"): Promise<SkillSet | null> {
   try {
     const data = await client.fetch(
       `*[_type == "skillSet"][0]`,
@@ -135,11 +174,11 @@ export async function getProfile(): Promise<SkillSet | null> {
       { next: { revalidate: 3600 } }
     );
     if (!data) {
-        return MOCK_PROFILE;
+        return mapProfile(locale);
     }
     return data;
   } catch (error) {
     console.error("Sanity fetch failed for profile, using mock data.", error);
-    return MOCK_PROFILE;
+    return mapProfile(locale);
   }
 }

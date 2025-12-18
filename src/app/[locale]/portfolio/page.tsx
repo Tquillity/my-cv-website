@@ -8,7 +8,7 @@ export default async function PortfolioPage({
   params: Promise<{ locale: string }>;
 }) {
   const { locale } = await params;
-  const projects = await getProjects();
+  const projects = await getProjects(locale);
   const t = await getTranslations("PortfolioPage");
 
   return (

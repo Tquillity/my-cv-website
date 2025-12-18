@@ -7,6 +7,7 @@ import { urlFor } from "@/sanity/lib/image";
 import { useTranslations } from "next-intl";
 import { Download, Globe } from "lucide-react";
 import { SimpleTooltip } from "@/components/ui/simple-tooltip"; // Import
+import { ThemeImage } from "@/components/ui/theme-image";
 
 interface ProjectCardProps {
   project: Project;
@@ -24,13 +25,15 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ project, onClick, onDo
   const t = useTranslations("PortfolioPage");
   
   const builder = project.mainImage ? urlFor(project.mainImage) : undefined;
-  const imageUrl = builder ? builder.width(600).height(400).url() : 
-    (typeof project.mainImage === "string" && project.mainImage 
-      ? project.mainImage 
+  const imageUrl = builder
+    ? builder.width(600).height(400).url()
+    : (typeof project.mainImage === "string" && project.mainImage
+      ? project.mainImage
       : "/images/comingsoon.png");
 
   const isDownloadable = !!project.downloads;
   const liveHref = project.liveUrl || (project as any).liveVersion;
+  const isCV = project.title === "My CV Website";
 
   const getTagStyles = (tag: string) => {
     if (tag === "Software") {
@@ -50,13 +53,29 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ project, onClick, onDo
       className="group cursor-pointer rounded-xl bg-card text-card-foreground shadow-sm border border-border/60 overflow-hidden hover:shadow-lg transition-all flex flex-col h-full hover:-translate-y-1 duration-300"
     >
       <div className="relative h-48 w-full overflow-hidden bg-muted/30 flex items-center justify-center">
-        <Image
-          src={imageUrl}
-          alt={project.title}
-          fill
-          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-          className="object-cover object-top transition-transform duration-500 group-hover:scale-105"
-        />
+        {isCV ? (
+          <div className="w-full h-full p-10 flex items-center justify-center">
+            <ThemeImage
+              srcLight="/logos/logo-black.png"
+              srcDark="/logos/logo-white.png"
+              srcMiddle="/logos/logo-gold.png"
+              alt="Mikael Sundh Logo"
+              width={400}
+              height={400}
+              className="object-contain w-full h-full transition-transform duration-500 group-hover:scale-110"
+              priority={false}
+            />
+          </div>
+        ) : (
+          <Image
+            src={imageUrl}
+            alt={project.title}
+            fill
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+            className="object-contain p-6 transition-transform duration-500 group-hover:scale-105"
+            loading="lazy"
+          />
+        )}
         {isDownloadable && (
           <div
             className="absolute top-2 right-2 z-10"

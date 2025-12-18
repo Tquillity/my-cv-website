@@ -158,13 +158,18 @@ async function migrate() {
       };
 
       if (existing) {
-        console.log(`   -> Found existing (ID: ${existing._id}). Patching liveUrl only...`);
+        console.log(`   -> Found existing (ID: ${existing._id}). Checking for updates...`);
         const liveUrlValue = project.liveUrl || project.liveVersion;
-        if (liveUrlValue) {
-          await client.patch(existing._id).set({ liveUrl: liveUrlValue }).commit();
-        } else {
-          console.log("   -> No liveUrl/liveVersion found, skipping patch.");
-        }
+        await client.patch(existing._id).set({
+          liveUrl: liveUrlValue,
+          tags: tagObjects,
+          description: project.description,
+          downloads: project.downloads,
+          ...(caseStudyData && { caseStudy: caseStudyData }),
+          ...(mainImageAssetId && { mainImage: { _type: 'image', asset: { _type: 'reference', _ref: mainImageAssetId } } }),
+          ...(additionalImageAssets.length > 0 && { additionalImages: additionalImageAssets })
+        }).commit();
+        console.log(`   -> Patched ${project.name}`);
       } else {
         console.log(`   -> Not found. Creating new entry...`);
         await client.create(doc);

@@ -5,10 +5,11 @@ import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
 import { Project, SanityImage } from "@/types";
 import { urlFor } from "@/sanity/lib/image";
-import { X, Github, Code2, Network, BookOpen, ChevronLeft, ChevronRight, Download, HardDrive, ExternalLink } from "lucide-react";
+import { X, Github, Code2, Network, BookOpen, ChevronLeft, ChevronRight, Download, HardDrive, ExternalLink, Globe } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { OmniCommentArchitecture } from "./architecture-diagram";
 import { SimpleTooltip } from "@/components/ui/simple-tooltip";
+import { ThemeImage } from "@/components/ui/theme-image";
 
 interface ProjectModalProps {
   selectedProject: Project | null;
@@ -83,6 +84,7 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({ selectedProject, ini
   const hasMultipleImages = allImages.length > 1;
   const hasDownloads = !!selectedProject.downloads;
   const isPrivateRepo = !selectedProject.githubUrl;
+  const isCV = selectedProject.title === "My CV Website";
 
   const nextImage = () => {
     setCurrentImageIndex((prev) => (prev + 1) % allImages.length);
@@ -121,7 +123,7 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({ selectedProject, ini
               className="w-full max-w-5xl bg-background rounded-2xl overflow-hidden shadow-2xl pointer-events-auto h-[85vh] flex flex-col border border-border custom-scrollbar"
             >
               {/* Header Image Area with Carousel */}
-              <div className="relative h-48 sm:h-64 w-full shrink-0 group">
+              <div className="relative h-48 sm:h-64 w-full shrink-0 group bg-muted/20">
                 <AnimatePresence mode="wait">
                   <motion.div
                     key={currentImageIndex}
@@ -129,16 +131,31 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({ selectedProject, ini
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
                     transition={{ duration: 0.3 }}
-                    className="relative w-full h-full cursor-zoom-in hover:opacity-90 transition-opacity"
+                    className="relative w-full h-full cursor-zoom-in hover:opacity-90 transition-opacity flex items-center justify-center"
                     onClick={() => setIsLightboxOpen(true)}
                   >
-                    <Image
-                      src={imageUrl}
-                      alt={`${selectedProject.title} - Image ${currentImageIndex + 1}`}
-                      fill
-                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 90vw, 1000px"
-                      className="object-cover object-top"
-                    />
+                    {isCV && currentImageIndex === 0 ? (
+                      <div className="w-full h-full p-8">
+                        <ThemeImage
+                          srcLight="/logos/logo-black.png"
+                          srcDark="/logos/logo-white.png"
+                          srcMiddle="/logos/logo-gold.png"
+                          alt="Mikael Sundh Logo"
+                          width={600}
+                          height={400}
+                          className="object-contain w-full h-full"
+                          priority
+                        />
+                      </div>
+                    ) : (
+                      <Image
+                        src={imageUrl}
+                        alt={`${selectedProject.title} - Image ${currentImageIndex + 1}`}
+                        fill
+                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 90vw, 1000px"
+                        className="object-contain p-4 sm:p-6"
+                      />
+                    )}
                     {/* Click indicator overlay */}
                     <div className="absolute inset-0 bg-black/0 hover:bg-black/10 transition-colors flex items-center justify-center opacity-0 group-hover:opacity-100 pointer-events-none">
                       <div className="px-3 py-1.5 bg-black/70 text-white text-xs rounded-full backdrop-blur-sm">
@@ -311,9 +328,27 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({ selectedProject, ini
                       ))}
                     </div>
 
-                    <div className="flex gap-4 pt-4">
+                    <div className="flex flex-wrap gap-4 pt-4">
+                      {(selectedProject.liveUrl || (selectedProject as any).liveVersion) && (
+                        <a
+                          href={selectedProject.liveUrl || (selectedProject as any).liveVersion}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="flex items-center gap-2 px-5 py-2.5 rounded-md bg-primary text-primary-foreground hover:bg-primary/90 transition-all shadow-md hover:shadow-lg text-sm font-bold"
+                        >
+                          <Globe className="w-4 h-4" />
+                          {t('live_demo')}
+                          <ExternalLink className="w-3 h-3 opacity-50 ml-0.5" />
+                        </a>
+                      )}
+
                       {selectedProject.githubUrl && (
-                        <a href={selectedProject.githubUrl} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 px-4 py-2 rounded-md bg-primary text-primary-foreground hover:bg-primary/90 transition-colors text-sm font-medium">
+                        <a
+                          href={selectedProject.githubUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="flex items-center gap-2 px-5 py-2.5 rounded-md bg-secondary text-secondary-foreground hover:bg-secondary/80 border border-border/50 transition-colors text-sm font-medium"
+                        >
                           <Github className="w-4 h-4" />
                           {t('github')}
                         </a>
@@ -408,7 +443,7 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({ selectedProject, ini
                              <HardDrive className="w-8 h-8" />
                            </div>
                            <div>
-                             <h4 className="font-bold text-lg">Linux (RPM)</h4>
+                             <h4 className="font-bold text-lg">{t('download_header_linux')}</h4>
                              <p className="text-sm text-muted-foreground">{t('download_linux_desc')}</p>
                            </div>
                            <a 
@@ -429,7 +464,7 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({ selectedProject, ini
                              <HardDrive className="w-8 h-8" />
                            </div>
                            <div>
-                             <h4 className="font-bold text-lg">Windows</h4>
+                             <h4 className="font-bold text-lg">{t('download_header_windows')}</h4>
                              <p className="text-sm text-muted-foreground">{t('download_windows_desc')}</p>
                            </div>
                            {isWindowsReady ? (

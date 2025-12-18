@@ -1,0 +1,186 @@
+{
+  "projects": [
+    {
+      "id": 1,
+      "name": "Min CV-hemsida",
+      "languages": ["Next.js 16", "TypeScript", "Tailwind CSS", "Three.js", "Sanity CMS"],
+      "stackType": "Frontend",
+      "description": "En futuristisk, interaktiv portfölj med en 3D-rymdmiljö, AI-chattassistent och ett dolt retro-terminal OS.",
+      "image": "images/my-cv/home.webp",
+      "additionalImages": ["/images/my-cv/aboutme.png"],
+      "projectType": "Personligt",
+      "status": "Live",
+      "githubRepo": "https://github.com/Tquillity/my-cv-website",
+      "liveVersion": "https://mikaelsundh.com",
+      "startDate": "2025-12-01",
+      "lastUpdated": "2025-12-05",
+      "tags": [
+        { "name": "AI/RAG", "description": "Injicerar strukturerad CV-data dynamiskt i LLM-kontexten via Retrieval-Augmented Generation." },
+        { "name": "Canvas API", "description": "Driver retro-terminalspelen och visuella effekter via lågnivå 2D-rendering." },
+        { "name": "Framer Motion", "description": "Orkestrerar komplexa layoutövergångar, modalanimeringar och polerade mikrointeraktioner." },
+        { "name": "Groq Llama 3", "description": "Driver AI-chattassistenten med hjälp av snabba inferensmodeller via API-anrop på serversidan." },
+        { "name": "Next.js 16", "description": "Utnyttjar den senaste App Router-arkitekturen för robust server-side rendering och SEO." },
+        { "name": "React 19", "description": "Implementerar React Compiler för automatisk memoization och optimerad renderingsprestanda." },
+        { "name": "React Three Fiber", "description": "Hanterar interaktiva 3D-scenelement och kameraövergångar deklarativt i React-trädet." },
+        { "name": "Sanity CMS", "description": "Möjliggör uppdateringar i realtid av erfarenhet, färdigheter och projekt utan att kräva ny deployment." },
+        { "name": "Server Actions", "description": "Hanterar datamutationer och logik direkt på servern, vilket eliminerar separata API-endpoints." },
+        { "name": "Tailwind CSS", "description": "En utility-first stylingarkitektur konfigurerad för sömlös växling mellan mörkt, ljust och anpassat tema." },
+        { "name": "Three.js", "description": "Driver den interaktiva 3D-rymdmiljön med WebGL-rendering och kamerakontroller." },
+        { "name": "TypeScript", "description": "Säkerställer strikt typsäkerhet genom hela kodbasen för skalbarhet och felprevention." },
+        { "name": "Zod", "description": "Validerar strikt integriteten hos datascheman som kommer in i applikationen från externa källor." },
+        { "name": "i18n (next-intl)", "description": "Hanterar middleware-routing och innehållslokalisering för sömlöst stöd av engelska och svenska." }
+      ],
+      "caseStudy": {
+        "problem": "Standardiserade statiska portföljer misslyckas ofta med att demonstrera komplexa ingenjörsfärdigheter eller personlighet. Jag behövde en plattform som kunde fungera både som CV och som en levande demonstration av modern frontend-kapacitet.",
+        "solution": "Jag byggde en 'levande' applikation med Next.js 16 App Router. Den har en persistent 3D-bakgrund (R3F), en kontextmedveten AI-agent (Groq Llama 3.3) och ett fullt fungerande CLI-terminal Easter egg som efterliknar ett retro-OS.",
+        "architecture": {
+          "diagramType": "none",
+          "description": "Byggd på Next.js 16 (React 19) för server-side rendering och SEO. Innehåll hanteras via Sanity CMS för uppdateringar i realtid. 3D-scenen körs i en separat React Context för att persistera över sidnavigering."
+        },
+        "technicalChallenges": [
+          { "title": "Persistent 3D-scennavigering", "description": "För att förhindra att den tunga Three.js-canvasen laddas om vid ruttändringar krävdes att Canvas lyftes till en global Context provider och att Next.js template-filer användes för att hantera sidövergångar smidigt." },
+          { "title": "AI-kontextinjektion", "description": "AI-chatten måste känna till mitt CV utan att hallucinera. Jag implementerade ett RAG-lite-system som injicerar strukturerad JSON-data från Sanity-backend direkt i LLM:ens systemprompt vid körning." }
+        ],
+        "codeSnippets": []
+      }
+    },
+    {
+      "id": 5,
+      "name": "CodeBase",
+      "languages": ["Python", "Tkinter", "Threading", "Watchdog"],
+      "stackType": "Desktop App",
+      "description": "Ett produktivitetsverktyg för utvecklare som skannar repositorier, visualiserar struktur och genererar kontextoptimerade prompter för LLM:er. Installerbara versioner tillgängliga för Linux (RPM).",
+      "image": "/images/CodeBase/home.png",
+      "additionalImages": [
+        "/images/CodeBase/codebase.png",
+        "/images/CodeBase/codebase1.png",
+        "/images/CodeBase/codebase2.png",
+        "/images/CodeBase/codebase3.png"
+      ],
+      "projectType": "Open Source Tool",
+      "status": "v5.0",
+      "githubRepo": "https://github.com/Tquillity/CodeBase",
+      "liveVersion": null,
+      "startDate": "2025-11-01",
+      "lastUpdated": "2025-11-15",
+      "tags": [
+         { "name": "Desktop App", "description": "En native GUI-applikation som körs lokalt på användarens maskin utan webbläsare." },
+         { "name": "Inno Setup / RPM", "description": "Plattformsspecifika paketeringsskript som genererar .exe-installerare för Windows och .rpm-paket för Linux." },
+         { "name": "LRU Caching", "description": "En anpassad, trådsäker Least Recently Used cache-implementering för att optimera upprepad filåtkomst." },
+         { "name": "Multi-threading", "description": "Avlastar blockande I/O och filskanning till bakgrundstrådar medan UI-uppdateringar synkroniseras via trådsäkra köer." }
+      ],
+      "downloads": {
+        "linux": "/Downloads/codebase-6.0-1.x86_64.rpm",
+        "windows": "soon"
+      },
+      "caseStudy": {
+        "problem": "Att förbereda kodkontext för språkmodeller (LLM) är tidskrävande. Utvecklare måste manuellt öppna filer, kopiera innehåll och formatera det, vilket ofta leder till missade beroenden.",
+        "solution": "Jag byggde ett native desktop GUI som visualiserar filträdet, respekterar .gitignore-regler och tillåter generering av formaterade prompter med ett klick. Den har en flertrådad filskanner och en säker förhandsvisningsmotor.",
+        "architecture": {
+           "diagramType": "none",
+           "description": "Applikationen följer en modulär arkitektur med tkinter och ttkbootstrap för UI. Kärnlogiken är separerad i FileHandler (skanning), ContentManager (bearbetning) och SecurityValidator (säkerhet)."
+        },
+        "technicalChallenges": [],
+        "codeSnippets": []
+      }
+    },
+    {
+      "id": 2,
+      "name": "OmniComment",
+      "languages": ["TypeScript", "NodeJS", "React", "MongoDB", "Redis", "Docker"],
+      "stackType": "Fullstack",
+      "description": "Ett decentraliserat kommentarsystem som låter användare kommentera på vilken webbsida som helst via ett Chrome-tillägg.",
+      "image": "/images/comingsoon.png",
+      "projectType": "Commercial Startup",
+      "status": "Beta",
+      "githubRepo": null,
+      "liveVersion": null,
+      "startDate": "2024-06-12",
+      "lastUpdated": "2025-02-14",
+      "tags": [
+        { "name": "Chrome Extension (MV3)", "description": "Ett Manifest V3-tillägg som injicerar en React-applikation i tredjepartswebbsidor via content scripts." },
+        { "name": "Docker Compose", "description": "Orkestrerar den lokala utvecklingsmiljön genom att containerisera MongoDB, Mongo-Express och Redis-tjänster." },
+        { "name": "JWT & Security", "description": "Implementerar ett robust autentiseringsflöde med kortlivade åtkomsttokens, httpOnly-cookies och automatisk refresh-rotation." },
+        { "name": "MongoDB (Recursive)", "description": "Utnyttjar $graphLookup aggregeringspipeline för att effektivt hämta och bygga djupt nästlade kommentarstrådar." }
+      ],
+      "caseStudy": {
+        "problem": "Traditionella kommentarsystem är låsta till specifika webbplatser. Användare kan inte diskutera innehåll på statiska sidor eller webbplatser som har stängt av kommentarer.",
+        "solution": "Ett webbläsar-agnostiskt överläggssystem som injicerar ett diskussionslager över vilken URL som helst, synkroniserat via WebSockets för realtidsinteraktion.",
+        "architecture": {
+          "diagramType": "omnicomment-flow",
+          "description": "Systemet utnyttjar en Monorepo-arkitektur som separerar Server, WebApp och Chrome Extension. Realtidsuppdateringar hanteras via Socket.IO anpassat med Redis för horisontell skalning."
+        },
+        "technicalChallenges": [
+          { "title": "Chrome Extension Context Isolation", "description": "Att hantera autentiseringstillstånd mellan bakgrundstjänsten och den injicerade IFrame krävde ett robust meddelandegränssnitt för att säkra tokens." },
+          { "title": "Rekursiva Kommentarstrådar", "description": "Att lagra och hämta godtyckligt djupa kommentarstrådar effektivt i MongoDB krävde komplexa aggregeringspipelines." }
+        ],
+        "codeSnippets": []
+      }
+    },
+    {
+      "id": 6,
+      "name": "Video Course Platform",
+      "languages": ["Node.js", "Express.js", "MongoDB", "React", "Tailwind CSS", "Polygon"],
+      "stackType": "Fullstack",
+      "description": "En skalbar videokursplattform med nivåindelad användarhantering (Admin, Klient, Anställd), betalningsintegration via Stripe och Blockchain-baserad diplomverifiering.",
+      "image": "/images/comingsoon.png",
+      "projectType": "Commercial (Internship)",
+      "status": "In Development",
+      "githubRepo": null,
+      "liveVersion": null,
+      "startDate": "2025-01-01",
+      "lastUpdated": "2025-03-01",
+      "tags": ["Node.js", "React", "MongoDB", "Tailwind CSS", "Stripe", "Polygon/Web3", "Blockchain"],
+      "caseStudy": {
+        "problem": "Nuvarande marknadslösningar saknade ett enhetligt system för säker certifikatverifiering vid sidan av kursleverans.",
+        "solution": "Integrerade Polygon-blockkedjan för att skapa säkra, verifierbara diplom vid kursavslut, vilket säkerställer dataintegritet och GDPR-efterlevnad.",
+        "architecture": {
+          "diagramType": "none",
+          "description": "Monolitisk Node.js/Express backend med MongoDB. React frontend. Blockchain-integration via Web3.js."
+        },
+        "technicalChallenges": [],
+        "codeSnippets": []
+      }
+    },
+    {
+      "id": 7,
+      "name": "PomoZen",
+      "languages": ["React 19", "TypeScript", "Vite", "Tailwind CSS v4", "Web Workers", "Zustand"],
+      "stackType": "Frontend / PWA",
+      "description": "En offline-först, högpresterande Pomodoro-timer byggd med React 19 och Web Workers. Har 'Zen Mode' ljudlandskap, lokal lagring och noll-drift tidtagningslogik.",
+      "image": "/images/pomozen/home.png",
+      "additionalImages": [
+        "/images/pomozen/pomozen1.png",
+        "/images/pomozen/pomozen2.png",
+        "/images/pomozen/pomozen3.png"
+      ],
+      "projectType": "Open Source Tool",
+      "status": "Live",
+      "githubRepo": "https://github.com/Tquillity/PomoZen",
+      "liveVersion": "https://pomozen.online",
+      "liveUrl": "https://pomozen.online",
+      "startDate": "2025-12-01",
+      "lastUpdated": "2025-12-20",
+      "tags": [
+        { "name": "Comlink", "description": "Abstraherar komplex postMessage-kommunikation till ett proxybaserat API för sömlös Worker-interaktion." },
+        { "name": "Local Storage", "description": "Tillhandahåller ett integritetsvänligt, serverlöst lagringslager för all användardata och inställningar." },
+        { "name": "PWA (Offline)", "description": "Möjliggör full offline-funktionalitet och installation via Service Worker-caching." },
+        { "name": "React 19", "description": "Utnyttjar React Compiler för automatisk optimering och effektiv rendering utan manuell memoization." },
+        { "name": "Web Workers", "description": "Avlastar högprecisions-tidtagningslogik till en bakgrundstråd för att förhindra webbläsardrosling i inaktiva flikar." }
+      ],
+      "caseStudy": {
+        "problem": "Webbaserade timers lider ofta av 'tidsdrift' när fliken blir inaktiv på grund av webbläsarens batterisparfunktioner. Dessutom kräver de flesta onlinetimers internetåtkomst och spårar användardata.",
+        "solution": "Jag arkitekterade en offline-först PWA som avlastar tidtagningslogiken till en dedikerad Web Worker. Detta säkerställer att timern går exakt även när fliken ligger i bakgrunden. Tillstånd sparas lokalt via Zustand middleware, vilket erbjuder en integritetsvänlig upplevelse.",
+        "architecture": {
+          "diagramType": "none",
+          "description": "Applikationen följer en 'Hjärna/Hjärta/Ansikte'-arkitektur. 'Hjärtat' (Timermotorn) körs i en Web Worker. 'Hjärnan' (Zustand Store) hanterar tillstånd. 'Ansiktet' (React UI) reflekterar enbart butikens tillstånd."
+        },
+        "technicalChallenges": [
+          { "title": "Main Thread Throttling & Drift", "description": "Webbläsare stryper setInterval på huvudtråden när flikar är inaktiva. Jag flyttade timerlogiken till en Web Worker och implementerade en självkorrigerande driftalgoritm." },
+          { "title": "Audio Policy Compliance", "description": "Webbläsare blockerar automatiskt uppspelande ljud. Jag implementerade ett tillståndsbaserat upplåsningsmönster som fångar den första användarinteraktionen för att låsa upp AudioContext globalt." }
+        ],
+        "codeSnippets": []
+      }
+    }
+  ]
+}
