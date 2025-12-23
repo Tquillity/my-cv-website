@@ -198,35 +198,33 @@ async function migrate() {
 
       if (existing) {
         console.log(`   -> Found existing (ID: ${existing._id}). Updating...`);
-        // Use merge for nested objects to preserve existing data, set for top-level fields
-        const updatePatch = client.patch(existing._id);
-        
-        // Update top-level fields
-        updatePatch.set({
+        // Build up all update fields in a single object to ensure all changes are applied
+        const updateData = {
           liveUrl: liveUrlValue,
           tags: tagObjects,
           description: project.description,
-        });
+        };
         
-        // Update downloads (including versionHistory)
+        // Add downloads (including versionHistory) if provided
         if (downloadsData) {
-          updatePatch.set({ downloads: downloadsData });
+          updateData.downloads = downloadsData;
         }
         
-        // Update case study (including versionNotes)
+        // Add case study (including versionNotes) if provided
         if (caseStudyData) {
-          updatePatch.set({ caseStudy: caseStudyData });
+          updateData.caseStudy = caseStudyData;
         }
         
-        // Update images if provided
+        // Add images if provided
         if (mainImageAssetId) {
-          updatePatch.set({ mainImage: { _type: 'image', asset: { _type: 'reference', _ref: mainImageAssetId } } });
+          updateData.mainImage = { _type: 'image', asset: { _type: 'reference', _ref: mainImageAssetId } };
         }
         if (additionalImageAssets.length > 0) {
-          updatePatch.set({ additionalImages: additionalImageAssets });
+          updateData.additionalImages = additionalImageAssets;
         }
         
-        await updatePatch.commit();
+        // Apply all updates in a single .set() call to ensure all fields are updated
+        await client.patch(existing._id).set(updateData).commit();
         console.log(`   -> ✅ Updated ${project.name}`);
       } else {
         console.log(`   -> Not found. Creating new entry...`);

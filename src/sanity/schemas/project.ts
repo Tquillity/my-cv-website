@@ -190,6 +190,10 @@ export default defineType({
           title: "Version Notes",
           type: "object",
           description: "Version-specific release notes and changelog information",
+          options: {
+            collapsible: true,
+          },
+          fields: [],
         }),
       ],
     }),
@@ -208,6 +212,10 @@ export default defineType({
           title: "Version History",
           type: "object",
           description: "Historical versions and their download links",
+          options: {
+            collapsible: true,
+          },
+          fields: [],
         }),
       ],
     }),
