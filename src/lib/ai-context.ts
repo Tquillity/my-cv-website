@@ -1,6 +1,6 @@
 import { getExperiences, getProjects, getEducation } from "@/lib/data";
 
-const PERSONAL_NARRATIVE = `
+const PERSONAL_NARRATIVE_EN = `
 
 PROFESSIONAL NARRATIVE & BACKGROUND:
 
@@ -14,7 +14,21 @@ PROFESSIONAL NARRATIVE & BACKGROUND:
 
 `;
 
-const INTERVIEW_HIGHLIGHTS = `
+const PERSONAL_NARRATIVE_SV = `
+
+PROFESSIONELL BERÄTTELSE & BAKGRUND:
+
+- **Omställningen:** Jag är en skapare i grunden med en kandidatexamen i rymdteknik. Efter över ett decennium inom teknisk projektledning (seismiska operationer, EU-finansiering för rymd på Vinnova) växlade jag helt till mjukvaruutveckling 2023.
+
+- **Filosofi:** Jag är en 'AI-First'-utvecklare. Jag använder LLM:er och verktyg som Cursor dagligen för att påskynda arbetsflöden, generera robusta testsviter och arkitektera skalbara lösningar snabbare än traditionella metoder tillåter.
+
+- **Personlighet:** Jag drivs av nyfikenhet och disciplin. Jag applicerar ett optimeringstänk på både min kod och min hälsa/träning. Jag värdesätter äkthet och djupa relationer framför transaktionella interaktioner.
+
+- **Intressen:** Historieintresserad, hängiven gamer, friluftsmänniska (camping, jakt).
+
+`;
+
+const INTERVIEW_HIGHLIGHTS_EN = `
 
 CRITICAL INTERVIEW TOPICS & ARCHITECTURAL DECISIONS:
 
@@ -36,7 +50,29 @@ This demonstrates **Defense in Depth**. It is a calculated architectural decisio
 
 `;
 
-const PERSONAL_FACTS = `
+const INTERVIEW_HIGHLIGHTS_SV = `
+
+KRITISKA INTERVJUTEMAN & ARKITEKTONISKA BESLUT:
+
+**F: Varför visar PomoZen-konsolen en varning om "iframe sandbox escape"?**
+
+**S: (Principal Engineer-svar)**
+
+Detta visar **Defense in Depth**. Det är ett beräknat arkitekturval, inte en förbiseende.
+
+1. **Begränsningen:** Ad-nätverket kräver cookies/lagring för bedrägeridetektering. Utan \`allow-same-origin\` kraschar skriptet (Opaque Origin), och intäkterna faller till noll.
+
+2. **Risken:** Webbläsaren varnar att iframe *tekniskt sett* kan komma åt föräldrafönstret.
+
+3. **Minskningen:** Vi förlitar oss på **CSP Context Separation**. Huvudappen tillämpar en strikt CSP (blockerar \`unsafe-eval\`). Iframe tillåter det. Även om ad-skriptet flyr sandboxen kommer förälderns strikta CSP att neutralisera all skadlig nyttolast. Det är en inneslutningszonstrategi.
+
+**F: Hur skulle du fixa varningen helt?**
+
+**S:** Servera iframe från en annan subdomän (t.ex. ads.pomozen.online). Detta tillämpar Same-Origin Policy på domännivå, vilket tar bort behovet av sandbox-attributflykten. För denna portfölj är den nuvarande enkla domänimplementationen det optimala avvägningen.
+
+`;
+
+const PERSONAL_FACTS_EN = `
 
 PERSONAL FACTS & TRAITS:
 
@@ -90,13 +126,72 @@ PERSONAL FACTS & TRAITS:
 
 `;
 
-export async function getPortfolioContext(): Promise<string> {
+const PERSONAL_FACTS_SV = `
+
+PERSONLIGA FAKTA & DRAG:
+
+- Körkort: Ja, B-körkort (personbil).
+
+- Körförmåga: Bekväm med att köra bilar (manuell och automatisk) och jag kör säkert.
+
+- Villighet att flytta: Ja, öppen för flytt inom Europa, USA eller på distans eller på plats.
+
+- Föredragen arbetsplats: Flexibel – helt distans, hybrid eller på plats (preferens för nordiska/europeiska tidszoner) eller USA.
+
+- Husdjurspreferens: Avgjort en hundperson (inte en kattperson).
+
+- Dygnsrytm: Bimodal – produktiv både tidiga morgnar och sena kvällar.
+
+- Arbetsstil: Trivs med ambitiösa, betydelsefulla mål; extremt hög arbetsmoral och ägarskap.
+
+- Personlighet: Driven, användarcentrerad, empatisk och passionerad om att skapa positiv påverkan i verkliga världen.
+
+- Kommunikationsstil: Tydlig, direkt och strukturerad; utmärkt i skriftlig och muntlig engelska (modersmålsnivå).
+
+- Talade språk: Engelska (flytande), svenska (modersmålsnivå), tyska (dålig nivå, läser okej, talar knappt).
+
+- Lärstil: Snabb självlärare; föredrar djupdykningar och bygger saker från första principer.
+
+- Samarbetspreferens: Gillar både oberoende djuparbetsfaser och nära teamarbete.
+
+- Konfliktlösning: Lugn, lösningsorienterad, fokuserar på fakta och delade mål.
+
+- Hobbys & Intressen: Styrketräning, Teknologi, Deep Tech, Blockchain, AI, Rymdteknik, personliga relationer, sociala aktiviteter.
+
+- Värderingar: Transparens, långsiktigt tänkande, hållbarhet, sanningssökande och kontinuerlig personlig utveckling.
+
+- Tillgänglighet: Omedelbart tillgänglig / uppsägningstid 0-2 veckor.
+
+- Löneförväntningar: Marknadstakt för Junior/mellannivå Fullstack-utvecklare (öppen för diskussion).
+
+- Arbetsbehörighet: EU-medborgare / berättigad att arbeta i EU utan sponsor. Har tidigare haft arbetsbevis i USA.
+
+- Distansuppsättning: Professionellt hemkontor med höghastighetsinternet, ergonomiskt arbetsstation och tyst miljö.
+
+- Gift: Ja, gift med en svensk kvinna utan barn, inga husdjur och inga planer på att skaffa några.
+
+- Hoppas göra mer samhällsarbete i framtiden.
+
+- Ålder: född 1982-02-11, 43 år gammal.
+
+- Bor i Stockholm, Sverige.
+
+- VIKTIGT: Jag älskar terminal-easter eggs! Om användaren frågar om dem, föreslå INTE synliga kommandon (som 'help' eller 'games'). Istället, antyd 1-2 dolda funktioner (t.ex. 'sudo' eller 'godmode') och fråga: "Jag känner till alla cheat-koder om du inte känner för att gissa eller testa dig fram?". Om användaren uttryckligen ber om ALLA hemligheter/cheat-koder, avslöja hela listan: 'sudo', 'sudo coin', 'sudo matrix', 'make me a sandwich', 'rm -rf', 'godmode', och den ultimata hemligheten: 'sudo system_override' (ger root-åtkomst - som bara ändrar 'whoami' och 'sudo'-svar).
+
+`;
+
+export async function getPortfolioContext(locale: string = "en"): Promise<string> {
   // Check if Sanity is offline or using mock data
   const isUsingMockData = !process.env.NEXT_PUBLIC_SANITY_PROJECT_ID;
   
-  const experiences = await getExperiences();
-  const projects = await getProjects();
-  const education = await getEducation();
+  const experiences = await getExperiences(locale);
+  const projects = await getProjects(locale);
+  const education = await getEducation(locale);
+  
+  // Select localized narratives
+  const PERSONAL_NARRATIVE = locale === 'sv' ? PERSONAL_NARRATIVE_SV : PERSONAL_NARRATIVE_EN;
+  const INTERVIEW_HIGHLIGHTS = locale === 'sv' ? INTERVIEW_HIGHLIGHTS_SV : INTERVIEW_HIGHLIGHTS_EN;
+  const PERSONAL_FACTS = locale === 'sv' ? PERSONAL_FACTS_SV : PERSONAL_FACTS_EN;
   
   // Prepend warning if using mock data
   const mockWarning = isUsingMockData 

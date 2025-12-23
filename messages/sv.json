@@ -47,7 +47,8 @@
     "legend_title": "Teknikkategorier",
     "legend_software": "Mjukvaruprodukt",
     "legend_stack": "Teknikstack",
-    "legend_unique": "Unik Egenskap / Färdighet"
+    "legend_unique": "Unik Egenskap / Färdighet",
+    "initializing": "Visuell kärna initialiserar..."
   },
   "AboutPage": {
     "title": "Om Mig",
@@ -78,7 +79,8 @@
     "empty_state_1": "Hej! Jag är Mikaels AI-assistent.",
     "empty_state_2": "Fråga mig om hans projekt, kunskaper eller erfarenhet!",
     "error_message": "Tyvärr, jag har problem med anslutningen just nu.",
-    "loading": "Tänker..."
+    "loading": "Tänker...",
+    "avatar_alt": "AI-avatar"
   },
   "Theme": {
     "select_atmosphere": "Välj Atmosfär",
@@ -161,7 +163,7 @@
     "coin_heads": "HEADS",
     "coin_tails": "TAILS",
     "coin_flipping": "Flipping coin...",
-    "projects_table": "+----------------------+-------------------+-----------------------+\n| PROJECT NAME         | STACK             | STATUS                |\n+----------------------+-------------------+-----------------------+\n| My CV Website        | Next.js, 3D, AI   | [Online]              |\n| OmniComment          | React, Blockchain | [Archived]            |\n| Smart Wallet         | Solidity, Web3    | [Deployed]            |\n+----------------------+-------------------+-----------------------+\nType 'cat [project_name]' for details.",
+    "projects_table": "+----------------------+-------------------+-----------------------+\n| PROJEKTNAMN          | STACK             | STATUS                |\n+----------------------+-------------------+-----------------------+\n| My CV Website        | Next.js, 3D, AI   | [Online]              |\n| OmniComment          | React, Blockchain | [Archived]            |\n| Smart Wallet         | Solidity, Web3    | [Deployed]            |\n+----------------------+-------------------+-----------------------+\nSkriv 'cat [projektnamn]' för detaljer.",
     "rm_rf_error": "CRITICAL ERROR: SYSTEM DELETION PREVENTED. NICE TRY.",
     "sudo_sandwich": "sudo: User is not in the sudoers file. Go make it yourself.",
     "godmode_unlocked": "God Mode Unlocked: Just kidding, you are still a guest.",
@@ -186,7 +188,7 @@
     "next_image": "Next image",
     "close_modal": "Close modal",
     "close_lightbox": "Close lightbox",
-    "go_to_image": "Gå till bild"
+    "go_to_image": "Go to image"
   },
   "Languages": {
     "Swedish": "Svenska",

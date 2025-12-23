@@ -47,7 +47,8 @@
     "legend_title": "Technology Categories",
     "legend_software": "Software Product",
     "legend_stack": "Tech Stack",
-    "legend_unique": "Unique Feature / Skill"
+    "legend_unique": "Unique Feature / Skill",
+    "initializing": "Visual Core Initializing..."
   },
   "AboutPage": {
     "title": "About Me",
@@ -78,7 +79,8 @@
     "empty_state_1": "Hi! I'm Mikael's AI assistant.",
     "empty_state_2": "Ask me about his projects, skills, or experience!",
     "error_message": "Sorry, I'm having trouble connecting right now.",
-    "loading": "Thinking..."
+    "loading": "Thinking...",
+    "avatar_alt": "AI Avatar"
   },
   "Theme": {
     "select_atmosphere": "Select Atmosphere",

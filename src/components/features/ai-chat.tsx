@@ -136,7 +136,7 @@ export const AIChat: React.FC<AIChatProps> = ({ className }) => {
                     ) : (
                       <Image
                         src="/AI-MikaelP.jpg"
-                        alt="AI Avatar"
+                        alt={t('avatar_alt')}
                         fill
                         sizes="32px"
                         className="object-cover"

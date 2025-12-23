@@ -136,6 +136,11 @@ export default defineType({
               type: "text",
             }),
             defineField({
+              name: "description_sv",
+              title: "Description (Swedish)",
+              type: "text",
+            }),
+            defineField({
               name: "diagramType",
               title: "Diagram Type",
               type: "string",
@@ -158,7 +163,9 @@ export default defineType({
               title: "Challenge",
               fields: [
                 defineField({ name: "title", title: "Title", type: "string" }),
+                defineField({ name: "title_sv", title: "Title (Swedish)", type: "string" }),
                 defineField({ name: "description", title: "Description", type: "text" }),
+                defineField({ name: "description_sv", title: "Description (Swedish)", type: "text" }),
               ],
             },
           ],
@@ -173,8 +180,10 @@ export default defineType({
               title: "Snippet",
               fields: [
                 defineField({ name: "title", title: "Title", type: "string" }),
+                defineField({ name: "title_sv", title: "Title (Swedish)", type: "string" }),
                 defineField({ name: "language", title: "Language", type: "string" }),
                 defineField({ name: "description", title: "Description", type: "string" }),
+                defineField({ name: "description_sv", title: "Description (Swedish)", type: "string" }),
                 defineField({
                   name: "code",
                   title: "Code",

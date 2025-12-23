@@ -73,9 +73,48 @@ async function migrateI18n() {
           if (p.caseStudy.solution) {
             updateData['caseStudy.solution_sv'] = p.caseStudy.solution;
           }
+          // Add architecture description translation
+          if (p.caseStudy.architecture?.description) {
+            updateData['caseStudy.architecture.description_sv'] = p.caseStudy.architecture.description;
+          }
         }
 
-        await client.patch(match._id).set(updateData).commit();
+        // Build patch operation
+        let patch = client.patch(match._id).set(updateData);
+
+        // Handle technical challenges translations (arrays require special handling)
+        if (p.caseStudy?.technicalChallenges && Array.isArray(p.caseStudy.technicalChallenges) && match.caseStudy?.technicalChallenges) {
+          const updatedChallenges = match.caseStudy.technicalChallenges.map((existingChallenge, index) => {
+            const svChallenge = p.caseStudy.technicalChallenges[index];
+            if (svChallenge) {
+              return {
+                ...existingChallenge,
+                title_sv: svChallenge.title || existingChallenge.title_sv,
+                description_sv: svChallenge.description || existingChallenge.description_sv,
+              };
+            }
+            return existingChallenge;
+          });
+          patch = patch.set({ 'caseStudy.technicalChallenges': updatedChallenges });
+        }
+
+        // Handle code snippets translations (arrays require special handling)
+        if (p.caseStudy?.codeSnippets && Array.isArray(p.caseStudy.codeSnippets) && match.caseStudy?.codeSnippets) {
+          const updatedSnippets = match.caseStudy.codeSnippets.map((existingSnippet, index) => {
+            const svSnippet = p.caseStudy.codeSnippets[index];
+            if (svSnippet) {
+              return {
+                ...existingSnippet,
+                title_sv: svSnippet.title || existingSnippet.title_sv,
+                description_sv: svSnippet.description || existingSnippet.description_sv,
+              };
+            }
+            return existingSnippet;
+          });
+          patch = patch.set({ 'caseStudy.codeSnippets': updatedSnippets });
+        }
+
+        await patch.commit();
         console.log(`   ✅ Patched ${englishProject.name} with Swedish translations`);
       } else {
         console.log(`   ⚠️  No Sanity match found for: ${englishProject.name}`);

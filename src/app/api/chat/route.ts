@@ -11,7 +11,7 @@ export async function POST(req: Request) {
   try {
     const { messages, locale } = await req.json();
     const siteLanguage = locale === 'sv' ? 'Swedish' : 'English';
-    const context = await getPortfolioContext();
+    const context = await getPortfolioContext(locale);
 
     const systemPrompt = `
       You are an AI assistant representing Mikael Sundh. You are helpful, professional, and friendly.

@@ -108,6 +108,28 @@ export async function getProjects(locale: string = "en"): Promise<Project[]> {
               ...p.caseStudy,
               problem: getLocalizedValue(p.caseStudy.problem, p.caseStudy.problem_sv, locale),
               solution: getLocalizedValue(p.caseStudy.solution, p.caseStudy.solution_sv, locale),
+              // Localize architecture description
+              architecture: p.caseStudy.architecture ? {
+                ...p.caseStudy.architecture,
+                description: getLocalizedValue(
+                  p.caseStudy.architecture.description,
+                  p.caseStudy.architecture.description_sv,
+                  locale
+                ),
+                diagramType: p.caseStudy.architecture.diagramType,
+              } : undefined,
+              // Localize technical challenges
+              technicalChallenges: p.caseStudy.technicalChallenges?.map((challenge: any) => ({
+                ...challenge,
+                title: getLocalizedValue(challenge.title, challenge.title_sv, locale),
+                description: getLocalizedValue(challenge.description, challenge.description_sv, locale),
+              })),
+              // Localize code snippets
+              codeSnippets: p.caseStudy.codeSnippets?.map((snippet: any) => ({
+                ...snippet,
+                title: getLocalizedValue(snippet.title, snippet.title_sv, locale),
+                description: getLocalizedValue(snippet.description, snippet.description_sv, locale),
+              })),
             } : undefined,
           };
         });

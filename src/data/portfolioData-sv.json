@@ -100,10 +100,40 @@
         },
         "architecture": {
            "diagramType": "none",
-           "description": "Applikationen följer en modulär arkitektur med tkinter och ttkbootstrap för UI. Kärnlogiken är separerad i handlers: FileHandler (skanning), ContentManager (bearbetning), SecurityValidator (säkerhet), GitHandler (versionskontroll), CopyHandler (urklippsoperationer) och SearchHandler (textsökning). Den använder en anpassad ThreadSafeLRUCache för prestanda, queue.Queue för trådsäkra UI-uppdateringar och en centraliserad ErrorHandler för robust felhantering."
+           "description": "Applikationen följer en modulär arkitektur som använder `tkinter` med `ttkbootstrap` för användargränssnittet. Kärnlogiken är uppdelad i hanterare: `FileHandler` (skanning), `ContentManager` (bearbetning), `SecurityValidator` (säkerhet), `GitHandler` (versionshantering), `CopyHandler` (urklipp) och `SearchHandler` (textsökning). Den använder en anpassad `ThreadSafeLRUCache` för prestanda, `queue.Queue` för trådsäkra UI-uppdateringar och en centraliserad `ErrorHandler` för robust felhantering."
         },
-        "technicalChallenges": [],
-        "codeSnippets": []
+        "technicalChallenges": [
+          {
+            "title": "UI-responsivitet vid skanning",
+            "description": "Skanning av tusentals filer blockerade huvudtråden i UI:t. Jag implementerade ett mönster med trådade arbetare där skannern körs i en bakgrundstråd och skickar statusuppdateringar till en `queue.Queue`, som huvudloopen pollar för att uppdatera förloppsindikatorn utan att frysa gränssnittet."
+          },
+          {
+            "title": "Säkerhet & Sökvägsnavigering",
+            "description": "För att förhindra oavsiktlig exponering av systemfiler implementerade jag en strikt `SecurityValidator` som tvingar fram normalisering av sökvägar (`os.path.normcase`) och kontrollerar `os.path.commonpath` för att säkerställa att alla operationer stannar inom användarens hemkatalog."
+          },
+          {
+            "title": "Format-agnostisk innehållsgenerering",
+            "description": "Stöd för flera utdataformat (Markdown vs XML) krävde abstrahering av logiken för innehållsgenerering. Jag implementerade ett mallsystem som dynamiskt formaterar filinnehåll baserat på användarens val, vilket säkerställer kompatibilitet med olika LLM-API:er."
+          },
+          {
+            "title": "Graciös avstängning & resursrensning",
+            "description": "Att säkerställa korrekt rensning av bakgrundstrådar och cachade resurser vid avstängning krävde ett system med avstängningsflaggor och trådspårning. Bakgrundsoperationer kontrollerar nu flaggan före bearbetning, och huvudtråden väntar på slutförande med timeouts."
+          }
+        ],
+        "codeSnippets": [
+          {
+            "title": "Trådsäker UI-polling",
+            "language": "Python",
+            "description": "En icke-blockerande pollningsmekanism som bearbetar anrop från bakgrundstrådar i Tkinter-huvudloopen.",
+            "code": "def _poll_queue(self):\n    if self._shutdown_requested: return\n    try:\n        while True:\n            task = self.task_queue.get_nowait()\n            if isinstance(task, tuple):\n                func, args = task\n                func(*args)\n    except queue.Empty:\n        pass\n    finally:\n        self.root.after(50, self._poll_queue)"
+          },
+          {
+            "title": "Säker filläsning",
+            "language": "Python",
+            "description": "En centraliserad filläsare som integrerar LRU-cache och säkerhetskontroller före filåtkomst.",
+            "code": "def get_file_content(file_path, content_cache, lock, read_errors):\n    normalized_path = normalize_for_cache(file_path)\n    cached = content_cache.get(normalized_path)\n    if cached: return cached\n\n    if SECURITY_ENABLED:\n        is_valid, error = validate_file_size(file_path)\n        if not is_valid: return None\n\n    with open(file_path, 'r', encoding='utf-8') as file:\n        content = file.read()\n        content_cache.put(normalized_path, content)\n        return content"
+          }
+        ]
       }
     },
     {

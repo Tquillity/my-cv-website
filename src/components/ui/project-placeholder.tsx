@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 import { Sparkles, Zap, Stars as StarsIcon, Rocket } from "lucide-react";
 import { useTheme } from "next-themes";
 import { useEffect, useState } from "react";
+import { useTranslations } from "next-intl";
 
 // Fixed star positions to prevent re-rendering issues
 const STAR_POSITIONS = [
@@ -20,6 +21,7 @@ export const ProjectPlaceholder = () => {
   const { variant } = useBackground();
   const { resolvedTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
+  const t = useTranslations("PortfolioPage");
 
   useEffect(() => {
     setMounted(true);
@@ -119,7 +121,7 @@ export const ProjectPlaceholder = () => {
     <div className="relative w-full h-full flex items-center justify-center">
        {variants[variant] || variants.stars}
        <div className="absolute bottom-4 text-[10px] font-mono uppercase tracking-[0.2em] text-muted-foreground/60">
-          Visual Core Initializing...
+          {t('initializing')}
        </div>
     </div>
   );

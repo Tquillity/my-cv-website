@@ -29,9 +29,7 @@ export const TerminalModal = ({ locale }: { locale: string }) => {
   const t_data = useTranslations("AboutPage");
   const { isOpen, close } = useTerminal();
   const [input, setInput] = useState("");
-  const [history, setHistory] = useState<Command[]>([
-    { input: "", output: "MIKAEL_OS v2.0.4 [Protected Mode]" }, // Kept hardcoded as it's a system string, or could use t('welcome_os') if preferred but prompt says "welcome_os" in json
-  ]);
+  const [history, setHistory] = useState<Command[]>([]);
 
   // Init history with localized strings on mount/open
   useEffect(() => {
