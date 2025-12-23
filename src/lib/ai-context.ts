@@ -218,11 +218,12 @@ export async function getPortfolioContext(locale: string = "en"): Promise<string
       // Build deeper technical context if a case study exists
       let technicalContext = "";
       if (p.caseStudy) {
+        const challenges = p.caseStudy.technicalChallenges?.map(c => c.title).join(", ") || "N/A";
         technicalContext = `
           * Problem Solved: ${p.caseStudy.problem}
           * Solution: ${p.caseStudy.solution}
           * Architecture: ${p.caseStudy.architecture?.description || "N/A"}
-          * Key Challenges: ${p.caseStudy.technicalChallenges.map(c => c.title).join(", ")}
+          * Key Challenges: ${challenges}
         `;
       }
 
