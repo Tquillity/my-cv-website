@@ -1,5 +1,5 @@
 import { getExperiences, getEducation, getProfile } from "@/lib/data";
-import { AboutPageContent } from "@/components/features/about-page-content";
+import { AboutPageWrapper } from "@/components/features/about-page-wrapper";
 
 export default async function AboutPage({
   params,
@@ -11,5 +11,5 @@ export default async function AboutPage({
   const experience = await getExperiences(locale);
   const profile = await getProfile(locale);
 
-  return <AboutPageContent education={education} experience={experience} profile={profile} />;
+  return <AboutPageWrapper education={education} experience={experience} profile={profile} />;
 }

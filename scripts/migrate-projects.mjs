@@ -94,26 +94,40 @@ async function migrate() {
       }
 
       // Prepare the Case Study object
-      const caseStudyData = project.caseStudy ? {
-        problem: project.caseStudy.problem,
-        solution: project.caseStudy.solution,
-        architecture: project.caseStudy.architecture ? {
-          description: project.caseStudy.architecture.description,
-          diagramType: project.caseStudy.architecture.diagramType
-        } : undefined,
-        technicalChallenges: project.caseStudy.technicalChallenges.map(c => ({
-          _key: c.title.substring(0, 10).replace(/\s/g, ''),
-          title: c.title,
-          description: c.description
-        })),
-        codeSnippets: project.caseStudy.codeSnippets.map(s => ({
-          _key: s.title.substring(0, 10).replace(/\s/g, ''),
-          title: s.title,
-          language: s.language,
-          description: s.description,
-          code: s.code
-        }))
-      } : undefined;
+      let caseStudyData = undefined;
+      if (project.caseStudy) {
+        caseStudyData = {
+          problem: project.caseStudy.problem,
+          solution: project.caseStudy.solution,
+          architecture: project.caseStudy.architecture ? {
+            description: project.caseStudy.architecture.description,
+            diagramType: project.caseStudy.architecture.diagramType
+          } : undefined,
+          technicalChallenges: (project.caseStudy.technicalChallenges || []).map(c => ({
+            _key: c.title.substring(0, 10).replace(/\s/g, ''),
+            title: c.title,
+            description: c.description
+          })),
+          codeSnippets: (project.caseStudy.codeSnippets || []).map(s => ({
+            _key: s.title.substring(0, 10).replace(/\s/g, ''),
+            title: s.title,
+            language: s.language,
+            description: s.description,
+            code: s.code
+          }))
+        };
+        
+        // Sanitize versionNotes keys (replace dots with underscores for Sanity compatibility)
+        if (project.caseStudy.versionNotes) {
+          const sanitizedVersionNotes = {};
+          for (const [version, note] of Object.entries(project.caseStudy.versionNotes)) {
+            // Sanitize key: "v6.1" -> "v6_1"
+            const sanitizedKey = version.replace(/\./g, '_');
+            sanitizedVersionNotes[sanitizedKey] = note;
+          }
+          caseStudyData.versionNotes = sanitizedVersionNotes;
+        }
+      }
 
       // Prepare tags array (Objects with name/description -> Objects with proper keys)
       let tagObjects = [];
@@ -150,6 +164,23 @@ async function migrate() {
 
       // Prepare document data for creation
       const liveUrlValue = project.liveUrl || project.liveVersion;
+      
+      // Prepare downloads object with versionHistory if it exists
+      // Sanitize version keys (replace dots with underscores for Sanity compatibility)
+      let downloadsData = undefined;
+      if (project.downloads) {
+        downloadsData = { ...project.downloads };
+        if (project.downloads.versionHistory) {
+          const sanitizedVersionHistory = {};
+          for (const [version, data] of Object.entries(project.downloads.versionHistory)) {
+            // Sanitize key: "v6.1" -> "v6_1"
+            const sanitizedKey = version.replace(/\./g, '_');
+            sanitizedVersionHistory[sanitizedKey] = data;
+          }
+          downloadsData.versionHistory = sanitizedVersionHistory;
+        }
+      }
+      
       const doc = {
         _type: 'project',
         title: project.name,
@@ -159,27 +190,48 @@ async function migrate() {
         githubUrl: project.githubRepo,
         liveUrl: liveUrlValue,
         publishedAt: project.startDate,
-        downloads: project.downloads,
+        ...(downloadsData && { downloads: downloadsData }),
         ...(caseStudyData && { caseStudy: caseStudyData }),
         ...(mainImageAssetId && { mainImage: { _type: 'image', asset: { _type: 'reference', _ref: mainImageAssetId } } }),
         ...(additionalImageAssets.length > 0 && { additionalImages: additionalImageAssets })
       };
 
       if (existing) {
-        console.log(`   -> Found existing (ID: ${existing._id}). Checking for updates...`);
-        await client.patch(existing._id).set({
+        console.log(`   -> Found existing (ID: ${existing._id}). Updating...`);
+        // Use merge for nested objects to preserve existing data, set for top-level fields
+        const updatePatch = client.patch(existing._id);
+        
+        // Update top-level fields
+        updatePatch.set({
           liveUrl: liveUrlValue,
           tags: tagObjects,
           description: project.description,
-          downloads: project.downloads,
-          ...(caseStudyData && { caseStudy: caseStudyData }),
-          ...(mainImageAssetId && { mainImage: { _type: 'image', asset: { _type: 'reference', _ref: mainImageAssetId } } }),
-          ...(additionalImageAssets.length > 0 && { additionalImages: additionalImageAssets })
-        }).commit();
-        console.log(`   -> Patched ${project.name}`);
+        });
+        
+        // Update downloads (including versionHistory)
+        if (downloadsData) {
+          updatePatch.set({ downloads: downloadsData });
+        }
+        
+        // Update case study (including versionNotes)
+        if (caseStudyData) {
+          updatePatch.set({ caseStudy: caseStudyData });
+        }
+        
+        // Update images if provided
+        if (mainImageAssetId) {
+          updatePatch.set({ mainImage: { _type: 'image', asset: { _type: 'reference', _ref: mainImageAssetId } } });
+        }
+        if (additionalImageAssets.length > 0) {
+          updatePatch.set({ additionalImages: additionalImageAssets });
+        }
+        
+        await updatePatch.commit();
+        console.log(`   -> ✅ Updated ${project.name}`);
       } else {
         console.log(`   -> Not found. Creating new entry...`);
         await client.create(doc);
+        console.log(`   -> ✅ Created ${project.name}`);
       }
     }
 

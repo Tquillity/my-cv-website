@@ -110,7 +110,7 @@
       "name": "CodeBase",
       "languages": ["Python", "Tkinter", "Threading", "Watchdog"],
       "stackType": "Desktop App",
-      "description": "A developer productivity tool that scans repositories, visualizes structure, and generates context-optimized prompts for LLMs. Installable versions available for Linux (RPM).",
+      "description": "A developer productivity tool that scans repositories, visualizes structure, and generates context-optimized prompts for LLMs. Features include Git diff integration, multiple output formats (Markdown/XML), file list selection, centralized error handling, and comprehensive security validation. Installable versions available for Linux (RPM).",
       "image": "/images/CodeBase/home.png",
       "additionalImages": [
         "/images/CodeBase/codebase.png",
@@ -119,11 +119,11 @@
         "/images/CodeBase/codebase3.png"
       ],
       "projectType": "Open Source Tool",
-      "status": "v5.0",
+      "status": "v6.1",
       "githubRepo": "https://github.com/Tquillity/CodeBase",
       "liveVersion": null,
       "startDate": "2025-11-01",
-      "lastUpdated": "2025-11-15",
+      "lastUpdated": "2025-12-15",
       "tags": [
         {
           "name": "Desktop App",
@@ -176,18 +176,61 @@
         {
           "name": "Watchdog",
           "description": "Monitors the filesystem for changes to trigger live reloads during the development cycle."
+        },
+        {
+          "name": "Git Integration",
+          "description": "Native Git support for copying repository diffs (git diff HEAD) directly to clipboard for code review workflows."
+        },
+        {
+          "name": "Multiple Output Formats",
+          "description": "Supports both Markdown (Grok-compatible) and XML (Gemini-compatible) output formats for flexible LLM integration."
+        },
+        {
+          "name": "Centralized Error Handling",
+          "description": "A comprehensive error handling system with custom exception types, user-friendly error messages, and graceful recovery mechanisms."
+        },
+        {
+          "name": "File List Selection",
+          "description": "Dedicated tab for loading files from a text list, enabling batch processing and selective content generation from external sources."
+        },
+        {
+          "name": "Test File Exclusion",
+          "description": "Toggleable test file filtering with intelligent pattern matching to exclude test directories and files from repository scans."
+        },
+        {
+          "name": "Tree Filtering",
+          "description": "Real-time file tree filtering that shows matching files and their parent directories for quick navigation in large repositories."
+        },
+        {
+          "name": "Centralized Logging",
+          "description": "Configurable logging system with file and console output, adjustable log levels, and structured error tracking for debugging."
         }
       ],
       "downloads": {
-        "linux": "/Downloads/codebase-6.0-1.x86_64.rpm",
-        "windows": "soon"
+        "linux": "/Downloads/codebase-6.1-1.x86_64.rpm",
+        "versionHistory": {
+          "v6.1": {
+            "linux": "/Downloads/codebase-6.1-1.x86_64.rpm",
+            "releaseDate": "2025-12-15",
+            "changelog": "Major update: Added Git integration for diff generation, multiple output formats (Markdown/XML), file list selection tab, centralized error handling system, test file exclusion toggle, real-time tree filtering, and comprehensive logging configuration. Improved thread safety with graceful shutdown handling."
+          },
+          "v6.0": {
+            "linux": "/Downloads/codebase-6.0-1.x86_64.rpm",
+            "releaseDate": "2025-11-15",
+            "changelog": "Stable release with core repository scanning, structure visualization, content preview, and LLM-optimized prompt generation."
+          }
+        }
       },
       "caseStudy": {
         "problem": "Preparing code context for Large Language Models (LLMs) is tedious. Developers manually open files, copy content, and format it with separators, often leading to missed dependencies or context window overflows.",
-        "solution": "I built a native desktop GUI that visualizes the repository tree, respects `.gitignore` rules, and allows 1-click generation of formatted prompts. It features a multi-threaded file scanner and a secure content preview engine.",
+        "solution": "I built a native desktop GUI that visualizes the repository tree, respects `.gitignore` rules, and allows 1-click generation of formatted prompts. It features a multi-threaded file scanner, secure content preview engine, Git integration for diff generation, multiple output formats (Markdown/XML), and comprehensive error handling with graceful recovery.",
+        "versionNotes": {
+          "v6.1": "Major update from v6.0: Added Git integration (git diff HEAD), multiple output formats (Markdown/Grok and XML/Gemini), new File List Selection tab for batch processing, centralized error handling system with custom exceptions, test file exclusion toggle, real-time tree filtering, and comprehensive logging configuration. Improved thread safety with graceful shutdown handling and resource cleanup.",
+          "v6.0": "Initial stable release with core features: repository scanning, structure visualization, content preview, and LLM-optimized prompt generation."
+        },
         "architecture": {
           "diagramType": "none",
-          "description": "The application follows a modular architecture using `tkinter` with `ttkbootstrap` for the UI. Core logic is separated into `FileHandler` (scanning), `ContentManager` (processing), and `SecurityValidator` (safety). It utilizes a custom `ThreadSafeLRUCache` for performance and `queue.Queue` for thread-safe UI updates."
+          "description": "The application follows a modular architecture using `tkinter` with `ttkbootstrap` for the UI. Core logic is separated into handlers: `FileHandler` (scanning), `ContentManager` (processing), `SecurityValidator` (safety), `GitHandler` (version control), `CopyHandler` (clipboard operations), and `SearchHandler` (text search). It utilizes a custom `ThreadSafeLRUCache` for performance, `queue.Queue` for thread-safe UI updates, and a centralized `ErrorHandler` for robust error management."
         },
         "technicalChallenges": [
           {
@@ -197,6 +240,14 @@
           {
             "title": "Security & Path Traversal",
             "description": "To prevent accidental exposure of system files, I implemented a strict `SecurityValidator` that enforces path normalization (`os.path.normcase`) and checks `os.path.commonpath` to ensure all operations stay within the user's home directory."
+          },
+          {
+            "title": "Format-Agnostic Content Generation",
+            "description": "Supporting multiple output formats (Markdown vs XML) required abstracting the content generation logic. I implemented a template system that dynamically formats file content based on user selection, ensuring compatibility with different LLM APIs while maintaining consistent file parsing."
+          },
+          {
+            "title": "Graceful Shutdown & Resource Cleanup",
+            "description": "Ensuring proper cleanup of background threads and cached resources during application shutdown required implementing a shutdown flag system and thread tracking. Background operations now check the flag before processing, and the main thread waits for completion with timeouts to prevent hanging."
           }
         ],
         "codeSnippets": [

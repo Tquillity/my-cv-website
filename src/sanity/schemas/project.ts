@@ -185,6 +185,12 @@ export default defineType({
             },
           ],
         }),
+        defineField({
+          name: "versionNotes",
+          title: "Version Notes",
+          type: "object",
+          description: "Version-specific release notes and changelog information",
+        }),
       ],
     }),
 
@@ -197,6 +203,12 @@ export default defineType({
         defineField({ name: "linux", title: "Linux Download URL", type: "string" }),
         defineField({ name: "windows", title: "Windows Download URL", type: "string" }),
         defineField({ name: "mac", title: "Mac Download URL", type: "string" }),
+        defineField({
+          name: "versionHistory",
+          title: "Version History",
+          type: "object",
+          description: "Historical versions and their download links",
+        }),
       ],
     }),
   ],
