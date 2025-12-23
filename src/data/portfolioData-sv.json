@@ -156,8 +156,8 @@
         { "name": "MongoDB (Recursive)", "description": "Utnyttjar $graphLookup aggregeringspipeline för att effektivt hämta och bygga djupt nästlade kommentarstrådar." }
       ],
       "caseStudy": {
-        "problem": "Traditionella kommentarsystem är låsta till specifika webbplatser. Användare kan inte diskutera innehåll på statiska sidor eller webbplatser som har stängt av kommentarer.",
-        "solution": "Ett webbläsar-agnostiskt överläggssystem som injicerar ett diskussionslager över vilken URL som helst, synkroniserat via WebSockets för realtidsinteraktion.",
+        "problem": "Traditionella kommentarsystem är begränsade till specifika webbplatser. Användare kan inte diskutera innehåll på statiska sidor eller webbplatser som har stängt av kommentarer.",
+        "solution": "Ett webbläsaroberoende system som injicerar ett diskussionslager över vilken URL som helst, synkroniserat via WebSockets för realtidsinteraktion.",
         "architecture": {
           "diagramType": "omnicomment-flow",
           "description": "Systemet utnyttjar en Monorepo-arkitektur som separerar Server, WebApp och Chrome Extension. Realtidsuppdateringar hanteras via Socket.IO anpassat med Redis för horisontell skalning."
@@ -184,7 +184,7 @@
       "lastUpdated": "2025-03-01",
       "tags": ["Node.js", "React", "MongoDB", "Tailwind CSS", "Stripe", "Polygon/Web3", "Blockchain"],
       "caseStudy": {
-        "problem": "Nuvarande marknadslösningar saknade ett enhetligt system för säker certifikatverifiering vid sidan av kursleverans.",
+        "problem": "Nuvarande marknadslösningar saknade ett enhetligt system för säker verifiering vid sidan av kursleverans.",
         "solution": "Integrerade Polygon-blockkedjan för att skapa säkra, verifierbara diplom vid kursavslut, vilket säkerställer dataintegritet och GDPR-efterlevnad.",
         "architecture": {
           "diagramType": "none",
