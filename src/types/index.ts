@@ -31,6 +31,7 @@ export interface Tag {
   name: string;
   name_sv?: string; // Swedish translation of tag name
   description?: string; // Optional description for the tooltip
+  description_sv?: string; // Swedish translation of the tooltip description
 }
 
 export interface Project {

@@ -32,10 +32,16 @@ const mapLocalProjects = (locale: string): Project[] => {
       img.startsWith('/') ? img : `/${img}`
     ),
     description: p.description,
-    tags: (p.tags || []).map((t: any) => ({
-      name: typeof t === 'string' ? t : t.name,
-      description: typeof t === 'string' ? undefined : t.description
-    })),
+    tags: (p.tags || []).map((t: any) => {
+      const tagName = typeof t === 'string' ? t : t.name;
+      const tagNameSv = typeof t === 'string' ? undefined : t.name_sv;
+      const tagDesc = typeof t === 'string' ? undefined : t.description;
+      const tagDescSv = typeof t === 'string' ? undefined : t.description_sv;
+      return {
+        name: getLocalizedValue(tagName, tagNameSv, locale),
+        description: getLocalizedValue(tagDesc, tagDescSv, locale),
+      };
+    }),
     githubUrl: p.githubRepo,
     liveUrl: p.liveUrl || p.liveVersion,
     publishedAt: p.startDate,
@@ -107,6 +113,7 @@ export async function getProjects(locale: string = "en"): Promise<Project[]> {
             tags: (p.tags || []).map((tag: any) => ({
               ...tag,
               name: getLocalizedValue(tag.name, tag.name_sv, locale),
+              description: getLocalizedValue(tag.description, tag.description_sv, locale),
             })),
             // Localize case study if it exists
             caseStudy: p.caseStudy ? {
