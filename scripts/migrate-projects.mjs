@@ -138,7 +138,10 @@ async function migrate() {
           tagObjects = project.tags.map(tagObj => ({
             _key: tagObj.name.replace(/\s+/g, '-').toLowerCase(),
             name: tagObj.name,
-            description: tagObj.description || undefined
+            description: tagObj.description || undefined,
+            // Preserve name_sv and description_sv if they exist (for Swedish data)
+            ...(tagObj.name_sv && { name_sv: tagObj.name_sv }),
+            ...(tagObj.description_sv && { description_sv: tagObj.description_sv })
           }));
         } else {
           // If tags are still strings (old format), convert them

@@ -114,6 +114,43 @@ async function migrateI18n() {
           patch = patch.set({ 'caseStudy.codeSnippets': updatedSnippets });
         }
 
+        // Handle tag translations (match by English tag name and update name_sv and description_sv)
+        if (p.tags && Array.isArray(p.tags) && match.tags && Array.isArray(match.tags)) {
+          // Read English project to match tags by name
+          const portfolioDataEnPath = path.join(__dirname, '../src/data/portfolioData.json');
+          const portfolioDataEn = JSON.parse(fs.readFileSync(portfolioDataEnPath, 'utf-8'));
+          const englishProject = portfolioDataEn.projects.find(ep => ep.id === p.id);
+          
+          if (englishProject && englishProject.tags) {
+            // Create a map of Swedish tags by matching with English tags by index
+            // Both arrays should be in the same order
+            const updatedTags = match.tags.map((existingTag, index) => {
+              const enTag = englishProject.tags[index];
+              const svTag = p.tags[index];
+              
+              // Match by English tag name to ensure we're updating the right tag
+              if (enTag && svTag && typeof svTag === 'object' && svTag.name) {
+                // Verify this is the right tag by checking if English names match
+                const isMatchingTag = (typeof enTag === 'object' && enTag.name === existingTag.name) ||
+                                      (typeof enTag === 'string' && enTag === existingTag.name);
+                
+                if (isMatchingTag) {
+                  // Preserve existing tag structure, only add/update Swedish translations
+                  return {
+                    ...existingTag,
+                    name_sv: svTag.name || existingTag.name_sv,
+                    description_sv: svTag.description || existingTag.description_sv,
+                  };
+                }
+              }
+              // If no Swedish tag match, preserve existing tag as-is
+              return existingTag;
+            });
+            patch = patch.set({ tags: updatedTags });
+            console.log(`   -> Updated ${updatedTags.length} tags with Swedish translations`);
+          }
+        }
+
         await patch.commit();
         console.log(`   ✅ Patched ${englishProject.name} with Swedish translations`);
       } else {
