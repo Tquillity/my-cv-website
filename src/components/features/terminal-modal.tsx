@@ -24,25 +24,14 @@ interface Command {
 // 1. UPDATE TYPE
 type GameState = "NONE" | "ASTEROIDS" | "RUNNER" | "SNAKE" | "RACER";
 
+// KEEP THESE OUTSIDE to ensure they never change identity
+const t = (key: string): string => getTerminalString(key);
+const t_data = (key: string): string => getAboutPageString(key);
+
 export const TerminalModal = ({ locale }: { locale: string }) => {
-  // Terminal is English-only regardless of site locale
-  // Use helper functions that always return English strings
-  const t = (key: string): string => getTerminalString(key);
-  const t_data = (key: string): string => getAboutPageString(key);
-  
   const { isOpen, close } = useTerminal();
   const [input, setInput] = useState("");
   const [history, setHistory] = useState<Command[]>([]);
-
-  // Init history with localized strings on mount/open
-  useEffect(() => {
-      if (isOpen) {
-          setHistory([
-              { input: "", output: t('welcome_os') },
-              { input: "", output: t('help_prompt') }
-          ]);
-      }
-  }, [isOpen, t]);
 
 
   // Advanced States
@@ -109,27 +98,36 @@ export const TerminalModal = ({ locale }: { locale: string }) => {
     }
   }, [isOpen]);
 
+  // Effect 1: Initialize History ONCE when terminal opens
+  useEffect(() => {
+    if (isOpen) {
+      setHistory([
+        { input: "", output: t('welcome_os') },
+        { input: "", output: t('help_prompt') }
+      ]);
+    }
+  }, [isOpen]); // Removed 't' dependency
+
+  // Effect 2: Boot Sequence - Isolated from typing state
   useEffect(() => {
     if (isOpen && gameState === "NONE") {
       setIsBooting(true);
       setBootLines([]);
-      setHistory([
-          { input: "", output: t('welcome_os') },
-          { input: "", output: t('help_prompt') }
-      ]); // Prepare main history for after boot
 
-      // Boot Sequence
-      const timeouts = [
-        setTimeout(() => setBootLines(p => [...p, t('boot_line1')]), 100),
-        setTimeout(() => setBootLines(p => [...p, t('boot_line2')]), 600),
-        setTimeout(() => setBootLines(p => [...p, t('boot_line3')]), 1200),
-        setTimeout(() => setBootLines(p => [...p, t('boot_line4')]), 1800),
-        setTimeout(() => {
-            setIsBooting(false);
-            // Focus input after boot
-            setTimeout(() => inputRef.current?.focus(), 50);
-        }, 2600),
+      const bootSequence = [
+        { line: t('boot_line1'), delay: 100 },
+        { line: t('boot_line2'), delay: 600 },
+        { line: t('boot_line3'), delay: 1200 },
+        { line: t('boot_line4'), delay: 1800 },
       ];
+
+      const timers = bootSequence.map(item => 
+        setTimeout(() => setBootLines(prev => [...prev, item.line]), item.delay)
+      );
+
+      const endTimer = setTimeout(() => {
+        setIsBooting(false);
+      }, 2600);
 
       scrollToBottom();
       setShowWarning(false);
@@ -137,9 +135,19 @@ export const TerminalModal = ({ locale }: { locale: string }) => {
       setShowJokeModal(false);
       setClickCount(0);
 
-      return () => timeouts.forEach(clearTimeout);
+      return () => {
+        timers.forEach(clearTimeout);
+        clearTimeout(endTimer);
+      };
     }
-  }, [isOpen, gameState, t]);
+  }, [isOpen]); // Removed gameState dependency to prevent re-booting when returning from games
+
+  // Reactive Focus: Wait for boot to complete and element to exist before focusing
+  useEffect(() => {
+    if (!isBooting && isOpen && inputRef.current) {
+      inputRef.current.focus();
+    }
+  }, [isBooting, isOpen]);
 
   useEffect(() => {
       scrollToBottom();

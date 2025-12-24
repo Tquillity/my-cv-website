@@ -4,12 +4,14 @@
 import enMessages from "../../messages/en.json";
 
 export const getTerminalString = (key: string): string => {
-  const terminalMessages = (enMessages as any).Terminal;
+  // Use optional chaining to prevent "cannot read Terminal of undefined"
+  const terminalMessages = (enMessages as any)?.Terminal;
   return terminalMessages?.[key] || key;
 };
 
 export const getAboutPageString = (key: string): string => {
-  const aboutMessages = (enMessages as any).AboutPage;
+  // Use optional chaining to prevent "cannot read AboutPage of undefined"
+  const aboutMessages = (enMessages as any)?.AboutPage;
   return aboutMessages?.[key] || key;
 };
 

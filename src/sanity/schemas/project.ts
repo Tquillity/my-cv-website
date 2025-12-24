@@ -69,6 +69,12 @@ export default defineType({
               title: "Tag Name (Swedish)",
               type: "string",
               description: "Swedish translation of the tag name"
+            },
+            {
+              name: "description_sv",
+              title: "Tooltip Description (Swedish)",
+              type: "string",
+              description: "Swedish translation of the tooltip description"
             }
           ],
           preview: {
