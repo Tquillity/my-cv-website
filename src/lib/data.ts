@@ -103,6 +103,11 @@ export async function getProjects(locale: string = "en"): Promise<Project[]> {
             title: getLocalizedValue(p.title, p.title_sv, locale),
             description: getLocalizedValue(p.description, p.description_sv, locale),
             liveUrl: p.liveUrl || p.liveVersion || liveObjUrl,
+            // Localize tags
+            tags: (p.tags || []).map((tag: any) => ({
+              ...tag,
+              name: getLocalizedValue(tag.name, tag.name_sv, locale),
+            })),
             // Localize case study if it exists
             caseStudy: p.caseStudy ? {
               ...p.caseStudy,
@@ -144,12 +149,10 @@ export async function getProjects(locale: string = "en"): Promise<Project[]> {
 }
 
 export async function getExperiences(locale: string = "en"): Promise<Experience[]> {
-  let sanityData: Experience[] = [];
-  
-  // Try Sanity first
-  try {
-    if (process.env.NEXT_PUBLIC_SANITY_PROJECT_ID) {
-      sanityData = await client.fetch(
+  // Try Sanity first (single source of truth)
+  if (process.env.NEXT_PUBLIC_SANITY_PROJECT_ID) {
+    try {
+      const sanityData = await client.fetch(
         `*[_type == "experience"] | order(startDate desc) {
         ...,
         "isProminent": coalesce(isProminent, true)
@@ -157,11 +160,28 @@ export async function getExperiences(locale: string = "en"): Promise<Experience[
         {},
         { next: { revalidate: 3600 } }
       );
+
+      // If Sanity has data, return it (with localization applied)
+      if (sanityData && sanityData.length > 0) {
+        return sanityData.map((exp: any) => {
+          const title = getLocalizedValue(exp.title, exp.title_sv, locale);
+          const description = getLocalizedValue(exp.description, exp.description_sv, locale);
+
+          return {
+            ...exp,
+            title,
+            description,
+          };
+        });
+      }
+    } catch (error) {
+      console.warn("Sanity fetch failed for experiences, falling back to local data.", error);
     }
-  } catch (error) {
-    console.warn("Sanity fetch failed for experiences, using local data.", error);
   }
 
+  // Fallback to localized local data only if Sanity is unavailable or returns empty
+  const primaryLocal = mapExperiences(locale);
+  
   // Load localized legacy data (hidden by default)
   const legacyFile = getLegacyData(locale);
   const legacyData = legacyFile.legacyExperience.map((exp: any) => ({
@@ -176,38 +196,7 @@ export async function getExperiences(locale: string = "en"): Promise<Experience[
     skills: exp.skills
   }));
 
-  // If Sanity returned nothing, use localized CV data as primary
-  if (!sanityData || sanityData.length === 0) {
-    const primaryLocal = mapExperiences(locale);
-    return [...primaryLocal, ...legacyData];
-  }
-
-  // Apply localization to Sanity data and merge with legacy
-  const localizedSanityData = sanityData.map((exp: any) => {
-    const title = getLocalizedValue(exp.title, exp.title_sv, locale);
-    const description = getLocalizedValue(exp.description, exp.description_sv, locale);
-
-    // Fallback: If Swedish title is missing in Sanity, try to find it in the local legacy file
-    if (locale === 'sv' && (!exp.title_sv || exp.title_sv === exp.title)) {
-      const localMatch = legacyFile.legacyExperience.find((l: any) => l.company === exp.company && l.startDate === exp.startDate);
-      if (localMatch) {
-        return {
-          ...exp,
-          title: localMatch.title,
-          description: localMatch.description,
-        };
-      }
-    }
-
-    return {
-      ...exp,
-      title,
-      description,
-    };
-  });
-
-  // Merge Sanity (Primary) + Local Legacy (Secondary)
-  return [...localizedSanityData, ...legacyData];
+  return [...primaryLocal, ...legacyData];
 }
 
 export async function getEducation(locale: string = "en"): Promise<Education[]> {

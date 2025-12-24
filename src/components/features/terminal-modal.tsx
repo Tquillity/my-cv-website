@@ -5,8 +5,8 @@ import { motion, AnimatePresence } from "framer-motion";
 import { X, Terminal as TerminalIcon, Maximize2, Minimize2, Gamepad2 } from "lucide-react";
 import { useTerminal } from "@/lib/terminal-context";
 import { MatrixRain } from "./matrix-rain";
-import { useTranslations } from "next-intl";
 import { useTerminalSound } from "@/hooks/use-terminal-sound";
+import { getTerminalString, getAboutPageString } from "@/lib/terminal-strings";
 
 // Import Games
 import { SpaceDefense } from "@/components/games/space-defense";
@@ -25,8 +25,11 @@ interface Command {
 type GameState = "NONE" | "ASTEROIDS" | "RUNNER" | "SNAKE" | "RACER";
 
 export const TerminalModal = ({ locale }: { locale: string }) => {
-  const t = useTranslations("Terminal");
-  const t_data = useTranslations("AboutPage");
+  // Terminal is English-only regardless of site locale
+  // Use helper functions that always return English strings
+  const t = (key: string): string => getTerminalString(key);
+  const t_data = (key: string): string => getAboutPageString(key);
+  
   const { isOpen, close } = useTerminal();
   const [input, setInput] = useState("");
   const [history, setHistory] = useState<Command[]>([]);
@@ -499,16 +502,56 @@ export const TerminalModal = ({ locale }: { locale: string }) => {
                 {/* 4. CONTENT AREA */}
                 <div className="relative z-30 flex-1 overflow-hidden bg-black/50">
                   {gameState === "ASTEROIDS" && (
-                      <SpaceDefense onExit={() => setGameState("NONE")} />
+                      <SpaceDefense 
+                        onExit={() => setGameState("NONE")}
+                        strings={{
+                          score: t('game_score'),
+                          controls: t('space_defense_controls'),
+                          gameOver: t('game_over'),
+                          finalScore: t('game_final_score'),
+                          playAgain: t('game_play_again'),
+                          returnTerminal: t('game_return_terminal')
+                        }}
+                      />
                   )}
                   {gameState === "RUNNER" && (
-                      <CyberRun onExit={() => setGameState("NONE")} />
+                      <CyberRun 
+                        onExit={() => setGameState("NONE")}
+                        strings={{
+                          score: t('game_score'),
+                          controls: t('cyber_run_controls'),
+                          missionFailed: t('mission_failed'),
+                          scoreLabel: t('game_score_label'),
+                          playAgain: t('game_play_again'),
+                          returnTerminal: t('game_return_terminal')
+                        }}
+                      />
                   )}
                   {gameState === "SNAKE" && (
-                      <CyberSnake onExit={() => setGameState("NONE")} />
+                      <CyberSnake 
+                        onExit={() => setGameState("NONE")}
+                        strings={{
+                          length: t('game_length'),
+                          controls: t('cyber_snake_controls'),
+                          terminated: t('terminated'),
+                          finalScore: t('game_final_score'),
+                          playAgain: t('game_play_again'),
+                          returnTerminal: t('game_return_terminal')
+                        }}
+                      />
                   )}
                   {gameState === "RACER" && (
-                      <VectorRacer onExit={() => setGameState("NONE")} />
+                      <VectorRacer 
+                        onExit={() => setGameState("NONE")}
+                        strings={{
+                          score: t('racer_score'),
+                          controls: t('racer_controls'),
+                          crashed: t('racer_crashed'),
+                          finalScore: t('racer_final_score'),
+                          playAgain: t('racer_play_again'),
+                          returnTerminal: t('racer_return')
+                        }}
+                      />
                   )}
 
                   {gameState === "NONE" && (

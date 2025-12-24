@@ -1,0 +1,114 @@
+{
+  "personalInfo": {
+    "name": "Mikael Sundh",
+    "objective": "Fullstack Developer, Space Engineer, and Blockchain specialist. I am a driven individual with a strong work ethic, thriving on ambitious goals and creating digital experiences that make a difference. Experienced in Project Management and Product Ownership."
+  },
+  "experiences": [
+    {
+      "id": 1,
+      "title": "Fullstack Developer with Blockchain Integration (Internship)",
+      "company": "Action Port AB",
+      "date": "Jan 2025 - Mar 2025",
+      "startDate": "2025-01-01",
+      "endDate": "2025-03-31",
+      "description": "Internship (LIA) spanning 15 weeks, developing a scalable video course platform. Built the platform using Node.js, Express.js, MongoDB, React, and Tailwind CSS. Implemented user management for three tiers (Admin, Client, Employee) and payment integration via Stripe. Integrated the Polygon blockchain for secure diploma and course verification, ensuring scalability and GDPR compliance.",
+      "area": "development",
+      "startYear": 2025,
+      "endYear": 2025,
+      "isCurrent": false,
+      "skills": ["React", "Node.js", "MongoDB", "Tailwind CSS", "Stripe", "Polygon Blockchain"]
+    },
+    {
+      "id": 2,
+      "title": "Fullstack Developer with Blockchain Integration (Internship)",
+      "company": "Neuro – Trust Anchor Group AB",
+      "date": "Sep 2024 - Nov 2024",
+      "startDate": "2024-09-01",
+      "endDate": "2024-11-30",
+      "description": "Internship (LIA) spanning 10 weeks where I, together with two classmates, developed a website for microlending. Contributed to frontend and backend development using React, SASS, JavaScript, and Node.js. Integrated Neuro - Trust Anchor Group's blockchain via their API, gaining hands-on experience with an XLM-based blockchain.",
+      "area": "development",
+      "startYear": 2024,
+      "endYear": 2024,
+      "isCurrent": false,
+      "skills": ["React", "SASS", "Node.js", "XLM Blockchain", "API Integration"]
+    },
+    {
+      "id": 3,
+      "title": "National Contact Point Horizon 2020 & Horizon Europe",
+      "company": "Vinnova",
+      "date": "Nov 2018 - Jul 2021",
+      "startDate": "2018-11-05",
+      "endDate": "2021-07-31",
+      "description": "Responsible for educating and supporting Swedish stakeholders in applying for funding from the EU's research and innovation programs Horizon 2020 and Horizon Europe, focusing on Transport and Space. Served as an expert in the panel for ESA's incubation program ESA-BIC.",
+      "area": "research",
+      "startYear": 2018,
+      "endYear": 2021,
+      "skills": ["EU Funding", "Space Technology", "Consulting", "ESA-BIC"]
+    },
+    {
+      "id": 4,
+      "title": "Project Manager, Product Owner & Technical Sales",
+      "company": "MindConnect AB",
+      "date": "Feb 2015 - Aug 2018",
+      "startDate": "2015-02-01",
+      "endDate": "2018-08-01",
+      "description": "Part of a core team of five developing a platform for Location-Based Services (LBS) targeting courier and transport companies. Led the project to create an app and web tool for package deliveries, managing requirements, coordinating the development team, and testing functionality.",
+      "area": "management",
+      "startYear": 2015,
+      "endYear": 2018,
+      "skills": ["Project Management", "Product Ownership", "LBS", "Technical Sales"]
+    }
+  ],
+  "education": [
+    {
+      "degree": "Fullstack Developer with Blockchain Competence",
+      "institution": "Medieinstitutet",
+      "date": "2023 - 2025",
+      "startDate": "2023-01-01",
+      "endDate": "2025-06-01",
+      "description": "Vocational higher education in blockchain development, including full-stack programming with JavaScript, React, and Node.js for blockchain-based systems. Includes Smart Contracts (Solidity), frontend/backend development, and business aspects of the technology.",
+      "startYear": 2023,
+      "endYear": 2025
+    },
+    {
+      "degree": "Bachelor of Science in Engineering (Major in Space Technology)",
+      "institution": "Umeå University, Department of Space Technology Kiruna",
+      "date": "2003 - 2007",
+      "startDate": "2003-08-01",
+      "endDate": "2007-06-01",
+      "description": "Engineering degree based on mathematics and physics, with a focus on data, programming, electronics, and space applications.",
+      "startYear": 2003,
+      "endYear": 2007
+    }
+  ],
+  "skills": [
+    "HTML/XML",
+    "CSS/SASS/Tailwind/Framer Motion",
+    "JavaScript/TypeScript (Zod)",
+    "React 19/Next.js 16 (Server Actions)",
+    "AI Engineering (LLMs, RAG, Groq)",
+    "Node.js/Express/MongoDB/Redis",
+    "State Mgmt (Zustand, TanStack Query)",
+    "Real-time (Socket.IO, WebSockets)",
+    "Chrome Extensions (MV3) & PWAs",
+    "Python/Tkinter/Multi-threading",
+    "Three.js/R3F/WebGL",
+    "Solidity/Smart Contracts/Polygon",
+    "DevOps (Docker, AWS, GitHub Actions)",
+    "Testing (Vitest, Playwright)"
+  ],
+  "languages": [
+    {
+      "language": "Swedish",
+      "proficiency": "Native"
+    },
+    {
+      "language": "English",
+      "proficiency": "Fluent"
+    },
+    {
+      "language": "German",
+      "proficiency": "Poor"
+    }
+  ]
+}

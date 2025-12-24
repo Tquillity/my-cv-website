@@ -63,6 +63,12 @@ export default defineType({
               title: "Tooltip Description",
               type: "string",
               description: "Optional text to show on hover (e.g., 'RPM Download' or 'Browser Install')"
+            },
+            {
+              name: "name_sv",
+              title: "Tag Name (Swedish)",
+              type: "string",
+              description: "Swedish translation of the tag name"
             }
           ],
           preview: {

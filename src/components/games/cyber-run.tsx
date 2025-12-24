@@ -1,10 +1,23 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { useTranslations } from "next-intl";
 
-export const CyberRun = ({ onExit }: { onExit: () => void }) => {
-  const t = useTranslations("Terminal");
+interface CyberRunStrings {
+  score: string;
+  controls: string;
+  missionFailed: string;
+  scoreLabel: string;
+  playAgain: string;
+  returnTerminal: string;
+}
+
+export const CyberRun = ({ 
+  onExit, 
+  strings 
+}: { 
+  onExit: () => void;
+  strings: CyberRunStrings;
+}) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [score, setScore] = useState(0);
   const [gameOver, setGameOver] = useState(false);
@@ -279,25 +292,25 @@ export const CyberRun = ({ onExit }: { onExit: () => void }) => {
 
   return (
     <div className="absolute inset-0 z-50 bg-black flex flex-col items-center justify-center font-mono">
-      <div className="absolute top-4 left-4 text-green-500 text-xl font-bold">{t('game_score')} {score}</div>
-      <div className="absolute top-4 right-4 text-green-700 text-sm">{t('cyber_run_controls')}</div>
+      <div className="absolute top-4 left-4 text-green-500 text-xl font-bold">{strings.score} {score}</div>
+      <div className="absolute top-4 right-4 text-green-700 text-sm">{strings.controls}</div>
       
       {gameOver && (
         <div className="absolute z-50 text-center bg-black/90 p-8 border border-green-500">
-          <h2 className="text-3xl text-green-500 mb-4 animate-pulse">{t('mission_failed')}</h2>
-          <p className="text-green-300 mb-6">{t('game_score_label')} {score}</p>
+          <h2 className="text-3xl text-green-500 mb-4 animate-pulse">{strings.missionFailed}</h2>
+          <p className="text-green-300 mb-6">{strings.scoreLabel} {score}</p>
           <div className="flex flex-col gap-3">
             <button 
                 onClick={restartGame}
                 className="px-4 py-2 bg-green-700 text-black font-bold hover:bg-green-500 transition-colors border border-green-500"
             >
-                {t('game_play_again')}
+                {strings.playAgain}
             </button>
             <button 
                 onClick={onExit}
                 className="px-4 py-2 bg-green-900/50 text-green-400 hover:bg-green-500 hover:text-black transition-colors border border-green-500"
             >
-                {t('game_return_terminal')}
+                {strings.returnTerminal}
             </button>
           </div>
         </div>

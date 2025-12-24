@@ -1,0 +1,507 @@
+{
+  "projects": [
+    {
+      "id": 1,
+      "name": "My CV Website",
+      "languages": ["Next.js 16", "TypeScript", "Tailwind CSS", "Three.js", "Sanity CMS"],
+      "stackType": "Frontend",
+      "description": "A futuristic, interactive portfolio featuring a 3D space environment, AI chat assistant, and a hidden retro terminal OS.",
+      "image": "images/my-cv/home.webp",
+      "additionalImages": ["/images/my-cv/aboutme.png"],
+      "projectType": "Personal",
+      "status": "Live",
+      "githubRepo": "https://github.com/Tquillity/my-cv-website",
+      "liveVersion": "https://mikaelsundh.com",
+      "startDate": "2025-12-01",
+      "lastUpdated": "2025-12-05",
+      "tags": [
+        {
+          "name": "AI/RAG",
+          "description": "Injects structured CV data dynamically into the LLM context via Retrieval-Augmented Generation."
+        },
+        {
+          "name": "Canvas API",
+          "description": "Powers the retro terminal games and visual effects via low-level 2D rendering."
+        },
+        {
+          "name": "Framer Motion",
+          "description": "Orchestrates complex layout transitions, modal animations, and polished UI micro-interactions."
+        },
+        {
+          "name": "Groq Llama 3",
+          "description": "Powers the AI chat assistant using high-speed inference models via server-side API calls."
+        },
+        {
+          "name": "Next.js 16",
+          "description": "Utilizes the latest App Router architecture for robust server-side rendering and SEO."
+        },
+        {
+          "name": "React 19",
+          "description": "Implements the React Compiler for automatic memoization and optimized rendering performance."
+        },
+        {
+          "name": "React Three Fiber",
+          "description": "Declaratively manages interactive 3D scene elements and camera transitions within the React tree."
+        },
+        {
+          "name": "Sanity CMS",
+          "description": "Enables real-time updates to experience, skills, and projects without requiring redeployment."
+        },
+        {
+          "name": "Server Actions",
+          "description": "Handles data mutations and logic directly on the server, eliminating separate API endpoints."
+        },
+        {
+          "name": "Tailwind CSS",
+          "description": "A utility-first styling architecture configured for seamless dark, light, and custom theme switching."
+        },
+        {
+          "name": "Three.js",
+          "description": "Powers the interactive 3D space environment with WebGL rendering and camera controls."
+        },
+        {
+          "name": "TypeScript",
+          "description": "Ensures strict type safety throughout the codebase for scalability and error prevention."
+        },
+        {
+          "name": "Zod",
+          "description": "Strictly validates the integrity of data schemas entering the application from external sources."
+        },
+        {
+          "name": "i18n (next-intl)",
+          "description": "Manages middleware routing and content localization for seamless English and Swedish support."
+        }
+      ],
+      "caseStudy": {
+        "problem": "Standard static portfolios fail to demonstrate complex engineering skills or personality. I needed a platform that could serve as both a resume and a live demonstration of modern frontend capabilities.",
+        "solution": "I built a 'living' application using the Next.js 16 App Router. It features a persistent 3D background (R3F), a context-aware AI agent (Groq Llama 3.3), and a fully functional CLI terminal Easter egg that mimics a retro OS.",
+        "architecture": {
+          "diagramType": "none",
+          "description": "Built on Next.js 16 (React 19) for server-side rendering and SEO. Content is managed via Sanity CMS for real-time updates without redeployment. The 3D scene runs in a separate React Context to persist across page navigation."
+        },
+        "technicalChallenges": [
+          {
+            "title": "Persistent 3D Scene Navigation",
+            "description": "Preventing the heavy Three.js canvas from reloading on route changes required lifting the Canvas into a global Context provider and using Next.js template files to handle page transitions smoothly over it."
+          },
+          {
+            "title": "AI Context Injection",
+            "description": "The AI chat needs to know about my resume without hallucinating. I implemented a RAG-lite system that injects structured JSON data from the Sanity backend into the LLM's system prompt at runtime."
+          }
+        ],
+        "codeSnippets": [
+          {
+            "title": "AI Route Handler (RAG)",
+            "language": "TypeScript",
+            "description": "Server-side route handler that constructs a context-aware prompt for the AI using live portfolio data.",
+            "code": "export async function POST(req: Request) {\n  const { messages } = await req.json();\n  const context = await getPortfolioContext(); // Fetches from Sanity\n\n  const systemPrompt = `\n    You are an AI assistant for Mikael.\n    Here is his live data:\n    ${context}\n  `;\n\n  const payload = {\n    model: \"llama-3.3-70b-versatile\",\n    messages: [{ role: \"system\", content: systemPrompt }, ...messages],\n  };\n  // ... fetch Groq API\n}"
+          },
+          {
+            "title": "Retro Terminal Command Parser",
+            "language": "TypeScript / React",
+            "description": "A custom hook-based CLI engine that handles command history, 'sudo' easter eggs, and localized output.",
+            "code": "const handleCommand = (e: React.FormEvent) => {\n  e.preventDefault();\n  const cmd = input.trim().toLowerCase();\n\n  switch (true) {\n    case cmd === \"help\":\n      output = t('help_desc');\n      break;\n    case cmd.startsWith(\"sudo\"):\n      if (isRoot) {\n         output = t('root_exists');\n      } else {\n         // ... handle easter eggs\n      }\n      break;\n    // ... other commands\n  }\n};"
+          }
+        ]
+      }
+    },
+    {
+      "id": 5,
+      "name": "CodeBase",
+      "languages": ["Python", "Tkinter", "Threading", "Watchdog"],
+      "stackType": "Desktop App",
+      "description": "A developer productivity tool that scans repositories, visualizes structure, and generates context-optimized prompts for LLMs. Features include Git diff integration, multiple output formats (Markdown/XML), file list selection, centralized error handling, and comprehensive security validation. Installable versions available for Linux (RPM).",
+      "image": "/images/CodeBase/home.png",
+      "additionalImages": [
+        "/images/CodeBase/codebase.png",
+        "/images/CodeBase/codebase1.png",
+        "/images/CodeBase/codebase2.png",
+        "/images/CodeBase/codebase3.png"
+      ],
+      "projectType": "Open Source Tool",
+      "status": "v6.1",
+      "githubRepo": "https://github.com/Tquillity/CodeBase",
+      "liveVersion": null,
+      "startDate": "2025-11-01",
+      "lastUpdated": "2025-12-15",
+      "tags": [
+        {
+          "name": "Desktop App",
+          "description": "A native GUI application that runs locally on the user's machine without requiring a web browser."
+        },
+        {
+          "name": "Inno Setup / RPM",
+          "description": "Native platform packaging scripts that generate .exe installers for Windows and .rpm packages for Linux."
+        },
+        {
+          "name": "LRU Caching",
+          "description": "A custom, thread-safe Least Recently Used cache implementation to optimize repeated file access."
+        },
+        {
+          "name": "Multi-threading",
+          "description": "Offloads blocking I/O and file scanning to background threads while syncing UI updates via thread-safe Queues."
+        },
+        {
+          "name": "Pygments",
+          "description": "A generic syntax highlighting engine integrated into the scrollable text widgets for code readability."
+        },
+        {
+          "name": "PyInstaller",
+          "description": "Bundles the Python interpreter, dependencies, and assets into standalone executables for Windows and Linux."
+        },
+        {
+          "name": "Python 3.12",
+          "description": "The core runtime environment, utilizing modern type hinting and filesystem APIs."
+        },
+        {
+          "name": "Security / Sanitization",
+          "description": "Validates file paths and sanitizes content to prevent path traversal and binary file ingestion."
+        },
+        {
+          "name": "Software",
+          "description": "Indicates a compiled, downloadable desktop application available for Linux (RPM), with Windows installers coming soon."
+        },
+        {
+          "name": "Tiktoken",
+          "description": "A fast BPE tokenizer used to calculate accurate token counts for LLM context optimization."
+        },
+        {
+          "name": "Tkinter (ttkbootstrap)",
+          "description": "A modern theming extension for the standard Python GUI framework, providing dark mode and styled widgets."
+        },
+        {
+          "name": "TkinterDnD",
+          "description": "Provides native operating system drag-and-drop integration for loading repositories."
+        },
+        {
+          "name": "Watchdog",
+          "description": "Monitors the filesystem for changes to trigger live reloads during the development cycle."
+        },
+        {
+          "name": "Git Integration",
+          "description": "Native Git support for copying repository diffs (git diff HEAD) directly to clipboard for code review workflows."
+        },
+        {
+          "name": "Multiple Output Formats",
+          "description": "Supports both Markdown (Grok-compatible) and XML (Gemini-compatible) output formats for flexible LLM integration."
+        },
+        {
+          "name": "Centralized Error Handling",
+          "description": "A comprehensive error handling system with custom exception types, user-friendly error messages, and graceful recovery mechanisms."
+        },
+        {
+          "name": "File List Selection",
+          "description": "Dedicated tab for loading files from a text list, enabling batch processing and selective content generation from external sources."
+        },
+        {
+          "name": "Test File Exclusion",
+          "description": "Toggleable test file filtering with intelligent pattern matching to exclude test directories and files from repository scans."
+        },
+        {
+          "name": "Tree Filtering",
+          "description": "Real-time file tree filtering that shows matching files and their parent directories for quick navigation in large repositories."
+        },
+        {
+          "name": "Centralized Logging",
+          "description": "Configurable logging system with file and console output, adjustable log levels, and structured error tracking for debugging."
+        }
+      ],
+      "downloads": {
+        "linux": "/Downloads/codebase-6.1-1.x86_64.rpm",
+        "versionHistory": {
+          "v6.1": {
+            "linux": "/Downloads/codebase-6.1-1.x86_64.rpm",
+            "releaseDate": "2025-12-15",
+            "changelog": "Major update: Added Git integration for diff generation, multiple output formats (Markdown/XML), file list selection tab, centralized error handling system, test file exclusion toggle, real-time tree filtering, and comprehensive logging configuration. Improved thread safety with graceful shutdown handling."
+          },
+          "v6.0": {
+            "linux": "/Downloads/codebase-6.0-1.x86_64.rpm",
+            "releaseDate": "2025-11-15",
+            "changelog": "Stable release with core repository scanning, structure visualization, content preview, and LLM-optimized prompt generation."
+          }
+        }
+      },
+      "caseStudy": {
+        "problem": "Preparing code context for Large Language Models (LLMs) is tedious. Developers manually open files, copy content, and format it with separators, often leading to missed dependencies or context window overflows.",
+        "solution": "I built a native desktop GUI that visualizes the repository tree, respects `.gitignore` rules, and allows 1-click generation of formatted prompts. It features a multi-threaded file scanner, secure content preview engine, Git integration for diff generation, multiple output formats (Markdown/XML), and comprehensive error handling with graceful recovery.",
+        "versionNotes": {
+          "v6.1": "Major update from v6.0: Added Git integration (git diff HEAD), multiple output formats (Markdown/Grok and XML/Gemini), new File List Selection tab for batch processing, centralized error handling system with custom exceptions, test file exclusion toggle, real-time tree filtering, and comprehensive logging configuration. Improved thread safety with graceful shutdown handling and resource cleanup.",
+          "v6.0": "Initial stable release with core features: repository scanning, structure visualization, content preview, and LLM-optimized prompt generation."
+        },
+        "architecture": {
+          "diagramType": "none",
+          "description": "The application follows a modular architecture using `tkinter` with `ttkbootstrap` for the UI. Core logic is separated into handlers: `FileHandler` (scanning), `ContentManager` (processing), `SecurityValidator` (safety), `GitHandler` (version control), `CopyHandler` (clipboard operations), and `SearchHandler` (text search). It utilizes a custom `ThreadSafeLRUCache` for performance, `queue.Queue` for thread-safe UI updates, and a centralized `ErrorHandler` for robust error management."
+        },
+        "technicalChallenges": [
+          {
+            "title": "UI Responsiveness During Scans",
+            "description": "Scanning thousands of files blocked the main UI thread. I implemented a threaded worker pattern where the scanner runs in a background thread and pushes status updates to a `queue.Queue`, which the main loop polls to update the progress bar without freezing."
+          },
+          {
+            "title": "Security & Path Traversal",
+            "description": "To prevent accidental exposure of system files, I implemented a strict `SecurityValidator` that enforces path normalization (`os.path.normcase`) and checks `os.path.commonpath` to ensure all operations stay within the user's home directory."
+          },
+          {
+            "title": "Format-Agnostic Content Generation",
+            "description": "Supporting multiple output formats (Markdown vs XML) required abstracting the content generation logic. I implemented a template system that dynamically formats file content based on user selection, ensuring compatibility with different LLM APIs while maintaining consistent file parsing."
+          },
+          {
+            "title": "Graceful Shutdown & Resource Cleanup",
+            "description": "Ensuring proper cleanup of background threads and cached resources during application shutdown required implementing a shutdown flag system and thread tracking. Background operations now check the flag before processing, and the main thread waits for completion with timeouts to prevent hanging."
+          }
+        ],
+        "codeSnippets": [
+          {
+            "title": "Thread-Safe UI Polling",
+            "language": "Python",
+            "description": "A non-blocking polling mechanism that processes callbacks from background threads on the main Tkinter event loop.",
+            "code": "def _poll_queue(self):\n    if self._shutdown_requested: return\n    try:\n        while True:\n            task = self.task_queue.get_nowait()\n            if isinstance(task, tuple):\n                func, args = task\n                func(*args)\n    except queue.Empty:\n        pass\n    finally:\n        self.root.after(50, self._poll_queue)"
+          },
+          {
+            "title": "Secure File Reading",
+            "language": "Python",
+            "description": "A centralized file reader that integrates LRU caching and security checks before file access.",
+            "code": "def get_file_content(file_path, content_cache, lock, read_errors):\n    normalized_path = normalize_for_cache(file_path)\n    cached = content_cache.get(normalized_path)\n    if cached: return cached\n\n    if SECURITY_ENABLED:\n        is_valid, error = validate_file_size(file_path)\n        if not is_valid: return None\n\n    with open(file_path, 'r', encoding='utf-8') as file:\n        content = file.read()\n        content_cache.put(normalized_path, content)\n        return content"
+          }
+        ]
+      }
+    },
+    {
+      "id": 2,
+      "name": "OmniComment",
+      "languages": ["TypeScript", "NodeJS", "React", "MongoDB", "Redis", "Docker"],
+      "stackType": "Fullstack",
+      "description": "A decentralized commenting system allowing users to comment on any webpage via a Chrome Extension.",
+      "image": null,
+      "projectType": "Commercial Startup",
+      "status": "Beta",
+      "githubRepo": null,
+      "liveVersion": null,
+      "startDate": "2024-06-12",
+      "lastUpdated": "2025-02-14",
+      "tags": [
+        {
+          "name": "Biome",
+          "description": "A high-performance toolchain used in the CI/CD pipeline for fast linting and code formatting."
+        },
+        {
+          "name": "Chrome Extension (MV3)",
+          "description": "A Manifest V3 extension that injects a React application into third-party webpages via content scripts."
+        },
+        {
+          "name": "Docker Compose",
+          "description": "Orchestrates the local development environment, containerizing MongoDB, Mongo-Express, and Redis services."
+        },
+        {
+          "name": "JWT & Security",
+          "description": "Implements a robust authentication flow with short-lived access tokens, httpOnly cookies, and automatic refresh rotation."
+        },
+        {
+          "name": "MongoDB (Recursive)",
+          "description": "Utilizes the $graphLookup aggregation pipeline to efficiently fetch and rebuild deeply nested comment threads."
+        },
+        {
+          "name": "Monorepo (Workspaces)",
+          "description": "Manages shared logic, Zod schemas, and UI components across the Backend, Web App, and Extension."
+        },
+        {
+          "name": "React & Vite",
+          "description": "Powers both the main web dashboard and the injected extension UI with fast hot-module replacement."
+        },
+        {
+          "name": "Redis",
+          "description": "Enables real-time comment synchronization across clients, using Redis to scale WebSocket connections."
+        },
+        {
+          "name": "Shadow DOM",
+          "description": "Isolates the extension's CSS styles to prevent conflicts with the host website's design."
+        },
+        {
+          "name": "Socket.IO & Redis",
+          "description": "Enables real-time comment synchronization across clients, using Redis to scale WebSocket connections."
+        },
+        {
+          "name": "TanStack Query",
+          "description": "Manages asynchronous server state, caching, and optimistic UI updates for comments and interactions."
+        },
+        {
+          "name": "TypeScript",
+          "description": "Enforces strict type safety across all workspaces, sharing interfaces between client and server via a local package."
+        },
+        {
+          "name": "Zod",
+          "description": "Defines single-source-of-truth validation schemas used for both API request validation and frontend form handling."
+        }
+      ],
+      "caseStudy": {
+        "problem": "Traditional comment systems are siloed to specific websites. Users cannot discuss content on static pages or sites that have disabled comments.",
+        "solution": "A browser-agnostic overlay system that injects a discussion layer over any URL, synchronized via WebSockets for real-time interaction.",
+        "architecture": {
+          "diagramType": "omnicomment-flow",
+          "description": "The system utilizes a Monorepo architecture separating the Server, WebApp, and Chrome Extension packages. Real-time updates are handled via Socket.IO adapted with Redis for horizontal scaling."
+        },
+        "technicalChallenges": [
+          {
+            "title": "Chrome Extension Context Isolation",
+            "description": "Managing authentication state between the background service worker, content scripts, and the injected IFrame required a robust message-passing interface to ensure secure token handling without exposing them to the host page."
+          },
+          {
+            "title": "Recursive Comment Threads",
+            "description": "Storing and retrieving arbitrarily deep comment threads efficiently in MongoDB required complex aggregation pipelines using $graphLookup to avoid the N+1 query problem."
+          }
+        ],
+        "codeSnippets": [
+          {
+            "title": "MongoDB Recursive Aggregation",
+            "language": "TypeScript / MongoDB",
+            "description": "An aggregation pipeline used to fetch top-level comments and efficiently graph-lookup all nested replies in a single database query.",
+            "code": "const commentsPipeline = [\n  { $match: matchQuery },\n  {\n    $graphLookup: {\n      from: 'comments',\n      startWith: '$_id',\n      connectFromField: '_id',\n      connectToField: 'parentId',\n      as: 'allReplies'\n    },\n  },\n  // ... (Sorting and Pagination stages)\n  {\n    $addFields: {\n      replies: {\n        $map: {\n          // Complex logic to restructure flat graphLookup results\n          // into a nested tree structure for the frontend\n        }\n      }\n    }\n  }\n];"
+          },
+          {
+            "title": "CI/CD Pipeline (GitHub Actions)",
+            "language": "YAML",
+            "description": "Automated quality gates ensuring strict linting (Biome) and build verification across the Monorepo workspaces before any production deployment.",
+            "code": "name: Continuous Integration\n\njobs:\n  quality-checks:\n    name: Lint, Format & Build\n    runs-on: ubuntu-latest\n    steps:\n      - name: Checkout Code\n        uses: actions/checkout@v4\n\n      - name: Install Dependencies\n        run: npm ci\n\n      - name: Run Biome Checks\n        run: npx biome check .\n\n      - name: Build All Workspaces\n        run: npm run build --workspaces --if-present"
+          }
+        ]
+      }
+    },
+    {
+      "id": 6,
+      "name": "Video Course Platform",
+      "languages": ["Node.js", "Express.js", "MongoDB", "React", "Tailwind CSS", "Polygon"],
+      "stackType": "Fullstack",
+      "description": "A scalable video course platform with tiered user management (Admin, Client, Employee), Stripe payment integration, and Blockchain-based diploma verification.",
+      "image": null,
+      "projectType": "Commercial (Internship)",
+      "status": "In Development",
+      "githubRepo": null,
+      "liveVersion": null,
+      "startDate": "2025-01-01",
+      "lastUpdated": "2025-03-01",
+      "tags": ["Node.js", "React", "MongoDB", "Tailwind CSS", "Stripe", "Polygon/Web3", "Blockchain"],
+      "caseStudy": {
+        "problem": "Current market solutions lacked a unified system for secure certificate verification alongside course delivery.",
+        "solution": "Integrated the Polygon blockchain to mint secure, verifiable diplomas upon course completion, ensuring data integrity and GDPR compliance.",
+        "architecture": {
+          "diagramType": "none",
+          "description": "Monolithic Node.js/Express backend with MongoDB. React frontend. Blockchain integration via Web3.js."
+        },
+        "technicalChallenges": [],
+        "codeSnippets": []
+      }
+    },
+    {
+      "id": 7,
+      "name": "PomoZen",
+      "languages": ["React 19", "TypeScript", "Vite", "Tailwind CSS v4", "Web Workers", "Zustand"],
+      "stackType": "Frontend / PWA",
+      "description": "An offline-first, high-performance Pomodoro timer built with React 19 and Web Workers. Features 'Zen Mode' soundscapes, local persistence, and zero-drift timing logic.",
+      "image": "/images/pomozen/home.png",
+      "additionalImages": [
+        "/images/pomozen/pomozen1.png",
+        "/images/pomozen/pomozen2.png",
+        "/images/pomozen/pomozen3.png"
+      ],
+      "projectType": "Open Source Tool",
+      "status": "Live",
+      "githubRepo": "https://github.com/Tquillity/PomoZen",
+      "liveVersion": "https://pomozen.online",
+      "liveUrl": "https://pomozen.online",
+      "startDate": "2025-12-01",
+      "lastUpdated": "2025-12-20",
+      "tags": [
+        {
+          "name": "Comlink",
+          "description": "Abstracts complex postMessage communication into a proxy-based API for seamless Worker interaction."
+        },
+        {
+          "name": "GitHub Actions",
+          "description": "Automates the CI/CD pipeline for linting, testing, and building production artifacts on commit."
+        },
+        {
+          "name": "Local Storage",
+          "description": "Provides a privacy-first, serverless persistence layer for all user data and application settings."
+        },
+        {
+          "name": "PWA (Offline)",
+          "description": "Enables full offline functionality and installation capabilities via Service Worker asset caching."
+        },
+        {
+          "name": "React 19",
+          "description": "Leverages the React Compiler for automatic optimization and efficient rendering without manual memoization."
+        },
+        {
+          "name": "Software",
+          "description": "Indicates a compiled, installable application available as a Progressive Web App."
+        },
+        {
+          "name": "Tailwind CSS v4",
+          "description": "Utilizes the latest CSS-first configuration engine for dynamic theming via CSS variables."
+        },
+        {
+          "name": "TypeScript",
+          "description": "Enforces strict type safety and interface definitions across the main thread, stores, and workers."
+        },
+        {
+          "name": "Vite",
+          "description": "High-performance build tool managing HMR and static asset generation for the PWA manifest."
+        },
+        {
+          "name": "Vitest",
+          "description": "A Vite-native unit testing framework used for validating business logic and component rendering."
+        },
+        {
+          "name": "Web Workers",
+          "description": "Offloads high-precision timing logic to a background thread to prevent browser throttling in inactive tabs."
+        },
+        {
+          "name": "Zustand",
+          "description": "Manages global application state with middleware for automatic Local Storage synchronization."
+        }
+      ],
+      "caseStudy": {
+        "problem": "Browser-based timers often suffer from 'time drift' when the tab becomes inactive due to browser battery-saving throttling. Additionally, most online timers require internet access and track user data.",
+        "solution": "I architected an offline-first PWA that offloads the timing logic to a dedicated Web Worker. This ensures the timer runs precisely even when the tab is backgrounded. State is persisted locally via Zustand middleware, offering a privacy-first experience.",
+        "architecture": {
+          "diagramType": "none",
+          "description": "The application follows a 'Brain/Heart/Face' architecture. The 'Heart' (Timer Engine) runs in a Web Worker using Comlink. The 'Brain' (Zustand Store) manages state and persistence. The 'Face' (React UI) purely reflects the store state."
+        },
+        "technicalChallenges": [
+          {
+            "title": "Main Thread Throttling & Drift",
+            "description": "Browsers throttle `setInterval` on the main thread when tabs are inactive. I moved the timer logic to a Web Worker and implemented a self-correcting drift algorithm that calculates the delta between the expected time and actual execution time on every tick."
+          },
+          {
+            "title": "Defense in Depth (Security vs. Revenue)",
+            "description": "The third-party ad provider required `unsafe-eval` and cookie access, which clashed with my Strict CSP. The browser warns that my iframe sandbox allows `same-origin` access, but this is intentional. I implemented a 'Privilege Separation' architecture: the ad runs in a containment zone with a loose CSP, while the main application enforces a Strict CSP."
+          },
+          {
+            "title": "Audio Policy Compliance",
+            "description": "Browsers block autoplaying audio. I implemented a state-based unlock pattern in the main `App` component that captures the first user interaction to unlock the AudioContext globally, allowing the alarm and ambient 'Zen Mode' sounds to play reliably."
+          }
+        ],
+        "codeSnippets": [
+          {
+            "title": "Web Worker (Drift Correction)",
+            "language": "TypeScript",
+            "description": "Instead of a simple interval, the worker calculates the 'drift' (latency) on every tick and adjusts the next timeout duration to compensate, ensuring perfect accuracy over time.",
+            "code": "const tick = () => {\n  const now = Date.now();\n  const drift = now - expectedTime;\n  \n  // Adjust next tick based on drift\n  if (drift > 1000) {\n    expectedTime = now + 1000;\n    callback(elapsedSeconds);\n  } else {\n    callback(elapsedSeconds);\n    expectedTime += 1000;\n  }\n  \n  // Recursively schedule next tick\n  timerId = self.setTimeout(tick, Math.max(0, 1000 - drift));\n};"
+          },
+          {
+            "title": "AdContainer.tsx (The Containment Zone)",
+            "language": "tsx",
+            "description": "We grant `allow-same-origin` to prevent the ad script from crashing (cookie access), but isolate it in an iframe with a specific permissive CSP, while the parent app remains strict.",
+            "code": "export const AdContainer = () => {\n  return (\n    <iframe \n      title=\"Advertisement\"\n      src={`/pomo-ads.html?key=${encodeURIComponent(adKey)}`}\n      sandbox=\"allow-scripts allow-popups allow-same-origin\"\n      loading=\"lazy\"\n    />\n  );\n};"
+          },
+          {
+            "title": "Zustand Persistence & Logic",
+            "language": "TypeScript",
+            "description": "State management handles both the business logic and local storage synchronization automatically.",
+            "code": "export const useTimeStore = create<TimeState>()(\n  persist(\n    (set, get) => ({\n      timeLeft: DEFAULT_DURATION,\n      isRunning: false,\n      startTimer: async () => {\n        set({ isRunning: true });\n        // Start the worker proxy\n        await getWorker().start(Comlink.proxy(() => get().tick()));\n      },\n      tick: () => {\n        const { timeLeft, mode } = get();\n        if (timeLeft > 0) {\n          set({ timeLeft: timeLeft - 1 });\n        } else {\n          events.emit('timer:complete', mode);\n        }\n      }\n    }),\n    { name: 'pomo-time-storage' }\n  )\n);"
+          }
+        ]
+      }
+    }
+  ]
+}
