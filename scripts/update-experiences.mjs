@@ -84,7 +84,8 @@ async function updateExperiences() {
           endDate: exp.endDate || null,
           isCurrent: exp.isCurrent || false, // Ensure no "Present" dates
           description: exp.description,
-          skills: exp.skills || []
+          skills: exp.skills || [],
+          isProminent: exp.isProminent !== undefined ? exp.isProminent : true // Use isProminent from data, default to true
         }).commit();
         
         console.log(`   -> ✅ Updated ${exp.company}`);
