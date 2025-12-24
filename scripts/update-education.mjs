@@ -19,45 +19,45 @@ const client = createClient({
   useCdn: false,
 });
 
-async function updateExperiences() {
+async function updateEducation() {
   try {
-    console.log("🚀 Starting Experience Data Update...\n");
+    console.log("🚀 Starting Education Data Update...\n");
 
     // Read local data - both primary and legacy
     const cvDataPath = path.join(__dirname, '../src/data/cv-data-en.json');
     const legacyCvDataPath = path.join(__dirname, '../src/data/legacy-cv-data.json');
     
     const rawData = fs.readFileSync(cvDataPath, 'utf-8');
-    const { experiences } = JSON.parse(rawData);
+    const { education } = JSON.parse(rawData);
     
-    // Read legacy experiences (English)
-    let legacyExperiences = [];
+    // Read legacy education (English)
+    let legacyEducation = [];
     try {
       const legacyData = fs.readFileSync(legacyCvDataPath, 'utf-8');
       const parsed = JSON.parse(legacyData);
-      legacyExperiences = parsed.legacyExperience || [];
-      console.log(`   -> Loaded ${legacyExperiences.length} legacy experiences\n`);
+      legacyEducation = parsed.legacyEducation || [];
+      console.log(`   -> Loaded ${legacyEducation.length} legacy education entries\n`);
     } catch (e) {
       console.log(`   -> ⚠️  Could not load legacy data: ${e.message}\n`);
     }
 
-    // Combine primary and legacy experiences
-    const allExperiences = [...experiences, ...legacyExperiences];
+    // Combine primary and legacy education
+    const allEducation = [...education, ...legacyEducation];
 
-    for (const exp of allExperiences) {
-      console.log(`Processing: ${exp.company} - ${exp.title}...`);
+    for (const edu of allEducation) {
+      console.log(`Processing: ${edu.institution} - ${edu.degree}...`);
 
-      // Find existing experience by company and startDate with retry logic
+      // Find existing education by institution and startDate with retry logic
       let existing = null;
       let retries = 3;
       while (retries > 0 && !existing) {
         try {
           existing = await Promise.race([
             client.fetch(
-              `*[_type == "experience" && company == $company && startDate == $startDate][0]`,
+              `*[_type == "education" && institution == $institution && startDate == $startDate][0]`,
               { 
-                company: exp.company,
-                startDate: exp.startDate
+                institution: edu.institution,
+                startDate: edu.startDate || String(edu.startYear)
               }
             ),
             new Promise((_, reject) => setTimeout(() => reject(new Error('Timeout')), 10000))
@@ -78,37 +78,32 @@ async function updateExperiences() {
         console.log(`   -> Found existing (ID: ${existing._id}). Updating...`);
         
         await client.patch(existing._id).set({
-          title: exp.title,
-          company: exp.company,
-          startDate: exp.startDate,
-          endDate: exp.endDate || null,
-          isCurrent: exp.isCurrent || false, // Ensure no "Present" dates
-          description: exp.description,
-          skills: exp.skills || []
+          degree: edu.degree,
+          institution: edu.institution,
+          startDate: edu.startDate || String(edu.startYear),
+          endDate: edu.endDate || String(edu.endYear) || null,
+          description: edu.description || undefined
         }).commit();
         
-        console.log(`   -> ✅ Updated ${exp.company}`);
+        console.log(`   -> ✅ Updated ${edu.institution}`);
       } else {
         console.log(`   -> Not found. Creating new entry...`);
         
         const doc = {
-          _type: 'experience',
-          title: exp.title,
-          company: exp.company,
-          startDate: exp.startDate,
-          endDate: exp.endDate || null,
-          isCurrent: exp.isCurrent || false, // Ensure no "Present" dates
-          description: exp.description,
-          skills: exp.skills || [],
-          isProminent: exp.isProminent !== undefined ? exp.isProminent : true // Use isProminent from data, default to true
+          _type: 'education',
+          degree: edu.degree,
+          institution: edu.institution,
+          startDate: edu.startDate || String(edu.startYear),
+          endDate: edu.endDate || String(edu.endYear) || null,
+          description: edu.description || undefined
         };
         
         await client.create(doc);
-        console.log(`   -> ✅ Created ${exp.company}`);
+        console.log(`   -> ✅ Created ${edu.institution}`);
       }
     }
 
-    console.log("\n✅ Experience Update Complete!");
+    console.log("\n✅ Education Update Complete!");
 
   } catch (error) {
     console.error("❌ Update Failed:", error.message);
@@ -116,5 +111,5 @@ async function updateExperiences() {
   }
 }
 
-updateExperiences();
+updateEducation();
 

@@ -34,3 +34,6 @@ next-env.d.ts
 # Instructions
 AI_INSTRUCTIONS.md
 CONTRIBUTING_AI.md
+
+# Sanity exports
+sanity-dump*.json

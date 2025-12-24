@@ -68,6 +68,15 @@
          { "name": "Inno Setup / RPM", "description": "Plattformsspecifika paketeringsskript som genererar .exe-installerare för Windows och .rpm-paket för Linux." },
          { "name": "LRU Caching", "description": "En anpassad, trådsäker Least Recently Used cache-implementering för att optimera upprepad filåtkomst." },
          { "name": "Multi-threading", "description": "Avlastar blockande I/O och filskanning till bakgrundstrådar medan UI-uppdateringar synkroniseras via trådsäkra köer." },
+         { "name": "Pygments", "description": "En generisk syntaxmarkeringsmotor integrerad i de rullbara textwidgetarna för kodläsbarhet." },
+         { "name": "PyInstaller", "description": "Paketerar Python-tolken, beroenden och tillgångar till fristående körbara filer för Windows och Linux." },
+         { "name": "Python 3.12", "description": "Kärnkörningsmiljön som utnyttjar moderna typhanvisningar och filsystem-API:er." },
+         { "name": "Security / Sanitization", "description": "Validerar filsökvägar och saniterar innehåll för att förhindra sökvägsgenomgång och binär filinmatning." },
+         { "name": "Software", "description": "Indikerar en kompilerad, nedladdningsbar skrivbordsapplikation tillgänglig för Linux (RPM), med Windows-installerare kommer snart." },
+         { "name": "Tiktoken", "description": "En snabb BPE-tokenizer som används för att beräkna exakta tokenantal för LLM-kontextoptimering." },
+         { "name": "Tkinter (ttkbootstrap)", "description": "Ett modernt temaanpassningstillägg för standard Python GUI-ramverket, som ger mörkt läge och stilade widgets." },
+         { "name": "TkinterDnD", "description": "Tillhandahåller inbyggd operativsystem drag-and-drop-integration för att ladda repositorier." },
+         { "name": "Watchdog", "description": "Övervakar filsystemet för ändringar för att utlösa live-uppdateringar under utvecklingscykeln." },
          { "name": "Git Integration", "description": "Native Git-stöd för att kopiera repository-diffar (git diff HEAD) direkt till urklipp för kodgranskningsarbetsflöden." },
          { "name": "Flera Utdataformat", "description": "Stödjer både Markdown (Grok-kompatibel) och XML (Gemini-kompatibel) utdataformat för flexibel LLM-integration." },
          { "name": "Centraliserad Felhantering", "description": "Ett omfattande felhanteringssystem med anpassade undantagstyper, användarvänliga felmeddelanden och graciösa återställningsmekanismer." },
@@ -153,7 +162,16 @@
         { "name": "Chrome Extension (MV3)", "description": "Ett Manifest V3-tillägg som injicerar en React-applikation i tredjepartswebbsidor via content scripts." },
         { "name": "Docker Compose", "description": "Orkestrerar den lokala utvecklingsmiljön genom att containerisera MongoDB, Mongo-Express och Redis-tjänster." },
         { "name": "JWT & Security", "description": "Implementerar ett robust autentiseringsflöde med kortlivade åtkomsttokens, httpOnly-cookies och automatisk refresh-rotation." },
-        { "name": "MongoDB (Recursive)", "description": "Utnyttjar $graphLookup aggregeringspipeline för att effektivt hämta och bygga djupt nästlade kommentarstrådar." }
+        { "name": "MongoDB (Recursive)", "description": "Utnyttjar $graphLookup aggregeringspipeline för att effektivt hämta och bygga djupt nästlade kommentarstrådar." },
+        { "name": "Express.js", "description": "Minimalistiskt webbramverk för Node.js som hanterar HTTP-routing och middleware-integration." },
+        { "name": "MongoDB", "description": "NoSQL-databas som lagrar kommentarstrådar och användardata med flexibla scheman." },
+        { "name": "Node.js", "description": "Server-side JavaScript-runtime som kör backend-logik och WebSocket-servrar." },
+        { "name": "React", "description": "Frontend-ramverk som driver både webbapplikationen och Chrome-tilläggets UI-komponenter." },
+        { "name": "Redis", "description": "In-memory datastruktur som används för sessionhantering och horisontell skalning av WebSocket-anslutningar." },
+        { "name": "Socket.IO", "description": "Realtidskommunikationsbibliotek som synkroniserar kommentarer mellan klienter via WebSockets." },
+        { "name": "TypeScript", "description": "Typat superset av JavaScript som säkerställer typsäkerhet över hela stacken." },
+        { "name": "WebSockets", "description": "Bidirektionell kommunikationsprotokoll för realtidsuppdateringar av kommentarer." },
+        { "name": "Zod", "description": "TypeScript-first schema-validering för runtime-typsäkerhet i API:er och databaser." }
       ],
       "caseStudy": {
         "problem": "Traditionella kommentarsystem är begränsade till specifika webbplatser. Användare kan inte diskutera innehåll på statiska sidor eller webbplatser som har stängt av kommentarer.",
@@ -182,7 +200,17 @@
       "liveVersion": null,
       "startDate": "2025-01-01",
       "lastUpdated": "2025-03-01",
-      "tags": ["Node.js", "React", "MongoDB", "Tailwind CSS", "Stripe", "Polygon/Web3", "Blockchain"],
+      "tags": [
+        { "name": "Node.js", "description": "Server-side JavaScript-runtime som kör backend-logik och API-endpoints." },
+        { "name": "React", "description": "Frontend-ramverk för att bygga interaktiva användargränssnitt för kursplattformen." },
+        { "name": "MongoDB", "description": "NoSQL-databas som lagrar användardata, kursinnehåll och transaktionshistorik." },
+        { "name": "Tailwind CSS", "description": "Utility-first CSS-ramverk för snabb UI-utveckling med responsiv design." },
+        { "name": "Stripe", "description": "Betalningsprocessortjänst som hanterar säkra transaktioner och prenumerationer." },
+        { "name": "Polygon/Web3", "description": "Blockchain-nätverk och Web3.js-bibliotek för smarta kontrakt och diplomverifiering." },
+        { "name": "Blockchain", "description": "Distribuerad ledger-teknologi för oföränderlig lagring av diplom och certifikat." },
+        { "name": "Express.js", "description": "Minimalistiskt webbramverk för Node.js som hanterar HTTP-routing, middleware och API-endpoints." },
+        { "name": "Polygon", "description": "Blockchain-nätverk för smarta kontrakt och säker diplomverifiering." }
+      ],
       "caseStudy": {
         "problem": "Nuvarande marknadslösningar saknade ett enhetligt system för säker verifiering vid sidan av kursleverans.",
         "solution": "Integrerade Polygon-blockkedjan för att skapa säkra, verifierbara diplom vid kursavslut, vilket säkerställer dataintegritet och GDPR-efterlevnad.",
@@ -215,10 +243,17 @@
       "lastUpdated": "2025-12-20",
       "tags": [
         { "name": "Comlink", "description": "Abstraherar komplex postMessage-kommunikation till ett proxybaserat API för sömlös Worker-interaktion." },
+        { "name": "GitHub Actions", "description": "Automatiserar CI/CD-pipelinen för lintning, testning och byggning av produktionsartefakter vid commit." },
         { "name": "Local Storage", "description": "Tillhandahåller ett integritetsvänligt, serverlöst lagringslager för all användardata och inställningar." },
         { "name": "PWA (Offline)", "description": "Möjliggör full offline-funktionalitet och installation via Service Worker-caching." },
         { "name": "React 19", "description": "Utnyttjar React Compiler för automatisk optimering och effektiv rendering utan manuell memoization." },
-        { "name": "Web Workers", "description": "Avlastar högprecisions-tidtagningslogik till en bakgrundstråd för att förhindra webbläsardrosling i inaktiva flikar." }
+        { "name": "Software", "description": "Indikerar en kompilerad, installerbar applikation tillgänglig som PWA med offline-stöd." },
+        { "name": "Tailwind CSS v4", "description": "Utnyttjar den senaste CSS-första konfigurationsmotorn för dynamisk styling och temahantering." },
+        { "name": "TypeScript", "description": "Säkerställer strikt typsäkerhet och gränssnittsdefinitioner över hela applikationen." },
+        { "name": "Vite", "description": "Högpresterande byggverktyg som hanterar HMR och statisk tillgångsgenerering för snabb utveckling." },
+        { "name": "Vitest", "description": "Ett Vite-nativt enhetstestningsramverk som används för att validera affärslogik och komponenter." },
+        { "name": "Web Workers", "description": "Avlastar högprecisions-tidtagningslogik till en bakgrundstråd för att förhindra webbläsardrosling i inaktiva flikar." },
+        { "name": "Zustand", "description": "Hanterar globalt applikationstillstånd med middleware för automatisk lokal lagringspersistens." }
       ],
       "caseStudy": {
         "problem": "Webbaserade timers lider ofta av 'tidsdrift' när fliken blir inaktiv på grund av webbläsarens batterisparfunktioner. Dessutom kräver de flesta onlinetimers internetåtkomst och spårar användardata.",

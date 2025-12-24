@@ -26,9 +26,11 @@ async function migrateI18n() {
     // Read Swedish data files
     const portfolioDataSvPath = path.join(__dirname, '../src/data/portfolioData-sv.json');
     const cvDataSvPath = path.join(__dirname, '../src/data/cv-data-sv.json');
+    const legacyCvDataSvPath = path.join(__dirname, '../src/data/legacy-cv-data-sv.json');
 
     const portfolioDataSv = JSON.parse(fs.readFileSync(portfolioDataSvPath, 'utf-8'));
     const cvDataSv = JSON.parse(fs.readFileSync(cvDataSvPath, 'utf-8'));
+    const legacyCvDataSv = JSON.parse(fs.readFileSync(legacyCvDataSvPath, 'utf-8'));
 
     // ============================================
     // 1. MIGRATE PROJECTS
@@ -122,32 +124,65 @@ async function migrateI18n() {
           const englishProject = portfolioDataEn.projects.find(ep => ep.id === p.id);
           
           if (englishProject && englishProject.tags) {
-            // Create a map of Swedish tags by matching with English tags by index
-            // Both arrays should be in the same order
-            const updatedTags = match.tags.map((existingTag, index) => {
-              const enTag = englishProject.tags[index];
-              const svTag = p.tags[index];
+            // Create a map of Swedish tags by matching with English tags
+            // Handle both string arrays and object arrays
+            const updatedTags = match.tags.map((existingTag) => {
+              // First, try to find matching Swedish tag by name (not by index)
+              const svTagMatch = p.tags.find((svTag) => {
+                const svTagName = typeof svTag === 'object' ? svTag.name : svTag;
+                return svTagName === existingTag.name;
+              });
               
-              // Match by English tag name to ensure we're updating the right tag
-              if (enTag && svTag && typeof svTag === 'object' && svTag.name) {
-                // Verify this is the right tag by checking if English names match
-                const isMatchingTag = (typeof enTag === 'object' && enTag.name === existingTag.name) ||
-                                      (typeof enTag === 'string' && enTag === existingTag.name);
-                
-                if (isMatchingTag) {
-                  // Preserve existing tag structure, only add/update Swedish translations
+              // If found by name match, use it
+              if (svTagMatch) {
+                if (typeof svTagMatch === 'string') {
                   return {
                     ...existingTag,
-                    name_sv: svTag.name || existingTag.name_sv,
-                    description_sv: svTag.description || existingTag.description_sv,
+                    name_sv: svTagMatch,
+                    description_sv: existingTag.description_sv || undefined
+                  };
+                } else if (typeof svTagMatch === 'object' && svTagMatch.name) {
+                  return {
+                    ...existingTag,
+                    name_sv: svTagMatch.name || existingTag.name_sv,
+                    description_sv: svTagMatch.description || existingTag.description_sv || undefined
                   };
                 }
               }
+              
+              // Fallback: try to match by English tag index (for backwards compatibility)
+              const enTagIndex = englishProject.tags.findIndex((enTag) => {
+                const enTagName = typeof enTag === 'object' ? enTag.name : enTag;
+                return enTagName === existingTag.name;
+              });
+              
+              if (enTagIndex >= 0 && enTagIndex < p.tags.length) {
+                const svTag = p.tags[enTagIndex];
+                
+                // Handle Swedish tag - could be string or object
+                if (svTag) {
+                  if (typeof svTag === 'string') {
+                    return {
+                      ...existingTag,
+                      name_sv: svTag,
+                      description_sv: existingTag.description_sv || undefined
+                    };
+                  } else if (typeof svTag === 'object' && svTag.name) {
+                    return {
+                      ...existingTag,
+                      name_sv: svTag.name || existingTag.name_sv,
+                      description_sv: svTag.description || existingTag.description_sv || undefined
+                    };
+                  }
+                }
+              }
+              
               // If no Swedish tag match, preserve existing tag as-is
               return existingTag;
             });
             patch = patch.set({ tags: updatedTags });
-            console.log(`   -> Updated ${updatedTags.length} tags with Swedish translations`);
+            const tagsWithSv = updatedTags.filter(t => t.name_sv).length;
+            console.log(`   -> Updated ${tagsWithSv}/${updatedTags.length} tags with Swedish translations`);
           }
         }
 
@@ -162,6 +197,8 @@ async function migrateI18n() {
     // 2. MIGRATE EXPERIENCES
     // ============================================
     console.log("\n💼 Migrating Experiences...");
+    
+    // First, migrate primary experiences from cv-data-sv.json
     for (const exp of cvDataSv.experiences) {
       // Match by company and startDate
       const match = await client.fetch(
@@ -185,6 +222,60 @@ async function migrateI18n() {
         console.log(`   ⚠️  No Sanity match found for: ${exp.company} (${exp.startDate || exp.startYear})`);
       }
     }
+    
+    // Second, migrate legacy experiences from legacy-cv-data-sv.json
+    console.log("\n📜 Migrating Legacy Experiences...");
+    
+    // Read English legacy data to match company names correctly
+    const legacyCvDataEnPathForExp = path.join(__dirname, '../src/data/legacy-cv-data.json');
+    const legacyCvDataEnForExp = JSON.parse(fs.readFileSync(legacyCvDataEnPathForExp, 'utf-8'));
+    
+    // Create a map of Swedish company names to English company names by index
+    const companyNameMap = {};
+    legacyCvDataSv.legacyExperience.forEach((svExp, index) => {
+      const enExp = legacyCvDataEnForExp.legacyExperience[index];
+      if (enExp) {
+        companyNameMap[svExp.company] = enExp.company;
+      }
+    });
+    
+    for (const exp of legacyCvDataSv.legacyExperience || []) {
+      // Try to match using English company name first (since Sanity has English names)
+      const englishCompanyName = companyNameMap[exp.company] || exp.company;
+      
+      // Match by company and startDate
+      let match = await client.fetch(
+        `*[_type == "experience" && company == $company && startDate == $startDate][0]`,
+        { 
+          company: englishCompanyName,
+          startDate: exp.startDate
+        }
+      );
+      
+      // If not found, try with Swedish company name
+      if (!match) {
+        match = await client.fetch(
+          `*[_type == "experience" && company == $company && startDate == $startDate][0]`,
+          { 
+            company: exp.company,
+            startDate: exp.startDate
+          }
+        );
+      }
+
+      if (match) {
+        console.log(`   ✅ Found legacy: ${match.company} - ${exp.title}`);
+        
+        await client.patch(match._id).set({
+          title_sv: exp.title,
+          description_sv: exp.description
+        }).commit();
+        
+        console.log(`   ✅ Patched legacy experience at ${match.company}`);
+      } else {
+        console.log(`   ⚠️  No Sanity match found for legacy: ${exp.company} (${exp.startDate})`);
+      }
+    }
 
     // ============================================
     // 3. MIGRATE EDUCATION
@@ -194,6 +285,7 @@ async function migrateI18n() {
     const cvDataEnPath = path.join(__dirname, '../src/data/cv-data-en.json');
     const cvDataEn = JSON.parse(fs.readFileSync(cvDataEnPath, 'utf-8'));
     
+    // Migrate primary education
     for (let i = 0; i < cvDataSv.education.length; i++) {
       const eduSv = cvDataSv.education[i];
       const eduEn = cvDataEn.education[i];
@@ -244,6 +336,43 @@ async function migrateI18n() {
         console.log(`   ✅ Patched education at ${match.institution}`);
       } else {
         console.log(`   ⚠️  No Sanity match found for: ${eduEn.institution} (${eduEn.startDate || eduEn.startYear}) - Entry may not exist in Sanity yet`);
+      }
+    }
+    
+    // Migrate legacy education
+    console.log("\n📜 Migrating Legacy Education...");
+    const legacyCvDataEnPath = path.join(__dirname, '../src/data/legacy-cv-data.json');
+    const legacyCvDataEn = JSON.parse(fs.readFileSync(legacyCvDataEnPath, 'utf-8'));
+    
+    for (let i = 0; i < legacyCvDataSv.legacyEducation.length; i++) {
+      const eduSv = legacyCvDataSv.legacyEducation[i];
+      const eduEn = legacyCvDataEn.legacyEducation[i];
+      
+      if (!eduEn) {
+        console.log(`   ⚠️  No English match found for legacy index ${i}: ${eduSv.institution}`);
+        continue;
+      }
+
+      // Match by English institution name and startDate
+      let match = await client.fetch(
+        `*[_type == "education" && institution == $institution && startDate == $startDate][0]`,
+        { 
+          institution: eduEn.institution,
+          startDate: eduEn.startDate
+        }
+      );
+
+      if (match) {
+        console.log(`   ✅ Found legacy: ${match.institution} -> ${eduSv.institution}`);
+        
+        await client.patch(match._id).set({
+          degree_sv: eduSv.degree,
+          description_sv: eduSv.description || undefined
+        }).commit();
+        
+        console.log(`   ✅ Patched legacy education at ${match.institution}`);
+      } else {
+        console.log(`   ⚠️  No Sanity match found for legacy: ${eduEn.institution} (${eduEn.startDate}) - Entry may not exist in Sanity yet`);
       }
     }
 
