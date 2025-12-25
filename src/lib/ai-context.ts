@@ -1,3 +1,4 @@
+import "server-only";
 import { getExperiences, getProjects, getEducation } from "@/lib/data";
 
 const PERSONAL_NARRATIVE_EN = `
@@ -181,24 +182,20 @@ PERSONLIGA FAKTA & DRAG:
 `;
 
 export async function getPortfolioContext(locale: string = "en"): Promise<string> {
-  // Check if Sanity is offline or using mock data
   const isUsingMockData = !process.env.NEXT_PUBLIC_SANITY_PROJECT_ID;
   
   const experiences = await getExperiences(locale);
   const projects = await getProjects(locale);
   const education = await getEducation(locale);
   
-  // Select localized narratives
   const PERSONAL_NARRATIVE = locale === 'sv' ? PERSONAL_NARRATIVE_SV : PERSONAL_NARRATIVE_EN;
   const INTERVIEW_HIGHLIGHTS = locale === 'sv' ? INTERVIEW_HIGHLIGHTS_SV : INTERVIEW_HIGHLIGHTS_EN;
   const PERSONAL_FACTS = locale === 'sv' ? PERSONAL_FACTS_SV : PERSONAL_FACTS_EN;
   
-  // Prepend warning if using mock data
   const mockWarning = isUsingMockData 
     ? "SYSTEM NOTE: The live database is currently unreachable. The following data is MOCK data for demonstration purposes.\n\n"
     : "";
 
-  // 1. Enhanced Experience Mapping
   const experienceText = experiences
     .map((e) => {
       const skills = e.skills && Array.isArray(e.skills) ? e.skills.join(", ") : "General";
@@ -207,15 +204,12 @@ export async function getPortfolioContext(locale: string = "en"): Promise<string
     })
     .join("\n");
 
-  // 2. Deep Project Mapping (Now includes Case Studies & Links)
   const projectText = projects
     .map((p) => {
-      // Handle Tag objects (new format) or strings (legacy)
       const tags = p.tags && Array.isArray(p.tags) 
         ? p.tags.map(t => typeof t === 'object' && t.name ? t.name : t).join(", ") 
         : "General";
       
-      // Build deeper technical context if a case study exists
       let technicalContext = "";
       if (p.caseStudy) {
         const challenges = p.caseStudy.technicalChallenges?.map(c => c.title).join(", ") || "N/A";
@@ -227,7 +221,6 @@ export async function getPortfolioContext(locale: string = "en"): Promise<string
         `;
       }
 
-      // Add Links context
       const links = [];
       if (p.githubUrl) links.push(`[GitHub Code](${p.githubUrl})`);
       if (p.liveUrl) links.push(`[Live Demo](${p.liveUrl})`);
@@ -243,7 +236,6 @@ export async function getPortfolioContext(locale: string = "en"): Promise<string
     })
     .join("\n");
 
-  // 3. Education Mapping
   const educationText = education
     .map((edu) => {
       const endDate = edu.endDate || "Present";

@@ -23,7 +23,6 @@ export const CyberSnake = ({
   const [gameOver, setGameOver] = useState(false);
   const [gameId, setGameId] = useState(0);
   
-  // Track held keys for sprint
   const keysHeld = useRef<Set<string>>(new Set());
 
   const restartGame = () => {
@@ -38,10 +37,8 @@ export const CyberSnake = ({
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
-    // Reset held keys
     keysHeld.current.clear();
 
-    // Grid System
     const gridSize = 20;
     let tileCountX = 0;
     let tileCountY = 0;
@@ -58,7 +55,6 @@ export const CyberSnake = ({
     };
     resize();
 
-    // Game State
     let baseSpeed = 7;
     let xv = 1;
     let yv = 0;
@@ -109,10 +105,8 @@ export const CyberSnake = ({
         animationId = requestAnimationFrame(loop);
         if (!isRunning) return;
 
-        // SPRINT LOGIC
         let currentSpeed = baseSpeed;
         const held = keysHeld.current;
-        // If holding the button for the current direction, double speed
         if (
             (xv === -1 && held.has("ArrowLeft")) ||
             (xv === 1 && held.has("ArrowRight")) ||
@@ -130,26 +124,21 @@ export const CyberSnake = ({
         px += xv;
         py += yv;
 
-        // WALL COLLISION (Wrap)
         if (px < 0) px = tileCountX - 1;
         if (px > tileCountX - 1) px = 0;
         if (py < 0) py = tileCountY - 1;
         if (py > tileCountY - 1) py = 0;
 
-        // Render Background
         ctx.fillStyle = "black";
         ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-        // APPLY OFFSET
         ctx.save();
         ctx.translate(offsetX, offsetY);
 
-        // Draw Bounds
-        ctx.strokeStyle = "#0f3918"; // Dark green boundary
+        ctx.strokeStyle = "#0f3918";
         ctx.lineWidth = 1;
         ctx.strokeRect(0, 0, tileCountX * gridSize, tileCountY * gridSize);
 
-        // Render Snake
         ctx.fillStyle = "#22c55e";
         for (let i = 0; i < trail.length; i++) {
             ctx.fillRect(trail[i].x * gridSize, trail[i].y * gridSize, gridSize - 2, gridSize - 2);

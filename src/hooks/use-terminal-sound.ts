@@ -2,20 +2,39 @@
 
 import { useCallback } from "react";
 
+let sharedAudioContext: AudioContext | null = null;
+let sharedGain: GainNode | null = null;
+
+function getAudioGraph(): { ctx: AudioContext; gain: GainNode } | null {
+  if (typeof window === "undefined") return null;
+  const AudioContextClass = window.AudioContext || (window as any).webkitAudioContext;
+  if (!AudioContextClass) return null;
+
+  if (!sharedAudioContext) {
+    sharedAudioContext = new AudioContextClass();
+    sharedGain = sharedAudioContext.createGain();
+    sharedGain.connect(sharedAudioContext.destination);
+  }
+
+  if (!sharedGain) return null;
+  return { ctx: sharedAudioContext, gain: sharedGain };
+}
+
 export const useTerminalSound = () => {
   const playKeystroke = useCallback(() => {
-    // Safety check for SSR or restricted environments
-    if (typeof window === "undefined" || !window.AudioContext) return;
+    const graph = getAudioGraph();
+    if (!graph) return;
 
     try {
-      // Type assertion for older webkit browsers if needed, though standard AudioContext is widely supported now
-      const AudioContextClass = window.AudioContext || (window as any).webkitAudioContext;
-      const ctx = new AudioContextClass();
-      const osc = ctx.createOscillator();
-      const gain = ctx.createGain();
+      const { ctx, gain } = graph;
 
+      // Resume if browser started suspended (common until user interaction).
+      if (ctx.state === "suspended") {
+        void ctx.resume();
+      }
+
+      const osc = ctx.createOscillator();
       osc.connect(gain);
-      gain.connect(ctx.destination);
 
       // 80's PC Speaker style
       osc.type = "square";

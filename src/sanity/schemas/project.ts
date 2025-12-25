@@ -43,7 +43,6 @@ export default defineType({
       title: "Description",
       type: "text",
     }),
-    // --- UPDATED TAGS FIELD ---
     defineField({
       name: "tags",
       title: "Tags",
@@ -86,7 +85,6 @@ export default defineType({
         }
       ],
     }),
-    // ---------------------------
     defineField({
       name: "githubUrl",
       title: "GitHub URL",
@@ -103,7 +101,6 @@ export default defineType({
       type: "datetime",
     }),
 
-    // --- NEW: Technical Case Study Section ---
     defineField({
       name: "caseStudy",
       title: "Technical Case Study",
@@ -219,7 +216,6 @@ export default defineType({
       ],
     }),
 
-    // --- NEW: Software Downloads Section ---
     defineField({
       name: "downloads",
       title: "Software Downloads",

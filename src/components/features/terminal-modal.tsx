@@ -7,8 +7,6 @@ import { useTerminal } from "@/lib/terminal-context";
 import { MatrixRain } from "./matrix-rain";
 import { useTerminalSound } from "@/hooks/use-terminal-sound";
 import { getTerminalString, getAboutPageString } from "@/lib/terminal-strings";
-
-// Import Games
 import { SpaceDefense } from "@/components/games/space-defense";
 import { CyberRun } from "@/components/games/cyber-run";
 import { CyberSnake } from "@/components/games/cyber-snake";
@@ -21,10 +19,8 @@ interface Command {
   prompt?: string;
 }
 
-// 1. UPDATE TYPE
 type GameState = "NONE" | "ASTEROIDS" | "RUNNER" | "SNAKE" | "RACER";
 
-// KEEP THESE OUTSIDE to ensure they never change identity
 const t = (key: string): string => getTerminalString(key);
 const t_data = (key: string): string => getAboutPageString(key);
 
@@ -33,8 +29,6 @@ export const TerminalModal = ({ locale }: { locale: string }) => {
   const [input, setInput] = useState("");
   const [history, setHistory] = useState<Command[]>([]);
 
-
-  // Advanced States
   const [matrixMode, setMatrixMode] = useState(false);
   const [gameState, setGameState] = useState<GameState>("NONE");
   const [isFullScreen, setIsFullScreen] = useState(false);
@@ -51,8 +45,9 @@ export const TerminalModal = ({ locale }: { locale: string }) => {
 
   const inputRef = useRef<HTMLInputElement>(null);
   const scrollRef = useRef<HTMLDivElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const lastActiveElementRef = useRef<HTMLElement | null>(null);
 
-  // History Navigation
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "ArrowUp") {
       e.preventDefault();
@@ -75,17 +70,46 @@ export const TerminalModal = ({ locale }: { locale: string }) => {
     }
   };
 
-  // Prevent browser scroll when terminal is open
   useEffect(() => {
     if (isOpen) {
-      // Prevent body scroll
+      lastActiveElementRef.current = document.activeElement as HTMLElement | null;
       const originalOverflow = document.body.style.overflow;
       document.body.style.overflow = 'hidden';
       
-      // Prevent scroll on arrow keys globally when terminal is open
       const handleGlobalKeyDown = (e: KeyboardEvent) => {
-        if (["ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight", "Space"].includes(e.code)) {
+        if (e.key === "Escape") {
+          close();
+          return;
+        }
+
+        const active = document.activeElement;
+        const inTerminal = !!(containerRef.current && active && containerRef.current.contains(active));
+        if (!inTerminal) return;
+
+        if (["ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight"].includes(e.key)) {
           e.preventDefault();
+        }
+
+        if (e.key === "Tab" && containerRef.current) {
+          const focusable = Array.from(
+            containerRef.current.querySelectorAll<HTMLElement>(
+              'button,[href],input,select,textarea,[tabindex]:not([tabindex="-1"])'
+            )
+          ).filter((el) => !el.hasAttribute("disabled") && el.tabIndex !== -1);
+
+          if (focusable.length === 0) return;
+
+          const first = focusable[0];
+          const last = focusable[focusable.length - 1];
+          const current = document.activeElement as HTMLElement | null;
+
+          if (!e.shiftKey && current === last) {
+            e.preventDefault();
+            first.focus();
+          } else if (e.shiftKey && current === first) {
+            e.preventDefault();
+            last.focus();
+          }
         }
       };
 
@@ -94,11 +118,11 @@ export const TerminalModal = ({ locale }: { locale: string }) => {
       return () => {
         document.body.style.overflow = originalOverflow;
         window.removeEventListener("keydown", handleGlobalKeyDown);
+        lastActiveElementRef.current?.focus();
       };
     }
   }, [isOpen]);
 
-  // Effect 1: Initialize History ONCE when terminal opens
   useEffect(() => {
     if (isOpen) {
       setHistory([
@@ -108,7 +132,6 @@ export const TerminalModal = ({ locale }: { locale: string }) => {
     }
   }, [isOpen]); // Removed 't' dependency
 
-  // Effect 2: Boot Sequence - Isolated from typing state
   useEffect(() => {
     if (isOpen && gameState === "NONE") {
       setIsBooting(true);
@@ -142,7 +165,6 @@ export const TerminalModal = ({ locale }: { locale: string }) => {
     }
   }, [isOpen]); // Removed gameState dependency to prevent re-booting when returning from games
 
-  // Reactive Focus: Wait for boot to complete and element to exist before focusing
   useEffect(() => {
     if (!isBooting && isOpen && inputRef.current) {
       inputRef.current.focus();
@@ -154,7 +176,6 @@ export const TerminalModal = ({ locale }: { locale: string }) => {
   }, [bootLines, history]);
 
 
-  // Handle outside clicks with warning system
   useEffect(() => {
     if (!isOpen) return;
 
@@ -198,9 +219,6 @@ export const TerminalModal = ({ locale }: { locale: string }) => {
 
   const scrollToBottom = () => scrollRef.current?.scrollIntoView({ behavior: "smooth" });
 
-  // ----------------------------------------------------------------
-  // LOGIC ENGINE
-  // ----------------------------------------------------------------
   const handleCommand = (e: React.FormEvent) => {
     e.preventDefault();
     setHistoryIndex(-1);
@@ -212,7 +230,6 @@ export const TerminalModal = ({ locale }: { locale: string }) => {
     let output: React.ReactNode = "";
     let style: Command["style"] = "normal";
 
-    // 2. STANDARD COMMANDS
     switch (true) {
       case cmd === "help":
         output = (
@@ -246,14 +263,13 @@ export const TerminalModal = ({ locale }: { locale: string }) => {
         }
         break;
 
-      // 3. DATA DISPLAY (Reading "files")
       case cmd === "about":
         output = (
             <div className="space-y-2 border-l-2 border-green-800 pl-4 my-2">
-                <p className="text-white font-bold">Subject: Mikael Sundh</p>
+                <p className="text-white font-bold">{t("about_subject")}</p>
                 <p>{t_data('intro')}</p>
-                <p className="opacity-70">Experience: {t_data('experience_section')}</p>
-                <p className="text-xs text-green-700">END OF FILE</p>
+                <p className="opacity-70">{t("experience_prefix")} {t_data('experience_section')}</p>
+                <p className="text-xs text-green-700">{t("end_of_file")}</p>
             </div>
         );
         break;
@@ -276,7 +292,6 @@ export const TerminalModal = ({ locale }: { locale: string }) => {
         )
         break;
 
-      // 4. GAMES
       case cmd === "games":
         output = (
             <div className="space-y-2">
@@ -293,7 +308,6 @@ export const TerminalModal = ({ locale }: { locale: string }) => {
         );
         break;
       
-      // 5. GAME TRIGGERS
       case cmd === "asteroids":
         setGameState("ASTEROIDS");
         setInput("");
@@ -311,21 +325,19 @@ export const TerminalModal = ({ locale }: { locale: string }) => {
         setInput("");
         return;
       case cmd === "nuke":
-        setJokeContent({ title: t('duke_nukem'), body: "😂 😂 😂" });
+        setJokeContent({ title: t('duke_nukem'), body: t("joke_body") });
         setShowJokeModal(true);
         setTimeout(() => setShowJokeModal(false), 3000);
         setInput("");
         return;
       case cmd === "hl3":
-        setJokeContent({ title: t('half_life_3'), body: "😂 😂 😂" });
+        setJokeContent({ title: t('half_life_3'), body: t("joke_body") });
         setShowJokeModal(true);
         setTimeout(() => setShowJokeModal(false), 3000);
         setInput("");
         return;
 
-      // 6. SUDO / EASTER EGGS
       case cmd.startsWith("sudo"):
-        // ROOT CHECK
         if (isRoot && cmd !== "sudo system_override") {
              output = t('root_exists');
              style = "success";
@@ -343,7 +355,6 @@ export const TerminalModal = ({ locale }: { locale: string }) => {
             output = t('sudo_sandwich');
             style = "warning";
         } else if (cmd === "sudo coin") {
-            // Coin Egg
             const result = Math.random() > 0.5 ? t('coin_heads') : t('coin_tails');
             output = `${t('coin_flipping')} ${result}`;
             style = "success";
@@ -379,19 +390,15 @@ export const TerminalModal = ({ locale }: { locale: string }) => {
         input: rawCmd, 
         output, 
         style,
-        prompt: isRoot ? "root@mikael-cv:~#" : "guest@mikael-cv:~$"
+        prompt: isRoot ? t("prompt_root") : t("prompt_guest")
     }]);
     setInput("");
   };
 
-  // ----------------------------------------------------------------
-  // RENDER
-  // ----------------------------------------------------------------
   return (
     <AnimatePresence>
       {isOpen && (
         <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
-            {/* BACKDROP DIMMER */}
             <motion.div
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
@@ -400,7 +407,6 @@ export const TerminalModal = ({ locale }: { locale: string }) => {
                 onClick={close} 
             />
 
-            {/* WARNING MODAL */}
             <AnimatePresence>
               {showWarning && (
                 <motion.div
@@ -415,14 +421,13 @@ export const TerminalModal = ({ locale }: { locale: string }) => {
                       <p>{t('warning_line1')}</p>
                       <p>{t('warning_line2')}</p>
                       <p className="text-xs opacity-70 mt-4">{t('warning_line3')}</p>
-                      <div className="text-2xl mt-4">❤️</div>
+                      <div className="text-2xl mt-4">{t("heart")}</div>
                     </div>
                   </div>
                 </motion.div>
               )}
             </AnimatePresence>
 
-            {/* FINAL MODAL */}
             <AnimatePresence>
               {showFinalModal && (
                 <motion.div
@@ -442,7 +447,6 @@ export const TerminalModal = ({ locale }: { locale: string }) => {
               )}
             </AnimatePresence>
 
-            {/* JOKE MODAL */}
             <AnimatePresence>
               {showJokeModal && (
                 <motion.div
@@ -462,9 +466,9 @@ export const TerminalModal = ({ locale }: { locale: string }) => {
               )}
             </AnimatePresence>
 
-            {/* CRT CONTAINER */}
             <motion.div
                 data-terminal-container
+                ref={containerRef}
                 initial={{ scaleY: 0.1, scaleX: 0.8, opacity: 0 }}
                 animate={{
                     scaleY: 1,
@@ -481,33 +485,36 @@ export const TerminalModal = ({ locale }: { locale: string }) => {
                     isFullScreen ? "w-full h-full" : "w-full max-w-4xl h-[80vh] rounded-lg"
                 }`}
                 onClick={() => gameState === "NONE" && inputRef.current?.focus()}
+                role="dialog"
+                aria-modal="true"
+                aria-labelledby="terminal-title"
             >
-                {/* 1. MATRIX RAIN LAYER (Conditional) */}
                 {matrixMode && <MatrixRain />}
 
-                {/* 2. CRT SCANLINE OVERLAY (Always on) */}
                 <div className="absolute inset-0 pointer-events-none z-20 bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,0.25)_50%),linear-gradient(90deg,rgba(255,0,0,0.06),rgba(0,255,0,0.02),rgba(0,0,255,0.06))] bg-[length:100%_4px,3px_100%]" />
                 <div className="absolute inset-0 pointer-events-none z-20 shadow-[inset_0_0_100px_rgba(0,0,0,0.9)]" />
 
-                {/* 3. HEADER */}
                 <div className="relative z-30 flex justify-between items-center px-4 py-2 bg-green-900/20 border-b border-green-800 text-green-400">
                     <div className="flex items-center gap-2">
                          {gameState !== "NONE" ? <Gamepad2 className="w-4 h-4 text-green-300 animate-pulse" /> : <TerminalIcon className="w-4 h-4" />}
-                        <span className="font-bold tracking-wider">
+                        <h2 id="terminal-title" className="font-bold tracking-wider">
                              {gameState === "NONE" ? t('terminal_title') : `${t('playing')} ${gameState}`}
-                        </span>
+                        </h2>
                     </div>
                     <div className="flex gap-4">
-                         <button onClick={() => setIsFullScreen(!isFullScreen)} className="hover:text-white">
+                         <button
+                           onClick={() => setIsFullScreen(!isFullScreen)}
+                           className="hover:text-white"
+                           aria-label={isFullScreen ? t("exit_fullscreen") : t("enter_fullscreen")}
+                         >
                             {isFullScreen ? <Minimize2 className="w-4 h-4"/> : <Maximize2 className="w-4 h-4"/>}
                          </button>
-                        <button onClick={close} className="hover:text-red-500 transition-colors">
+                        <button onClick={close} className="hover:text-red-500 transition-colors" aria-label={t("close_terminal")}>
                             <X className="w-5 h-5" />
                         </button>
                     </div>
                 </div>
 
-                {/* 4. CONTENT AREA */}
                 <div className="relative z-30 flex-1 overflow-hidden bg-black/50">
                   {gameState === "ASTEROIDS" && (
                       <SpaceDefense 
@@ -567,16 +574,13 @@ export const TerminalModal = ({ locale }: { locale: string }) => {
                       className="h-full overflow-y-auto p-4 md:p-6 space-y-2 text-green-500 scrollbar-hide" 
                       onClick={() => inputRef.current?.focus()}
                       onWheel={(e) => {
-                        // Prevent scroll propagation to browser when scrolling inside terminal
                         e.stopPropagation();
                       }}
                       onTouchMove={(e) => {
-                        // Prevent touch scroll propagation
                         e.stopPropagation();
                       }}
                     >
                         
-                        {/* BOOT SCREEN */}
                         {isBooting ? (
                             <div className="space-y-1">
                                 {bootLines.map((line, i) => (
@@ -587,6 +591,9 @@ export const TerminalModal = ({ locale }: { locale: string }) => {
                         ) : (
                             /* MAIN TERMINAL */
                             <>
+                                <div className="sr-only" role="status" aria-live="polite">
+                                  {t("terminal_ready")}
+                                </div>
                                 {history.map((line, i) => (
                                     <div key={i} className={`${
                                         line.style === 'error' ? 'text-red-400' :
@@ -596,7 +603,7 @@ export const TerminalModal = ({ locale }: { locale: string }) => {
                                     }`}>
                                         {line.input && (
                                             <div className="flex gap-2 opacity-70">
-                                                <span>{line.prompt || "guest@mikael-cv:~$"}</span>
+                                                <span>{line.prompt || t("prompt_guest")}</span>
                                                 <span>{line.input}</span>
                                             </div>
                                         )}
@@ -604,20 +611,17 @@ export const TerminalModal = ({ locale }: { locale: string }) => {
                                     </div>
                                 ))}
 
-                                {/* CUSTOM BLOCK CURSOR INPUT */}
                                 <form onSubmit={handleCommand} className="flex gap-2 items-center mt-4 relative">
                                     <span className={`shrink-0 font-bold ${isRoot ? "text-red-500" : "text-green-400"}`}>
-                                        {isRoot ? "root@mikael-cv:~#" : "guest@mikael-cv:~$"}
+                                        {isRoot ? t("prompt_root") : t("prompt_guest")}
                                     </span>
                                     
                                     <div className="relative flex-1">
-                                        {/* Visible Text & Cursor */}
                                         <div className="absolute inset-0 pointer-events-none flex items-center">
                                             <span className="whitespace-pre-wrap text-green-100">{input}</span>
                                             <span className={`w-3 h-5 animate-pulse ml-0.5 align-middle ${isRoot ? "bg-red-500" : "bg-green-500"}`}></span>
                                         </div>
 
-                                        {/* Hidden Real Input */}
                                         <input
                                             id="terminal-input"
                                             name="terminal-command"
@@ -632,6 +636,7 @@ export const TerminalModal = ({ locale }: { locale: string }) => {
                                             autoFocus
                                             spellCheck={false}
                                             autoComplete="off"
+                                            aria-label={t("terminal_input")}
                                         />
                                     </div>
                                 </form>

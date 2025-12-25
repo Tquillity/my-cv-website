@@ -63,7 +63,7 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ project, onClick, onDo
               srcLight="/logos/logo-black-card.png"
               srcDark="/logos/logo-white-card.png"
               srcMiddle="/logos/logo-gold-card.png"
-              alt="Mikael Sundh Logo"
+              alt={t("logo_alt")}
               width={1200}
               height={800}
               className="object-contain w-full h-full transition-transform duration-500 group-hover:scale-105"
@@ -119,8 +119,8 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ project, onClick, onDo
         </div>
         <div className="flex flex-wrap gap-2">
           {project.tags?.length > 0 ? (
-            project.tags.map((tagObj) => (
-              <SimpleTooltip key={tagObj.name} content={tagObj.description}>
+            project.tags.map((tagObj, idx) => (
+              <SimpleTooltip key={tagObj._key ?? `${tagObj.name}-${idx}`} content={tagObj.description}>
                 <span
                   className={`inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors cursor-default ${getTagStyles(tagObj.name)}`}
                 >

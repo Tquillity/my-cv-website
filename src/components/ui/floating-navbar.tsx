@@ -87,6 +87,7 @@ export const FloatingNavbar = ({ locale }: { locale: string }) => {
           <button
             onClick={toggleLanguage}
             className="px-3 py-2 rounded-full text-xs font-mono font-bold text-primary bg-primary/10 hover:bg-primary/20 transition-colors flex items-center gap-2"
+            aria-label={t("toggle_language")}
           >
             <Globe className="w-3 h-3" />
             {locale.toUpperCase()}

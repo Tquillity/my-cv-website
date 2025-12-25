@@ -28,6 +28,7 @@ export interface CaseStudy {
 }
 
 export interface Tag {
+  _key?: string; // Stable key from Sanity array items (if present)
   name: string;
   name_sv?: string; // Swedish translation of tag name
   description?: string; // Optional description for the tooltip
@@ -82,4 +83,11 @@ export interface SkillSet {
   bio: string;
   skills: string[];
   languages: { language: string; proficiency: string }[];
+}
+
+export type ChatMessageRole = "user" | "assistant" | "system";
+
+export interface ChatMessage {
+  role: ChatMessageRole;
+  content: string;
 }

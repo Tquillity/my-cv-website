@@ -8,11 +8,7 @@ import Link from "next/link";
 import ReactMarkdown from "react-markdown";
 import { cn } from "@/lib/utils";
 import { useTranslations, useLocale } from "next-intl";
-
-interface Message {
-  role: 'user' | 'assistant' | 'system';
-  content: string;
-}
+import type { ChatMessage } from "@/types";
 
 interface AIChatProps {
   className?: string;
@@ -24,7 +20,7 @@ export const AIChat: React.FC<AIChatProps> = ({ className }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const [messages, setMessages] = useState<Message[]>([]);
+  const [messages, setMessages] = useState<ChatMessage[]>([]);
   
   const chatRef = useRef<HTMLDivElement>(null);
   const buttonRef = useRef<HTMLButtonElement>(null);
@@ -41,7 +37,11 @@ export const AIChat: React.FC<AIChatProps> = ({ className }) => {
 
   useEffect(() => {
     if (isOpen) {
-      setTimeout(() => inputRef.current?.focus(), 100);
+      // Focus as soon as the input exists on the next frame (no magic timeout).
+      const raf = requestAnimationFrame(() => inputRef.current?.focus());
+      return () => cancelAnimationFrame(raf);
+    } else {
+      buttonRef.current?.focus();
     }
   }, [isOpen]);
 
@@ -64,11 +64,20 @@ export const AIChat: React.FC<AIChatProps> = ({ className }) => {
     };
   }, [isOpen]);
 
+  useEffect(() => {
+    if (!isOpen) return;
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setIsOpen(false);
+    };
+    window.addEventListener("keydown", onKeyDown);
+    return () => window.removeEventListener("keydown", onKeyDown);
+  }, [isOpen]);
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!input.trim() || isLoading) return;
 
-    const userMsg: Message = { role: 'user', content: input };
+    const userMsg: ChatMessage = { role: 'user', content: input };
     setMessages(prev => [...prev, userMsg]);
     setInput("");
     setIsLoading(true);
@@ -84,8 +93,7 @@ export const AIChat: React.FC<AIChatProps> = ({ className }) => {
 
       const data = await response.json();
       setMessages(prev => [...prev, { role: 'assistant', content: data.content }]);
-    } catch (error) {
-      console.error(error);
+    } catch {
       setMessages(prev => [...prev, { role: 'assistant', content: t('error_message') }]);
     } finally {
       setIsLoading(false);
@@ -114,13 +122,21 @@ export const AIChat: React.FC<AIChatProps> = ({ className }) => {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 20, scale: 0.95 }}
             className="fixed bottom-24 right-6 w-80 sm:w-96 h-[500px] bg-background sm:bg-background/80 sm:backdrop-blur-lg border rounded-2xl shadow-2xl z-50 flex flex-col overflow-hidden"
+            role="dialog"
+            aria-modal="false"
+            aria-label={t("header")}
           >
             <div className="p-4 border-b bg-primary/5 flex items-center gap-2">
               <Bot className="w-5 h-5 text-primary" />
               <h3 className="font-semibold">{t('header')}</h3>
             </div>
 
-            <div className="flex-1 overflow-y-auto p-4 space-y-4">
+            <div
+              className="flex-1 overflow-y-auto p-4 space-y-4"
+              role="log"
+              aria-live="polite"
+              aria-relevant="additions text"
+            >
               {messages.length === 0 && (
                 <div className="text-center text-muted-foreground text-sm mt-8">
                   <p>{t('empty_state_1')}</p>
@@ -163,8 +179,9 @@ export const AIChat: React.FC<AIChatProps> = ({ className }) => {
               ))}
               
               {isLoading && (
-                <div className="flex justify-start p-4">
+                <div className="flex justify-start p-4" role="status" aria-live="polite">
                   <Loader2 className="w-5 h-5 animate-spin text-muted-foreground" />
+                  <span className="sr-only">{t("loading")}</span>
                 </div>
               )}
               <div ref={messagesEndRef} />

@@ -11,8 +11,11 @@ export const MatrixRain = () => {
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
+    const resize = () => {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    };
+    resize();
 
     const katakana = "アァカサタナハマヤャラワガザダバパイィキシチニヒミリヰギジヂビピウゥクスツヌフムユュルグズブヅプエェケセテネヘメレヱゲゼデベペオォコソトノホモヨョロヲゴゾドボポvu0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
     const latin = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
@@ -20,12 +23,12 @@ export const MatrixRain = () => {
     const alphabet = katakana + latin + nums;
 
     const fontSize = 16;
-    const columns = canvas.width / fontSize;
-
-    const rainDrops: number[] = [];
-    for (let x = 0; x < columns; x++) {
-      rainDrops[x] = 1;
-    }
+    let rainDrops: number[] = [];
+    const resetDrops = () => {
+      const columns = Math.floor(canvas.width / fontSize);
+      rainDrops = new Array(columns).fill(1);
+    };
+    resetDrops();
 
     const draw = () => {
       ctx.fillStyle = "rgba(0, 0, 0, 0.05)";
@@ -45,8 +48,23 @@ export const MatrixRain = () => {
       }
     };
 
-    const interval = setInterval(draw, 30);
-    return () => clearInterval(interval);
+    let animationId = 0;
+    const loop = () => {
+      draw();
+      animationId = window.requestAnimationFrame(loop);
+    };
+    animationId = window.requestAnimationFrame(loop);
+
+    const onResize = () => {
+      resize();
+      resetDrops();
+    };
+    window.addEventListener("resize", onResize);
+
+    return () => {
+      window.cancelAnimationFrame(animationId);
+      window.removeEventListener("resize", onResize);
+    };
   }, []);
 
   return <canvas ref={canvasRef} className="fixed inset-0 z-0 pointer-events-none opacity-50" />;

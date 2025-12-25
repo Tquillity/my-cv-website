@@ -35,11 +35,9 @@ export const CyberRun = ({
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
-    // Resize
     canvas.width = canvas.clientWidth;
     canvas.height = canvas.clientHeight;
 
-    // Game Objects
     let animationId: number;
     let frame = 0;
     let gameSpeed = 5;
@@ -47,7 +45,6 @@ export const CyberRun = ({
     let isRunning = true;
     let localScore = 0;
 
-    // Player
     const dino = { 
         x: 50, y: canvas.height - 60, 
         w: 30, h: 40, 
@@ -56,31 +53,25 @@ export const CyberRun = ({
         ducking: false 
     };
     
-    // Arrays
-    // Added 'vx' property for independent velocity control (for back attacks)
     let obstacles: { x: number, y: number, w: number, h: number, type: 'ground' | 'air' | 'back_runner', vx: number }[] = [];
     let bullets: { x: number, y: number }[] = [];
     
     const gravity = 0.6;
 
-    // CONTROLS
     const keys: { [key: string]: boolean } = {};
 
     const handleKeyDown = (e: KeyboardEvent) => {
-      // Prevent Scroll
       if(["ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight", "Space"].includes(e.code)) {
           e.preventDefault();
       }
       
       keys[e.code] = true;
 
-      // Jump
       if (e.code === "ArrowUp" && dino.grounded && isRunning) {
         dino.dy = dino.jumpPower;
         dino.grounded = false;
       }
 
-      // Shoot
       if (e.code === "Space" && isRunning) {
           bullets.push({ 
               x: dino.x + dino.w, 
@@ -92,11 +83,10 @@ export const CyberRun = ({
 
     const handleKeyUp = (e: KeyboardEvent) => {
         keys[e.code] = false;
-        // Stop ducking
         if (e.code === "ArrowDown") {
             dino.ducking = false;
             dino.h = 40; 
-            dino.y = canvas.height - 30 - 40; // Reset pos
+            dino.y = canvas.height - 30 - 40;
         }
     };
 
@@ -107,13 +97,9 @@ export const CyberRun = ({
       if (!isRunning) return;
       frame++;
       
-      // --- LOGIC ---
-
-      // 1. Movement Left/Right
       if (keys["ArrowLeft"] && dino.x > 0) dino.x -= 5;
       if (keys["ArrowRight"] && dino.x < canvas.width / 2) dino.x += 5;
 
-      // 2. Ducking
       if (keys["ArrowDown"]) {
           dino.ducking = true;
           dino.h = 20;
@@ -122,11 +108,9 @@ export const CyberRun = ({
           dino.h = 40;
       }
 
-      // 3. Physics
       dino.dy += gravity;
       dino.y += dino.dy;
 
-      // Ground Collision
       const groundY = canvas.height - 30;
       if (dino.y + dino.h > groundY) {
         dino.y = groundY - dino.h;
@@ -134,11 +118,9 @@ export const CyberRun = ({
         dino.grounded = true;
       }
 
-      // 4. Spawn Enemies (Accelerating Difficulty)
-      // Every 900 frames (approx 15s at 60fps), increase spawn rate
       if (frame % 900 === 0) {
-          spawnRate = Math.max(25, spawnRate - 10); // Cap minimum interval at 25 frames
-          gameSpeed += 0.5; // Also speed up the world slightly
+          spawnRate = Math.max(25, spawnRate - 10);
+          gameSpeed += 0.5;
       }
 
       if (frame % spawnRate === 0) {
@@ -151,15 +133,14 @@ export const CyberRun = ({
             w: isAir ? 30 : 20, 
             h: isAir ? 20 : 40,
             type: isAir ? 'air' : 'ground',
-            vx: -gameSpeed // Moves left with the world
+            vx: -gameSpeed
         });
       }
 
-      // 5. Back Attack (Spawn from Left -> Right) after 60s (3600 frames)
       if (frame > 3600 && frame % (spawnRate * 3) === 0) {
           obstacles.push({
-              x: -30, // Spawn off-screen left
-              y: groundY - 40, // Ground level
+              x: -30,
+              y: groundY - 40,
               w: 20,
               h: 40,
               type: 'back_runner',
@@ -167,13 +148,9 @@ export const CyberRun = ({
           });
       }
 
-      // --- RENDER ---
-      
-      // Clear
       ctx.fillStyle = "black";
       ctx.fillRect(0, 0, canvas.width, canvas.height);
       
-      // Floor
       ctx.strokeStyle = "#22c55e";
       ctx.lineWidth = 2;
       ctx.beginPath();
@@ -181,12 +158,10 @@ export const CyberRun = ({
       ctx.lineTo(canvas.width, groundY);
       ctx.stroke();
 
-      // Draw Player
       ctx.strokeStyle = "#22c55e"; 
       ctx.strokeRect(dino.x, dino.y, dino.w, dino.h);
       if (!dino.ducking) ctx.fillRect(dino.x + 20, dino.y + 5, 4, 4);
 
-      // Draw Bullets
       ctx.fillStyle = "#22c55e"; 
       for (let i = bullets.length - 1; i >= 0; i--) {
           const b = bullets[i];
@@ -195,29 +170,19 @@ export const CyberRun = ({
           if (b.x > canvas.width) bullets.splice(i, 1);
       }
 
-      // Draw & Update Obstacles
       for (let i = obstacles.length - 1; i >= 0; i--) {
         let obs = obstacles[i];
         
-        // Move Logic
         if (obs.type === 'back_runner') {
-            obs.x += 2; // Move right across the screen
+            obs.x += 2;
         } else {
-            obs.x += obs.vx; // Standard enemies have negative vx (from spawn)
-            // Actually, gameSpeed changes, so we should stick to:
-            // obs.x -= gameSpeed
-            // But for back runners, we want them to move right.
-            // So:
-            // Standard: x -= gameSpeed
-            // Back Runner: x += 2 (independent of gameSpeed, it chases you)
+            obs.x += obs.vx;
         }
         
-        // Re-verify logic:
-        // If I use the loop below:
         if (obs.type === 'back_runner') {
-             obs.x += 3; // Chasing speed
+             obs.x += 3;
         } else {
-             obs.x -= gameSpeed; // World movement
+             obs.x -= gameSpeed;
         }
 
         ctx.strokeStyle = "#22c55e";
@@ -229,16 +194,13 @@ export const CyberRun = ({
             ctx.lineTo(obs.x + 30, obs.y + 10);
             ctx.stroke();
         } else if (obs.type === 'back_runner') {
-            // Draw Back Runner (maybe different look?)
             ctx.strokeRect(obs.x, obs.y, obs.w, obs.h);
-            // Add an "eye" looking right
             ctx.fillStyle = "#22c55e";
             ctx.fillRect(obs.x + 15, obs.y + 5, 4, 4); 
         } else {
             ctx.strokeRect(obs.x, obs.y, obs.w, obs.h);
         }
 
-        // Bullet Collision
         for (let j = bullets.length - 1; j >= 0; j--) {
             const b = bullets[j];
             if (
@@ -253,7 +215,6 @@ export const CyberRun = ({
             }
         }
 
-        // Player Collision
         if (
           dino.x < obs.x + obs.w &&
           dino.x + dino.w > obs.x &&
@@ -264,7 +225,6 @@ export const CyberRun = ({
           setGameOver(true);
         }
 
-        // Remove offscreen
         if (obs.type === 'back_runner') {
             if (obs.x > canvas.width) obstacles.splice(i, 1);
         } else {

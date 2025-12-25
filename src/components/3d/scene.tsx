@@ -78,20 +78,9 @@ export const Scene: React.FC = () => {
 
   useEffect(() => setMounted(true), []);
 
-  // Handle system theme changes without flickers
   const currentTheme = (theme === 'system' ? resolvedTheme : theme) as keyof typeof THEME_CONFIG || 'dark';
   const config = THEME_CONFIG[currentTheme] || THEME_CONFIG.dark;
 
-  // Handle window resize
-  useEffect(() => {
-    const handleResize = () => {
-      // Canvas will automatically resize via useThree hook in CameraResizer
-    };
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
-
-  // Accessibility: Hide canvas from screen readers
   useEffect(() => {
     if (canvasRef.current) {
       canvasRef.current.setAttribute('aria-hidden', 'true');

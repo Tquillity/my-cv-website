@@ -9,14 +9,16 @@ import {defineConfig} from 'sanity'
 import {structureTool} from 'sanity/structure'
 
 // Go to https://www.sanity.io/docs/api-versioning to learn how API versioning works
-import {apiVersion, dataset, projectId} from './src/sanity/env'
+import { apiVersion, dataset, projectId } from "./src/sanity/env";
 import {schema} from './src/sanity/schemaTypes'
 import {structure} from './src/sanity/structure'
 
 export default defineConfig({
   basePath: '/studio',
-  projectId,
-  dataset,
+  // Allow builds without Sanity env vars (main app can use local JSON fallbacks).
+  // Studio access is protected at the routing layer; if env vars are missing, Studio will not function.
+  projectId: projectId || "missing-project-id",
+  dataset: dataset || "missing-dataset",
   // Add and edit the content schema in the './sanity/schemaTypes' folder
   schema,
   plugins: [

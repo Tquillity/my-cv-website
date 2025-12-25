@@ -1,20 +1,9 @@
-export const apiVersion =
-  process.env.NEXT_PUBLIC_SANITY_API_VERSION || '2025-12-04'
+export const apiVersion = process.env.NEXT_PUBLIC_SANITY_API_VERSION || "2025-12-04";
 
-export const dataset = assertValue(
-  process.env.NEXT_PUBLIC_SANITY_DATASET,
-  'Missing environment variable: NEXT_PUBLIC_SANITY_DATASET'
-)
+// IMPORTANT:
+// - These env vars are optional at build/runtime for the main app because we support local JSON fallbacks.
+// - The Studio route is separately protected; if env vars are missing and Studio is accessed, it may fail.
+export const dataset = process.env.NEXT_PUBLIC_SANITY_DATASET;
+export const projectId = process.env.NEXT_PUBLIC_SANITY_PROJECT_ID;
 
-export const projectId = assertValue(
-  process.env.NEXT_PUBLIC_SANITY_PROJECT_ID,
-  'Missing environment variable: NEXT_PUBLIC_SANITY_PROJECT_ID'
-)
-
-function assertValue<T>(v: T | undefined, errorMessage: string): T {
-  if (v === undefined) {
-    throw new Error(errorMessage)
-  }
-
-  return v
-}
+export const hasSanityEnv = Boolean(dataset && projectId);
