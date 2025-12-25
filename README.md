@@ -2,6 +2,13 @@
 
 Personal portfolio for **Mikael Sundh** built with **Next.js (App Router)**, **React**, **TypeScript**, **Tailwind**, and **Sanity**.
 
+## Highlights
+
+- **Internationalized App Router** (`en` / `sv`) via `next-intl`
+- **AI chat widget** powered by Groq with request validation + rate limiting
+- **Interactive terminal** with games and accessibility-focused keyboard support
+- **SEO-first setup**: metadata, OpenGraph/Twitter images, sitemap, robots, JSON-LD, PWA manifest
+
 ## Environment (Production)
 
 ### Canonical URLs / SEO (REQUIRED)
@@ -17,6 +24,13 @@ This is used for:
 - OpenGraph/Twitter metadata
 - JSON-LD structured data
 
+### Optional / private environment variables
+
+- `GROQ_API_KEY`: required to enable `/api/chat`
+- `NEXT_PUBLIC_SANITY_PROJECT_ID` / `NEXT_PUBLIC_SANITY_DATASET`: required for Sanity-backed content (the app falls back to local JSON when missing)
+- `SANITY_API_TOKEN`: required only for migration scripts in `scripts/`
+- `STUDIO_BASIC_AUTH`: required to protect `/studio` in production (Basic auth payload)
+
 ## Development
 
 Install dependencies:
@@ -30,6 +44,10 @@ Build:
 ```bash
 npm run build
 ```
+
+## Security
+
+See `SECURITY.md`.
 
 Tests (Playwright):
 

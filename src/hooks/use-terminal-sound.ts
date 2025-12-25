@@ -4,6 +4,7 @@ import { useCallback } from "react";
 
 let sharedAudioContext: AudioContext | null = null;
 let sharedGain: GainNode | null = null;
+let resumePromise: Promise<void> | null = null;
 
 function getAudioGraph(): { ctx: AudioContext; gain: GainNode } | null {
   if (typeof window === "undefined") return null;
@@ -28,9 +29,32 @@ export const useTerminalSound = () => {
     try {
       const { ctx, gain } = graph;
 
-      // Resume if browser started suspended (common until user interaction).
       if (ctx.state === "suspended") {
-        void ctx.resume();
+        if (!resumePromise) {
+          resumePromise = ctx
+            .resume()
+            .then(() => undefined)
+            .catch(() => undefined)
+            .finally(() => {
+              resumePromise = null;
+            });
+        }
+        void resumePromise.then(() => {
+          if (ctx.state !== "suspended") {
+            const osc = ctx.createOscillator();
+            osc.connect(gain);
+
+            osc.type = "square";
+            osc.frequency.setValueAtTime(600, ctx.currentTime);
+
+            gain.gain.setValueAtTime(0.05, ctx.currentTime);
+            gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.05);
+
+            osc.start();
+            osc.stop(ctx.currentTime + 0.05);
+          }
+        });
+        return;
       }
 
       const osc = ctx.createOscillator();

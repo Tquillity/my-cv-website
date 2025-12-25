@@ -1,23 +1,16 @@
-import { getRequestConfig } from 'next-intl/server';
-import { notFound } from 'next/navigation';
+import { getRequestConfig } from "next-intl/server";
 
-// Define your supported locales
-const locales = ['en', 'sv'];
+const locales = ["en", "sv"] as const;
+type Locale = (typeof locales)[number];
 
 export default getRequestConfig(async ({ requestLocale }) => {
-  // This corresponds to the `[locale]` segment
   let locale = await requestLocale;
 
-  // Validate that the incoming `locale` parameter is valid
-  // We explicitly cast to any for the includes check to satisfy TypeScript strictness
-  if (!locale || !locales.includes(locale as any)) {
-    // Fallback to English to prevent crashes if locale is missing
-    locale = 'en'; 
-  }
+  const resolvedLocale: Locale = locale === "sv" ? "sv" : "en";
 
   return {
-    locale,
-    messages: (await import(`../../messages/${locale}.json`)).default,
-    timeZone: 'Europe/Stockholm' 
+    locale: resolvedLocale,
+    messages: (await import(`../../messages/${resolvedLocale}.json`)).default,
+    timeZone: "Europe/Stockholm",
   };
 });
