@@ -20,10 +20,10 @@ const nextConfig = {
       // Allow Next inline scripts; do NOT allow unsafe-eval.
       "script-src 'self' 'unsafe-inline'",
       "style-src 'self' 'unsafe-inline'",
-      "img-src 'self' data: blob: https://cdn.sanity.io",
+      "img-src 'self' data: blob: https://cdn.sanity.io https://rawcdn.githack.com",
       "font-src 'self' data:",
       // Needed for AI chat + Sanity Studio/clients
-      "connect-src 'self' https://api.groq.com https://cdn.sanity.io https://*.api.sanity.io wss://*.api.sanity.io",
+      "connect-src 'self' https://api.groq.com https://cdn.sanity.io https://*.api.sanity.io wss://*.api.sanity.io https://rawcdn.githack.com",
       "frame-src 'self'",
       "upgrade-insecure-requests",
     ].join('; ');

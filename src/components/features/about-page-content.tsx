@@ -174,8 +174,8 @@ export const AboutPageContent: React.FC<AboutPageProps> = ({ education, experien
                       initial={{ width: 0 }}
                       whileInView={{ 
                         width: 
-                          lang.proficiency === "Native" || lang.proficiency === "Modersmål" ? "100%" : 
-                          lang.proficiency === "Poor" || lang.proficiency === "Dålig" || lang.proficiency === "Grundläggande" ? "15%" : 
+                          lang.proficiency === "Native" ? "100%" : 
+                          lang.proficiency === "Poor" ? "15%" : 
                           "90%" 
                       }}
                       transition={{ duration: 1, delay: 0.2 + (index * 0.1) }}

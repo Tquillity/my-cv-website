@@ -99,16 +99,16 @@
   ],
   "languages": [
     {
-      "language": "Svenska",
-      "proficiency": "Modersmål"
+      "language": "Swedish",
+      "proficiency": "Native"
     },
     {
-      "language": "Engelska",
-      "proficiency": "Flytande"
+      "language": "English",
+      "proficiency": "Fluent"
     },
     {
-      "language": "Tyska",
-      "proficiency": "Dålig"
+      "language": "German",
+      "proficiency": "Poor"
     }
   ]
 }

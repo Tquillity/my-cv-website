@@ -1,15 +1,17 @@
 "use client";
 
 import dynamic from "next/dynamic";
+import { ThreeErrorBoundary } from "@/components/3d/error-boundary";
 
-// Load Scene component with proper CSS handling
-// Using ssr: false prevents server-side CSS chunk creation
-// The CSS preload warning is a dev-only Next.js optimization artifact and is harmless
 const Scene = dynamic(() => import("@/components/3d/scene").then((mod) => mod.Scene), {
   ssr: false,
   loading: () => null,
 });
 
 export const SceneWrapper = () => {
-  return <Scene />;
+  return (
+    <ThreeErrorBoundary fallback={<div className="fixed inset-0 -z-10 bg-background" />}>
+      <Scene />
+    </ThreeErrorBoundary>
+  );
 };
