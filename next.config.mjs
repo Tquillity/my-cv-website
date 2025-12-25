@@ -5,6 +5,9 @@ const withNextIntl = createNextIntlPlugin('./src/i18n/request.ts');
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactCompiler: true, // Enable React 19 Compiler (moved from experimental)
+  compiler: {
+    styledComponents: true,
+  },
   async headers() {
     // Baseline security headers for a public-facing portfolio.
     // Note: CSP uses 'unsafe-inline' to remain compatible with Next.js inline scripts without nonce plumbing.
